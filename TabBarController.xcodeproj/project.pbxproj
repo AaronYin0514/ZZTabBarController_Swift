@@ -7,13 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		937BF0E71D6999EF00F0BBB1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937BF0E31D6999EF00F0BBB1 /* HomeViewController.swift */; };
+		937BF0E81D6999EF00F0BBB1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937BF0E41D6999EF00F0BBB1 /* MapViewController.swift */; };
+		937BF0E91D6999EF00F0BBB1 /* PlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937BF0E51D6999EF00F0BBB1 /* PlanViewController.swift */; };
+		937BF0EA1D6999EF00F0BBB1 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937BF0E61D6999EF00F0BBB1 /* SettingViewController.swift */; };
+		93B5C7D11D6867BB0097CDE7 /* ZZTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B5C7D01D6867BB0097CDE7 /* ZZTabBarController.swift */; };
+		93D6C32D1D68066900E4C45E /* ZZMathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D6C32C1D68066900E4C45E /* ZZMathUtils.swift */; };
+		93D6C32F1D6821BE00E4C45E /* ZZTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D6C32E1D6821BE00E4C45E /* ZZTabBar.swift */; };
 		93E814581D66F4D600E232F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E814571D66F4D600E232F7 /* AppDelegate.swift */; };
-		93E8145A1D66F4D600E232F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E814591D66F4D600E232F7 /* ViewController.swift */; };
-		93E8145D1D66F4D600E232F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93E8145B1D66F4D600E232F7 /* Main.storyboard */; };
 		93E8145F1D66F4D600E232F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93E8145E1D66F4D600E232F7 /* Assets.xcassets */; };
 		93E814621D66F4D600E232F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93E814601D66F4D600E232F7 /* LaunchScreen.storyboard */; };
 		93E8146D1D66F4D700E232F7 /* TabBarControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E8146C1D66F4D700E232F7 /* TabBarControllerTests.swift */; };
 		93E814781D66F4D700E232F7 /* TabBarControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E814771D66F4D700E232F7 /* TabBarControllerUITests.swift */; };
+		93E814C11D66F73A00E232F7 /* ZZTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E814C01D66F73A00E232F7 /* ZZTabBarItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,10 +40,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		937BF0E31D6999EF00F0BBB1 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		937BF0E41D6999EF00F0BBB1 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		937BF0E51D6999EF00F0BBB1 /* PlanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanViewController.swift; sourceTree = "<group>"; };
+		937BF0E61D6999EF00F0BBB1 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		93B5C7D01D6867BB0097CDE7 /* ZZTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZZTabBarController.swift; sourceTree = "<group>"; };
+		93D6C32C1D68066900E4C45E /* ZZMathUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZZMathUtils.swift; sourceTree = "<group>"; };
+		93D6C32E1D6821BE00E4C45E /* ZZTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZZTabBar.swift; sourceTree = "<group>"; };
 		93E814541D66F4D600E232F7 /* TabBarController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TabBarController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93E814571D66F4D600E232F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		93E814591D66F4D600E232F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		93E8145C1D66F4D600E232F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		93E8145E1D66F4D600E232F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		93E814611D66F4D600E232F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		93E814631D66F4D700E232F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,6 +58,7 @@
 		93E814731D66F4D700E232F7 /* TabBarControllerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TabBarControllerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		93E814771D66F4D700E232F7 /* TabBarControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerUITests.swift; sourceTree = "<group>"; };
 		93E814791D66F4D700E232F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93E814C01D66F73A00E232F7 /* ZZTabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZZTabBarItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,11 +109,14 @@
 		93E814561D66F4D600E232F7 /* TabBarController */ = {
 			isa = PBXGroup;
 			children = (
+				93E814851D66F4FB00E232F7 /* ZZTabBarController */,
 				93E814571D66F4D600E232F7 /* AppDelegate.swift */,
-				93E814591D66F4D600E232F7 /* ViewController.swift */,
-				93E8145B1D66F4D600E232F7 /* Main.storyboard */,
 				93E8145E1D66F4D600E232F7 /* Assets.xcassets */,
 				93E814601D66F4D600E232F7 /* LaunchScreen.storyboard */,
+				937BF0E31D6999EF00F0BBB1 /* HomeViewController.swift */,
+				937BF0E41D6999EF00F0BBB1 /* MapViewController.swift */,
+				937BF0E51D6999EF00F0BBB1 /* PlanViewController.swift */,
+				937BF0E61D6999EF00F0BBB1 /* SettingViewController.swift */,
 				93E814631D66F4D700E232F7 /* Info.plist */,
 			);
 			path = TabBarController;
@@ -123,6 +138,17 @@
 				93E814791D66F4D700E232F7 /* Info.plist */,
 			);
 			path = TabBarControllerUITests;
+			sourceTree = "<group>";
+		};
+		93E814851D66F4FB00E232F7 /* ZZTabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				93E814C01D66F73A00E232F7 /* ZZTabBarItem.swift */,
+				93D6C32E1D6821BE00E4C45E /* ZZTabBar.swift */,
+				93B5C7D01D6867BB0097CDE7 /* ZZTabBarController.swift */,
+				93D6C32C1D68066900E4C45E /* ZZMathUtils.swift */,
+			);
+			path = ZZTabBarController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,7 +257,6 @@
 			files = (
 				93E814621D66F4D600E232F7 /* LaunchScreen.storyboard in Resources */,
 				93E8145F1D66F4D600E232F7 /* Assets.xcassets in Resources */,
-				93E8145D1D66F4D600E232F7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,8 +281,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93E8145A1D66F4D600E232F7 /* ViewController.swift in Sources */,
+				93E814C11D66F73A00E232F7 /* ZZTabBarItem.swift in Sources */,
 				93E814581D66F4D600E232F7 /* AppDelegate.swift in Sources */,
+				93B5C7D11D6867BB0097CDE7 /* ZZTabBarController.swift in Sources */,
+				93D6C32F1D6821BE00E4C45E /* ZZTabBar.swift in Sources */,
+				93D6C32D1D68066900E4C45E /* ZZMathUtils.swift in Sources */,
+				937BF0EA1D6999EF00F0BBB1 /* SettingViewController.swift in Sources */,
+				937BF0E91D6999EF00F0BBB1 /* PlanViewController.swift in Sources */,
+				937BF0E71D6999EF00F0BBB1 /* HomeViewController.swift in Sources */,
+				937BF0E81D6999EF00F0BBB1 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,14 +325,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		93E8145B1D66F4D600E232F7 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				93E8145C1D66F4D600E232F7 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		93E814601D66F4D600E232F7 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -484,6 +508,7 @@
 				93E8147E1D66F4D700E232F7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		93E8147F1D66F4D700E232F7 /* Build configuration list for PBXNativeTarget "TabBarControllerTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +517,7 @@
 				93E814811D66F4D700E232F7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		93E814821D66F4D700E232F7 /* Build configuration list for PBXNativeTarget "TabBarControllerUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +526,7 @@
 				93E814841D66F4D700E232F7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
