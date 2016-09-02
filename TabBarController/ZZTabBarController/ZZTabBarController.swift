@@ -213,9 +213,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
                 tempTabBarItems.append(tabBarItem)
                 viewController.zz_private_tabBarController = self
             }
-            
             tabBar.items = tempTabBarItems
-            
             selectedIndex = 0
         }
     }

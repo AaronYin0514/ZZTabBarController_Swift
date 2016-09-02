@@ -18,12 +18,40 @@ class ZZTabBar: UIView {
      */
     var items:[ZZTabBarItem]? {
         didSet {
-            for item in items! {
-                item.removeFromSuperview()
+            if items != nil && items?.count > 0 {
+                for item in items! {
+                    item.removeFromSuperview()
+                }
             }
-            for item in items! {
+            for (idx, item) in (items!).enumerate() {
+                item.translatesAutoresizingMaskIntoConstraints = false
                 item.addTarget(self, action: #selector(ZZTabBar.tabBarItemWasSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 self.addSubview(item)
+                
+                let topConstraint = NSLayoutConstraint.init(item: item, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0);
+                self.addConstraint(topConstraint)
+                
+                let bottomConstraint = NSLayoutConstraint.init(item: item, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0);
+                self.addConstraint(bottomConstraint)
+                
+                var lastItem: ZZTabBarItem? = nil;
+                
+                if idx == 0 {
+                    let leftConstraint = NSLayoutConstraint.init(item: item, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0);
+                    self.addConstraint(leftConstraint)
+                } else {
+                    lastItem = items![idx - 1]
+                    let leadingConstraint = NSLayoutConstraint.init(item: item, attribute: .Leading, relatedBy: .Equal, toItem: lastItem, attribute: .Trailing, multiplier: 1.0, constant: 0.0);
+                    self.addConstraint(leadingConstraint)
+                    
+                    if idx == items!.count - 1 {
+                        let rightConstraint = NSLayoutConstraint.init(item: item, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0);
+                        self.addConstraint(rightConstraint)
+                    }
+                    
+                    let widthConstraint = NSLayoutConstraint.init(item: item, attribute: .Width, relatedBy: .Equal, toItem: lastItem, attribute: .Width, multiplier: 1.0, constant: 0.0);
+                    self.addConstraint(widthConstraint)
+                }
             }
         }
     }
@@ -99,26 +127,24 @@ class ZZTabBar: UIView {
         
         backgroundView?.frame = CGRectMake(0, frameSize.height - minimumContentHeight, frameSize.width, frameSize.height)
         
-        let width = ZZMathUtils.CGRoundf((frameSize.width - contentEdgeInsets.left -
-            contentEdgeInsets.right) / CGFloat(items!.count))
+//        let width = ZZMathUtils.CGRoundf((frameSize.width - contentEdgeInsets.left -
+//            contentEdgeInsets.right) / CGFloat(items!.count))
+//        
+//        if width > 0 {
+//            itemWidth = width
+//        }
         
-        if width > 0 {
-            itemWidth = width
-        }
-        
-        for (idx, item) in (items!).enumerate() {
-            var itemHeight = item.itemHeight
-            if itemHeight <= 0.0 {
-                itemHeight = frameSize.height
-            }
-            item.frame = CGRectMake(contentEdgeInsets.left + (CGFloat(idx) * self.itemWidth), ZZMathUtils.CGRoundf(frameSize.height - itemHeight) - contentEdgeInsets.top, itemWidth, itemHeight - contentEdgeInsets.bottom)
-            item.setNeedsDisplay()
-        }
+//        for (idx, item) in (items!).enumerate() {
+//            var itemHeight = item.itemHeight
+//            if itemHeight <= 0.0 {
+//                itemHeight = frameSize.height
+//            }
+//            item.frame = CGRectMake(contentEdgeInsets.left + (CGFloat(idx) * self.itemWidth), ZZMathUtils.CGRoundf(frameSize.height - itemHeight) - contentEdgeInsets.top, itemWidth, itemHeight - contentEdgeInsets.bottom)
+//        }
     }
     
     // MARK: - Configuration
     private var itemWidth:CGFloat = 0.0
-    
     
     //MARK: - Item selection
     func tabBarItemWasSelected(sender : ZZTabBarItem) -> Void {
