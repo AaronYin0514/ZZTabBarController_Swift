@@ -10,12 +10,21 @@ import UIKit
 
 class ZZTabBarItem: UIControl {
     /// itemHeight is an optional property. When set it is used instead of tabBar's height.
-    var itemHeight:CGFloat = 0.0
+    var itemHeight:CGFloat = 49.0
     
     // MARK: - Title configuration
     
     /// The title displayed by the tab bar item.
-    var title:String?
+    var title:String? {
+        didSet {
+            if title != nil {
+                titleLabel.text = title!
+                self.layoutIfNeeded()
+            }
+        }
+    }
+    
+    private var titleLabel:UILabel = UILabel()
     
     /// The offset for the rectangle around the tab bar item's title.
     var titlePositionAdjustment:UIOffset = UIOffsetZero
@@ -32,10 +41,35 @@ class ZZTabBarItem: UIControl {
     var imagePositionAdjustment:UIOffset = UIOffsetZero;
     
     /// The image used for tab bar item's selected state.
-    var selectedImage:UIImage?
+    var selectedImage:UIImage? {
+        didSet {
+            if selectedImage != nil && self.image == nil {
+                self.layoutIfNeeded()
+            }
+        }
+    }
     
     /// The image used for tab bar item's unselected state.
-    var unselectedImage: UIImage?
+    var image: UIImage? {
+        didSet {
+            if image != nil && self.selectedImage == nil {
+                imageView.image = image
+                self.layoutIfNeeded()
+            }
+        }
+    }
+    
+    private var imageView: UIImageView = UIImageView()
+    
+    override var selected: Bool {
+        didSet {
+            if selected == true {
+                imageView.image = selectedImage
+            } else {
+                imageView.image = image
+            }
+        }
+    }
     
     /**
      Sets the tab bar item's selected and unselected images.
@@ -43,9 +77,9 @@ class ZZTabBarItem: UIControl {
      - parameter selectedImage:   selectedImage
      - parameter unSelectedImage: unSelectedImage
      */
-    func setSelectedImage(selectedImage:UIImage, unSelectedImage:UIImage) -> Void {
+    func setSelectedImage(selectedImage:UIImage, image:UIImage) -> Void {
         self.selectedImage = selectedImage;
-        self.unselectedImage = unSelectedImage;
+        self.image = image;
     }
     
     // MARK: - Background configuration
@@ -67,7 +101,7 @@ class ZZTabBarItem: UIControl {
         self.unselectedBackgroundImage = unSelectedImage;
     }
     
-    // MARK - Badge configuration
+    // MARK: - Badge configuration
     
     /// Text that is displayed in the upper-right corner of the item with a surrounding background.
     var badgeValue:String? = "" {
@@ -91,6 +125,8 @@ class ZZTabBarItem: UIControl {
     /// Font used for badge's text.
     var badgeTextFont:UIFont = UIFont.systemFontOfSize(12.0)
     
+    
+    // MARK: - Method
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.commonInit()
@@ -100,6 +136,55 @@ class ZZTabBarItem: UIControl {
         self.backgroundColor = UIColor.clearColor()
         unselectedTitleAttributes = [NSFontAttributeName : UIFont.systemFontOfSize(12.0), NSForegroundColorAttributeName : UIColor.blackColor()]
         selectedTitleAttributes = [NSFontAttributeName : UIFont.systemFontOfSize(12.0), NSForegroundColorAttributeName : UIColor.blackColor()]
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(imageView)
+        self.layoutImageView()
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.textColor = UIColor.blackColor()
+        titleLabel.font = UIFont.systemFontOfSize(13.0)
+        titleLabel.textAlignment = .Center
+        self.addSubview(titleLabel)
+        self.layoutTitleLabel()
+    }
+    
+    private var imageViewHeightConstraint:NSLayoutConstraint?
+    private var imageViewWidthConstraint:NSLayoutConstraint?
+    private var imageViewCenterYConstraint:NSLayoutConstraint?
+    private var imageViewCenterXConstraint:NSLayoutConstraint?
+    
+    private func layoutImageView() -> Void {
+        imageViewHeightConstraint = NSLayoutConstraint.init(item: imageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: 25.0);
+        imageView.addConstraint(imageViewHeightConstraint!)
+        
+        imageViewWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 25.0)
+        imageView.addConstraint(imageViewWidthConstraint!);
+        
+        imageViewCenterYConstraint = NSLayoutConstraint(item: imageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: imagePositionAdjustment.vertical)
+        self .addConstraint(imageViewCenterYConstraint!)
+        
+        imageViewCenterXConstraint = NSLayoutConstraint(item: imageView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: imagePositionAdjustment.horizontal)
+        self .addConstraint(imageViewCenterXConstraint!)
+    }
+    
+    private var titleLabelLeadingConstraint:NSLayoutConstraint?
+    private var titleLabelTrailingConstraint:NSLayoutConstraint?
+    private var titleLabelHeightConstraint:NSLayoutConstraint?
+    private var titleLabelBottomConstraint:NSLayoutConstraint?
+    
+    private func layoutTitleLabel() -> Void {
+        titleLabelLeadingConstraint = NSLayoutConstraint(item: titleLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        self.addConstraint(titleLabelLeadingConstraint!)
+        
+        titleLabelTrailingConstraint = NSLayoutConstraint(item: titleLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        self.addConstraint(titleLabelTrailingConstraint!)
+        
+        titleLabelHeightConstraint = NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 18.0);
+        titleLabel.addConstraint(titleLabelHeightConstraint!)
+        
+        titleLabelBottomConstraint = NSLayoutConstraint(item: titleLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: titlePositionAdjustment.vertical)
+        self.addConstraint(titleLabelBottomConstraint!)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -107,84 +192,16 @@ class ZZTabBarItem: UIControl {
         self.commonInit()
     }
     
-    override func drawRect(rect: CGRect) {
-        let frameSize: CGSize = self.frame.size
-        var imageSize: CGSize = CGSizeZero
-        var titleSize: CGSize = CGSizeZero
-        var titleAttributes:[String : AnyObject]?
-        var backgroundImage: UIImage?
-        var image: UIImage?
-        var imageStartingY: CGFloat = 0.0
-        
-        if self.selected {
-            image = self.selectedImage
-            backgroundImage = self.selectedBackgroundImage
-            titleAttributes = self.selectedTitleAttributes
-        } else {
-            image = self.unselectedImage
-            backgroundImage = self.unselectedBackgroundImage
-            titleAttributes = self.unselectedTitleAttributes
-        }
-        
-        if image?.size != nil {
-            imageSize = (image?.size)!
-        }
-        
-        let context: CGContext? = UIGraphicsGetCurrentContext()
-        CGContextSaveGState(context);
-        
-        backgroundImage?.drawInRect(self.bounds)
-        
-        // Draw image and title
-        if title == nil {
-            let rect = CGRectMake(ZZMathUtils.CGRoundf(frameSize.width / 2 - imageSize.width / 2) + imagePositionAdjustment.horizontal, ZZMathUtils.CGRoundf(frameSize.height / 2 - imageSize.height / 2) + imagePositionAdjustment.vertical, imageSize.width, imageSize.height)
-            image?.drawInRect(rect)
-        } else {
-            let nsTitle = NSString(string: title!)
-            titleSize = nsTitle.boundingRectWithSize(CGSizeMake(frameSize.width, 20), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: titleAttributes, context: nil).size
-            imageStartingY = ZZMathUtils.CGRoundf((frameSize.height - imageSize.height - titleSize.height) / 2)
-            let rect = CGRectMake(ZZMathUtils.CGRoundf(frameSize.width / 2 - imageSize.width / 2) + imagePositionAdjustment.horizontal, imageStartingY + imagePositionAdjustment.vertical, imageSize.width, imageSize.height)
-            image?.drawInRect(rect)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let titleIsNil:Bool = title == nil
+        let imageIsNil:Bool = (image == nil && selectedImage == nil);
+        if titleIsNil == false && imageIsNil == true {
             
-            CGContextSetFillColorWithColor(context, titleAttributes![NSForegroundColorAttributeName]?.CGColor)
+        } else if titleIsNil == true && imageIsNil == false {
             
-            let titleRect = CGRectMake(ZZMathUtils.CGRoundf(frameSize.width / 2 - titleSize.width / 2) + titlePositionAdjustment.horizontal, imageStartingY + imageSize.height + titlePositionAdjustment.vertical, titleSize.width, titleSize.height)
-            nsTitle.drawInRect(titleRect, withAttributes: titleAttributes)
-        }
-        
-        // Draw badges
-        
-        let nsBadgeValue = NSString(string: self.badgeValue!)
-        
-        if nsBadgeValue.integerValue != 0 {
-            var badgeSize = nsBadgeValue.boundingRectWithSize(CGSizeMake(frameSize.width, 20), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName : self.badgeTextFont], context: nil).size
-            let textOffset:CGFloat = 2.0
-            
-            if (badgeSize.width < badgeSize.height) {
-                badgeSize = CGSizeMake(badgeSize.height, badgeSize.height);
-            }
-            
-            let badgeBackgroundFrame = CGRectMake(ZZMathUtils.CGRoundf(frameSize.width / 2 + (image!.size.width / 2) * 0.9) + badgePositionAdjustment.horizontal, textOffset + badgePositionAdjustment.vertical, badgeSize.width + 2 * textOffset, badgeSize.height + 2 * textOffset);
-            
-            if badgeBackgroundImage != nil {
-                badgeBackgroundImage?.drawInRect(badgeBackgroundFrame)
-            } else {
-                CGContextSetFillColorWithColor(context, badgeBackgroundColor.CGColor)
-                CGContextFillEllipseInRect(context, badgeBackgroundFrame)
-            }
-            
-            CGContextSetFillColorWithColor(context, badgeTextColor.CGColor)
-            
-            let badgeTextStyle : NSMutableParagraphStyle = NSMutableParagraphStyle()
-            badgeTextStyle.lineBreakMode = NSLineBreakMode.ByTruncatingTail
-            badgeTextStyle.alignment = NSTextAlignment.Center
-            let badgeTextAttributes:[String : AnyObject] = [NSFontAttributeName : badgeTextFont, NSForegroundColorAttributeName : badgeTextColor, NSParagraphStyleAttributeName : badgeTextStyle];
-            let badgeRect = CGRectMake(CGRectGetMinX(badgeBackgroundFrame) + textOffset, CGRectGetMinY(badgeBackgroundFrame) + textOffset, badgeSize.width, badgeSize.height);
-            nsBadgeValue.drawInRect(badgeRect, withAttributes: badgeTextAttributes)
+        } else if titleIsNil == false && imageIsNil == false {
             
         }
-        
-        CGContextRestoreGState(context);
     }
-    
 }

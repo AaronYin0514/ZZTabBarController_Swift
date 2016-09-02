@@ -16,11 +16,35 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     /**
      * An array of the root view controllers displayed by the tab bar interface.
      */
-    var viewControllers:[UIViewController]?
+    private var private_viewControllers: [UIViewController]?
+    var viewControllers:[UIViewController]? {
+        get {
+            return private_viewControllers
+        }
+        set(newValue) {
+            if private_viewControllers != nil && private_viewControllers?.count > 0 {
+                for viewController in private_viewControllers! {
+                    viewController.willMoveToParentViewController(nil)
+                    viewController.view.removeFromSuperview()
+                    viewController.removeFromParentViewController()
+                }
+            }
+            if newValue?.count > 0 {
+                private_viewControllers = newValue
+                var tempTabBarItems:[ZZTabBarItem] = []
+                for viewController in private_viewControllers! {
+                    viewController.zz_private_tabBarController = self
+                    tempTabBarItems.append(viewController.zz_tabBarItem)
+                }
+                tabBar.items = tempTabBarItems
+                selectedIndex = 0
+            }
+        }
+    }
     /**
      * The tab bar view associated with this controller. (read-only)
      */
-    var tabBar:ZZTabBar? = ZZTabBar()
+    var tabBar:ZZTabBar = ZZTabBar()
     /**
      * The view controller associated with the currently selected tab item.
      */
@@ -38,7 +62,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
                 selectedViewController?.view.removeFromSuperview()
                 selectedViewController?.removeFromParentViewController()
             }
-            tabBar?.selectedItem = tabBar?.items![index]
+            tabBar.selectedItem = tabBar.items![index]
             
             let viewController = viewControllers![index]
             self.addChildViewController(viewController)
@@ -69,7 +93,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             let viewSize: CGSize = weakSelf!.view.bounds.size
             var tabBarStartingY: CGFloat = viewSize.height
             var contentViewHeight: CGFloat = viewSize.height
-            var tabBarHeight: CGFloat = CGRectGetHeight(weakSelf!.tabBar!.frame)
+            var tabBarHeight: CGFloat = CGRectGetHeight(weakSelf!.tabBar.frame)
             
             if tabBarHeight <= 0.0 {
                 tabBarHeight = 49.0
@@ -77,9 +101,9 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             
             if weakSelf!.tabBarHidden == false {
                 tabBarStartingY = viewSize.height - tabBarHeight
-                if weakSelf!.tabBar!.translucent == false {
+                if weakSelf!.tabBar.translucent == false {
                     
-                    var temp = weakSelf!.tabBar!.minimumContentHeight()
+                    var temp = weakSelf!.tabBar.minimumContentHeight()
                     
                     if temp <= 0.0 {
                         temp = tabBarHeight
@@ -89,13 +113,13 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
                 }
             }
             
-            weakSelf!.tabBar!.frame = CGRectMake(0, tabBarStartingY, viewSize.width, tabBarHeight)
+            weakSelf!.tabBar.frame = CGRectMake(0, tabBarStartingY, viewSize.width, tabBarHeight)
             weakSelf!.contentView!.frame = CGRectMake(0, 0, viewSize.width, contentViewHeight)
         }
         
         let completion = { (completion: Bool) -> Void in
             if weakSelf!.tabBarHidden == true {
-                weakSelf!.tabBar!.hidden = true
+                weakSelf!.tabBar.hidden = true
             }
         }
         
@@ -115,9 +139,9 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     }
     
     func setupTabBar() {
-        tabBar!.backgroundColor = UIColor.whiteColor()
-        tabBar!.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin, .FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
-        tabBar!.delegate = self
+        tabBar.backgroundColor = UIColor.whiteColor()
+        tabBar.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin, .FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
+        tabBar.delegate = self
     }
     
     // MARK: - Life Cercle
@@ -126,7 +150,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         self.setupConentView()
         self.setupTabBar()
         self.view.addSubview(contentView!)
-        self.view.addSubview(tabBar!)
+        self.view.addSubview(tabBar)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -187,17 +211,12 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
                 let tabBarItem: ZZTabBarItem = ZZTabBarItem()
                 tabBarItem.title = viewController.title
                 tempTabBarItems.append(tabBarItem)
-                viewController.zz_tabBarController = self
+                viewController.zz_private_tabBarController = self
             }
             
-            tabBar?.items = tempTabBarItems
+            tabBar.items = tempTabBarItems
             
             selectedIndex = 0
-        } else {
-            for viewConrtoller in viewControllers! {
-                viewConrtoller.zz_tabBarController = nil
-            }
-            viewControllers = nil
         }
     }
     
@@ -215,7 +234,6 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             if delegate!.tabBarController!(self, shouldSelectViewController: viewControllers![index]) == false {
                 return false
             }
-            
             if selectedViewController == viewControllers![index] {
                 return false
             }
@@ -238,34 +256,27 @@ private var static_tabBarItem: ZZTabBarItem?
 private var static_tabBarController: ZZTabBarController?
 
 extension UIViewController {
-    
+    private var zz_private_tabBarItem: ZZTabBarItem? {
+        get {
+            return objc_getAssociatedObject(self, &static_tabBarItem) as? ZZTabBarItem
+        }
+        set(newValue) {
+            objc_setAssociatedObject(self, &static_tabBarItem, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
     /**
      * The tab bar item that represents the view controller when added to a tab bar controller.
      */
     var zz_tabBarItem: ZZTabBarItem {
         get {
-            let index = zz_tabBarController?.indexForViewController(self)
-            let tabBarItem = zz_tabBarController?.tabBar?.items![index!]
-            return tabBarItem!
-//            return (objc_getAssociatedObject(self, &static_tabBarItem) as? ZZTabBarItem)!
-        }
-        set(newValue) {
-            if zz_tabBarController == nil {
-                return
+            if self.zz_private_tabBarItem == nil {
+                self.zz_private_tabBarItem = ZZTabBarItem()
             }
-            let tabBar = zz_tabBarController?.tabBar
-            let index = zz_tabBarController?.indexForViewController(self)
-            
-            tabBar?.items?.removeAtIndex(index!)
-            tabBar?.items?.insert(newValue, atIndex: index!)
-            
-//            objc_setAssociatedObject(self, &static_tabBarItem, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            return self.zz_private_tabBarItem!
         }
     }
-    /**
-     * The nearest ancestor in the view controller hierarchy that is a tab bar controller. (read-only)
-     */
-    var zz_tabBarController: ZZTabBarController? {
+    
+    var zz_private_tabBarController: ZZTabBarController? {
         get {
             var tabBarViewController = objc_getAssociatedObject(self, &static_tabBarController) as? ZZTabBarController
             if tabBarViewController == nil && self.parentViewController != nil {
@@ -277,12 +288,17 @@ extension UIViewController {
             objc_setAssociatedObject(self, &static_tabBarController, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
         }
     }
+    /**
+     * The nearest ancestor in the view controller hierarchy that is a tab bar controller. (read-only)
+     */
+    var zz_tabBarController: ZZTabBarController? {
+        get {
+            return zz_private_tabBarController
+        }
+    }
 }
 
 @objc protocol ZZTabBarControllerDelegate: NSObjectProtocol {
-    
-    
-    
     /**
      * Asks the delegate whether the specified view controller should be made active.
      */

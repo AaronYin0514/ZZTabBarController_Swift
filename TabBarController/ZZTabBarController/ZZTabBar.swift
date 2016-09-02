@@ -21,7 +21,6 @@ class ZZTabBar: UIView {
             for item in items! {
                 item.removeFromSuperview()
             }
-            
             for item in items! {
                 item.addTarget(self, action: #selector(ZZTabBar.tabBarItemWasSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 self.addSubview(item)
@@ -32,7 +31,7 @@ class ZZTabBar: UIView {
      * The currently selected item on the tab bar.
      */
     weak var selectedItem: ZZTabBarItem? {
-        willSet {
+        willSet (newValue) {
             selectedItem?.selected = false
         }
         didSet {
@@ -129,11 +128,6 @@ class ZZTabBar: UIView {
                 return
             }
         }
-        
-        if selectedItem != sender {
-            selectedItem = sender
-        }
-        
         if delegate != nil && delegate!.respondsToSelector(#selector(ZZTabBarDelegate.tabBar(_:didSelectItemAtIndex:))) {
             let idx: Int = items!.indexOf(sender)!
             delegate!.tabBar!(self, didSelectItemAtIndex: idx)
