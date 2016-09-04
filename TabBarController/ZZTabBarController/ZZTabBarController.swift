@@ -44,7 +44,12 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     /**
      * The tab bar view associated with this controller. (read-only)
      */
-    var tabBar:ZZTabBar = ZZTabBar()
+    private var privateTabBar :ZZTabBar = ZZTabBar()
+    var tabBar:ZZTabBar {
+        get {
+            return privateTabBar
+        }
+    }
     /**
      * The view controller associated with the currently selected tab item.
      */

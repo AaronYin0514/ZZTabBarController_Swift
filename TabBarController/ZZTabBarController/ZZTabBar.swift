@@ -23,37 +23,44 @@ class ZZTabBar: UIView {
                     item.removeFromSuperview()
                 }
             }
-            for (idx, item) in (items!).enumerate() {
+            for item in items! {
                 item.translatesAutoresizingMaskIntoConstraints = false
                 item.addTarget(self, action: #selector(ZZTabBar.tabBarItemWasSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 self.addSubview(item)
+            }
+            self.setupLayoutItem()
+        }
+    }
+    
+    private func setupLayoutItem() {
+        self.removeConstraints(self.constraints);
+        for (idx, item) in (items!).enumerate() {
+            let topConstraint = NSLayoutConstraint.init(item: item, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: self.contentEdgeInsets.top);
+            self.addConstraint(topConstraint)
+            
+            let bottomConstraint = NSLayoutConstraint.init(item: item, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -self.contentEdgeInsets.bottom);
+            self.addConstraint(bottomConstraint)
+            
+            var lastItem: ZZTabBarItem? = nil;
+            
+            if idx == 0 {
+                let leftConstraint = NSLayoutConstraint.init(item: item, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: self.contentEdgeInsets.left);
+                self.addConstraint(leftConstraint)
+            } else {
+                lastItem = items![idx - 1]
+                let leadingConstraint = NSLayoutConstraint.init(item: item, attribute: .Leading, relatedBy: .Equal, toItem: lastItem, attribute: .Trailing, multiplier: 1.0, constant: self.contentEdgeInsets.left + self.contentEdgeInsets.right);
+                self.addConstraint(leadingConstraint)
                 
-                let topConstraint = NSLayoutConstraint.init(item: item, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0);
-                self.addConstraint(topConstraint)
-                
-                let bottomConstraint = NSLayoutConstraint.init(item: item, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0);
-                self.addConstraint(bottomConstraint)
-                
-                var lastItem: ZZTabBarItem? = nil;
-                
-                if idx == 0 {
-                    let leftConstraint = NSLayoutConstraint.init(item: item, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0);
-                    self.addConstraint(leftConstraint)
-                } else {
-                    lastItem = items![idx - 1]
-                    let leadingConstraint = NSLayoutConstraint.init(item: item, attribute: .Leading, relatedBy: .Equal, toItem: lastItem, attribute: .Trailing, multiplier: 1.0, constant: 0.0);
-                    self.addConstraint(leadingConstraint)
-                    
-                    if idx == items!.count - 1 {
-                        let rightConstraint = NSLayoutConstraint.init(item: item, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0);
-                        self.addConstraint(rightConstraint)
-                    }
-                    
-                    let widthConstraint = NSLayoutConstraint.init(item: item, attribute: .Width, relatedBy: .Equal, toItem: lastItem, attribute: .Width, multiplier: 1.0, constant: 0.0);
-                    self.addConstraint(widthConstraint)
+                if idx == items!.count - 1 {
+                    let rightConstraint = NSLayoutConstraint.init(item: item, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -self.contentEdgeInsets.right);
+                    self.addConstraint(rightConstraint)
                 }
+                
+                let widthConstraint = NSLayoutConstraint.init(item: item, attribute: .Width, relatedBy: .Equal, toItem: lastItem, attribute: .Width, multiplier: 1.0, constant: 0.0);
+                self.addConstraint(widthConstraint)
             }
         }
+        self.setNeedsLayout()
     }
     /**
      * The currently selected item on the tab bar.
@@ -74,7 +81,13 @@ class ZZTabBar: UIView {
     /*
      * contentEdgeInsets can be used to center the items in the middle of the tabBar.
      */
-    var contentEdgeInsets: UIEdgeInsets = UIEdgeInsetsZero
+    var contentEdgeInsets: UIEdgeInsets = UIEdgeInsetsZero {
+        didSet {
+            if UIEdgeInsetsEqualToEdgeInsets(contentEdgeInsets, UIEdgeInsetsZero) == false {
+                self.setupLayoutItem()
+            }
+        }
+    }
     /**
      * Sets the height of tab bar.
      */

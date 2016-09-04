@@ -19,7 +19,7 @@ class ZZTabBarItem: UIControl {
         didSet {
             if title != nil {
                 titleLabel.text = title!
-                self.layoutIfNeeded()
+                self.customLayoutSubviews()
             }
         }
     }
@@ -30,10 +30,10 @@ class ZZTabBarItem: UIControl {
     var titlePositionAdjustment:UIOffset = UIOffsetZero
     
     /// The title attributes dictionary used for tab bar item's unselected state.
-    var unselectedTitleAttributes: [String : AnyObject]?
+    var unselectedTitleAttributes: [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(12.0), NSForegroundColorAttributeName : UIColor.lightGrayColor()]
     
     /// The title attributes dictionary used for tab bar item's selected state.
-    var selectedTitleAttributes: [String : AnyObject]?
+    var selectedTitleAttributes: [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(12.0), NSForegroundColorAttributeName : UIColor.blackColor()]
     
     // MARK: - Image configuration
     
@@ -44,7 +44,7 @@ class ZZTabBarItem: UIControl {
     var selectedImage:UIImage? {
         didSet {
             if selectedImage != nil && self.image == nil {
-                self.layoutIfNeeded()
+                self.customLayoutSubviews()
             }
         }
     }
@@ -54,7 +54,7 @@ class ZZTabBarItem: UIControl {
         didSet {
             if image != nil && self.selectedImage == nil {
                 imageView.image = image
-                self.layoutIfNeeded()
+                self.customLayoutSubviews()
             }
         }
     }
@@ -65,21 +65,14 @@ class ZZTabBarItem: UIControl {
         didSet {
             if selected == true {
                 imageView.image = selectedImage
+                titleLabel.textColor = selectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
+                titleLabel.font = selectedTitleAttributes[NSFontAttributeName] as! UIFont
             } else {
                 imageView.image = image
+                titleLabel.textColor = unselectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
+                titleLabel.font = unselectedTitleAttributes[NSFontAttributeName] as! UIFont
             }
         }
-    }
-    
-    /**
-     Sets the tab bar item's selected and unselected images.
-     
-     - parameter selectedImage:   selectedImage
-     - parameter unSelectedImage: unSelectedImage
-     */
-    func setSelectedImage(selectedImage:UIImage, image:UIImage) -> Void {
-        self.selectedImage = selectedImage;
-        self.image = image;
     }
     
     // MARK: - Background configuration
@@ -89,17 +82,6 @@ class ZZTabBarItem: UIControl {
     
     /// The background image used for tab bar item's unselected state.
     var unselectedBackgroundImage: UIImage?
-    
-    /**
-     Sets the tab bar item's selected and unselected background images.
-     
-     - parameter selectedImage:   background selectedImage
-     - parameter unSelectedImage: background unSelectedImage
-     */
-    func setBackgroundSelectedImage(selectedImage:UIImage, unSelectedImage:UIImage) -> Void {
-        self.selectedBackgroundImage = selectedImage;
-        self.unselectedBackgroundImage = unSelectedImage;
-    }
     
     // MARK: - Badge configuration
     
@@ -134,16 +116,14 @@ class ZZTabBarItem: UIControl {
     
     func commonInit() -> Void {
         self.backgroundColor = UIColor.clearColor()
-        unselectedTitleAttributes = [NSFontAttributeName : UIFont.systemFontOfSize(12.0), NSForegroundColorAttributeName : UIColor.blackColor()]
-        selectedTitleAttributes = [NSFontAttributeName : UIFont.systemFontOfSize(12.0), NSForegroundColorAttributeName : UIColor.blackColor()]
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(imageView)
         self.layoutImageView()
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = UIColor.blackColor()
-        titleLabel.font = UIFont.systemFontOfSize(13.0)
+        titleLabel.textColor = unselectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
+        titleLabel.font = unselectedTitleAttributes[NSFontAttributeName] as! UIFont
         titleLabel.textAlignment = .Center
         self.addSubview(titleLabel)
         self.layoutTitleLabel()
@@ -155,17 +135,26 @@ class ZZTabBarItem: UIControl {
     private var imageViewCenterXConstraint:NSLayoutConstraint?
     
     private func layoutImageView() -> Void {
-        imageViewHeightConstraint = NSLayoutConstraint.init(item: imageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: 25.0);
-        imageView.addConstraint(imageViewHeightConstraint!)
-        
-        imageViewWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 25.0)
-        imageView.addConstraint(imageViewWidthConstraint!);
-        
-        imageViewCenterYConstraint = NSLayoutConstraint(item: imageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: imagePositionAdjustment.vertical)
-        self .addConstraint(imageViewCenterYConstraint!)
-        
-        imageViewCenterXConstraint = NSLayoutConstraint(item: imageView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: imagePositionAdjustment.horizontal)
-        self .addConstraint(imageViewCenterXConstraint!)
+        if imageViewHeightConstraint == nil {
+            imageViewHeightConstraint = NSLayoutConstraint.init(item: imageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: 30.0);
+            imageView.addConstraint(imageViewHeightConstraint!)
+        }
+        if imageViewWidthConstraint == nil {
+            imageViewWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 30.0)
+            imageView.addConstraint(imageViewWidthConstraint!)
+        }
+        if imageViewCenterYConstraint != nil {
+            imageViewCenterYConstraint?.constant = (title == nil) ? imagePositionAdjustment.vertical : -(imagePositionAdjustment.vertical + 14.0 / 2)
+        } else {
+            imageViewCenterYConstraint = NSLayoutConstraint(item: imageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: imagePositionAdjustment.vertical)
+            self .addConstraint(imageViewCenterYConstraint!)
+        }
+        if imageViewCenterXConstraint != nil {
+            imageViewCenterXConstraint?.constant = imagePositionAdjustment.horizontal
+        } else {
+            imageViewCenterXConstraint = NSLayoutConstraint(item: imageView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: imagePositionAdjustment.horizontal)
+            self .addConstraint(imageViewCenterXConstraint!)
+        }
     }
     
     private var titleLabelLeadingConstraint:NSLayoutConstraint?
@@ -174,34 +163,40 @@ class ZZTabBarItem: UIControl {
     private var titleLabelBottomConstraint:NSLayoutConstraint?
     
     private func layoutTitleLabel() -> Void {
-        titleLabelLeadingConstraint = NSLayoutConstraint(item: titleLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
-        self.addConstraint(titleLabelLeadingConstraint!)
-        
-        titleLabelTrailingConstraint = NSLayoutConstraint(item: titleLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
-        self.addConstraint(titleLabelTrailingConstraint!)
-        
-        titleLabelHeightConstraint = NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 18.0);
-        titleLabel.addConstraint(titleLabelHeightConstraint!)
-        
-        titleLabelBottomConstraint = NSLayoutConstraint(item: titleLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: titlePositionAdjustment.vertical)
-        self.addConstraint(titleLabelBottomConstraint!)
+        if titleLabelLeadingConstraint != nil {
+            titleLabelLeadingConstraint?.constant = 0.0
+        } else {
+            titleLabelLeadingConstraint = NSLayoutConstraint(item: titleLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+            self.addConstraint(titleLabelLeadingConstraint!)
+        }
+        if titleLabelTrailingConstraint != nil {
+            titleLabelTrailingConstraint?.constant = 0.0
+        } else {
+            titleLabelTrailingConstraint = NSLayoutConstraint(item: titleLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+            self.addConstraint(titleLabelTrailingConstraint!)
+        }
+        if titleLabelHeightConstraint != nil {
+            titleLabelHeightConstraint?.constant = 14.0
+        } else {
+            titleLabelHeightConstraint = NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 14.0);
+            titleLabel.addConstraint(titleLabelHeightConstraint!)
+        }
+        if titleLabelBottomConstraint != nil {
+            titleLabelBottomConstraint?.constant = -(titlePositionAdjustment.vertical + 3.0)
+        } else {
+            titleLabelBottomConstraint = NSLayoutConstraint(item: titleLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -(titlePositionAdjustment.vertical + 3.0))
+            self.addConstraint(titleLabelBottomConstraint!)
+        }
+    }
+    
+    private func customLayoutSubviews() -> Void {
+        self.layoutImageView()
+        self.layoutTitleLabel()
+        self.setNeedsLayout()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.commonInit()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        let titleIsNil:Bool = title == nil
-        let imageIsNil:Bool = (image == nil && selectedImage == nil);
-        if titleIsNil == false && imageIsNil == true {
-            
-        } else if titleIsNil == true && imageIsNil == false {
-            
-        } else if titleIsNil == false && imageIsNil == false {
-            
-        }
     }
 }
