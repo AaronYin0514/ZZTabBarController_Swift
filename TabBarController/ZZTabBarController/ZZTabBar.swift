@@ -137,23 +137,7 @@ class ZZTabBar: UIView {
         super.layoutSubviews()
         let frameSize = frame.size
         let minimumContentHeight = self.minimumContentHeight()
-        
         backgroundView?.frame = CGRectMake(0, frameSize.height - minimumContentHeight, frameSize.width, frameSize.height)
-        
-//        let width = ZZMathUtils.CGRoundf((frameSize.width - contentEdgeInsets.left -
-//            contentEdgeInsets.right) / CGFloat(items!.count))
-//        
-//        if width > 0 {
-//            itemWidth = width
-//        }
-        
-//        for (idx, item) in (items!).enumerate() {
-//            var itemHeight = item.itemHeight
-//            if itemHeight <= 0.0 {
-//                itemHeight = frameSize.height
-//            }
-//            item.frame = CGRectMake(contentEdgeInsets.left + (CGFloat(idx) * self.itemWidth), ZZMathUtils.CGRoundf(frameSize.height - itemHeight) - contentEdgeInsets.top, itemWidth, itemHeight - contentEdgeInsets.bottom)
-//        }
     }
     
     // MARK: - Configuration

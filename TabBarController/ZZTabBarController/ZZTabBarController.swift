@@ -168,13 +168,13 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         self.setTabBarHidden(tabBarHidden, animated: false)
     }
     
-//    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-//        return selectedViewController!.preferredStatusBarStyle()
-//    }
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return selectedViewController!.preferredStatusBarStyle()
+    }
     
-//    override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
-//        return selectedViewController!.preferredStatusBarUpdateAnimation()
-//    }
+    override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
+        return selectedViewController!.preferredStatusBarUpdateAnimation()
+    }
     
 //    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
 //        var orientationMask:UIInterfaceOrientationMask = .All

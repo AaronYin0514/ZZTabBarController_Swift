@@ -30,10 +30,10 @@ class ZZTabBarItem: UIControl {
     var titlePositionAdjustment:UIOffset = UIOffsetZero
     
     /// The title attributes dictionary used for tab bar item's unselected state.
-    var unselectedTitleAttributes: [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(12.0), NSForegroundColorAttributeName : UIColor.lightGrayColor()]
+    var unselectedTitleAttributes: [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(10.0), NSForegroundColorAttributeName : UIColor.lightGrayColor()]
     
     /// The title attributes dictionary used for tab bar item's selected state.
-    var selectedTitleAttributes: [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(12.0), NSForegroundColorAttributeName : UIColor.blackColor()]
+    var selectedTitleAttributes: [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(10.0), NSForegroundColorAttributeName : UIColor.blackColor()]
     
     // MARK: - Image configuration
     
