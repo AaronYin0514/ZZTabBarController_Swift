@@ -8,6 +8,8 @@
 
 import UIKit
 
+private let ZZTabBarItemImageWidth: CGFloat = 25.0
+
 class ZZTabBarItem: UIControl {
     /// itemHeight is an optional property. When set it is used instead of tabBar's height.
     var itemHeight:CGFloat = 49.0
@@ -30,10 +32,34 @@ class ZZTabBarItem: UIControl {
     var titlePositionAdjustment:UIOffset = UIOffsetZero
     
     /// The title attributes dictionary used for tab bar item's unselected state.
-    var unselectedTitleAttributes: [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(10.0), NSForegroundColorAttributeName : UIColor.lightGrayColor()]
+    private var p_unselectedTitleAttributes : [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(10.0), NSForegroundColorAttributeName : UIColor.lightGrayColor()]
+    var unselectedTitleAttributes: [String : AnyObject] {
+        set(value) {
+            if value[NSFontAttributeName] != nil {
+                p_unselectedTitleAttributes[NSFontAttributeName] = value[NSFontAttributeName]
+            } else if value[NSForegroundColorAttributeName] != nil {
+                p_unselectedTitleAttributes[NSForegroundColorAttributeName] = value[NSForegroundColorAttributeName]
+            }
+        }
+        get {
+            return p_unselectedTitleAttributes
+        }
+    }
     
     /// The title attributes dictionary used for tab bar item's selected state.
-    var selectedTitleAttributes: [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(10.0), NSForegroundColorAttributeName : UIColor.blackColor()]
+    private var p_selectedTitleAttributes: [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(10.0), NSForegroundColorAttributeName : UIColor.blackColor()]
+    var selectedTitleAttributes: [String : AnyObject] {
+        set(value) {
+            if value[NSFontAttributeName] != nil {
+                p_selectedTitleAttributes[NSFontAttributeName] = value[NSFontAttributeName]
+            } else if value[NSForegroundColorAttributeName] != nil {
+                p_selectedTitleAttributes[NSForegroundColorAttributeName] = value[NSForegroundColorAttributeName]
+            }
+        }
+        get {
+            return p_selectedTitleAttributes
+        }
+    }
     
     // MARK: - Image configuration
     
@@ -65,12 +91,12 @@ class ZZTabBarItem: UIControl {
         didSet {
             if selected == true {
                 imageView.image = selectedImage
-                titleLabel.textColor = selectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
-                titleLabel.font = selectedTitleAttributes[NSFontAttributeName] as! UIFont
+                titleLabel.textColor = p_selectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
+                titleLabel.font = p_selectedTitleAttributes[NSFontAttributeName] as! UIFont
             } else {
                 imageView.image = image
-                titleLabel.textColor = unselectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
-                titleLabel.font = unselectedTitleAttributes[NSFontAttributeName] as! UIFont
+                titleLabel.textColor = p_unselectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
+                titleLabel.font = p_unselectedTitleAttributes[NSFontAttributeName] as! UIFont
             }
         }
     }
@@ -114,16 +140,14 @@ class ZZTabBarItem: UIControl {
         self.commonInit()
     }
     
-    func commonInit() -> Void {
+    private func commonInit() -> Void {
         self.backgroundColor = UIColor.clearColor()
-        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(imageView)
         self.layoutImageView()
-        
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = unselectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
-        titleLabel.font = unselectedTitleAttributes[NSFontAttributeName] as! UIFont
+        titleLabel.textColor = p_unselectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
+        titleLabel.font = p_unselectedTitleAttributes[NSFontAttributeName] as! UIFont
         titleLabel.textAlignment = .Center
         self.addSubview(titleLabel)
         self.layoutTitleLabel()
@@ -136,11 +160,11 @@ class ZZTabBarItem: UIControl {
     
     private func layoutImageView() -> Void {
         if imageViewHeightConstraint == nil {
-            imageViewHeightConstraint = NSLayoutConstraint.init(item: imageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: 30.0);
+            imageViewHeightConstraint = NSLayoutConstraint.init(item: imageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: ZZTabBarItemImageWidth);
             imageView.addConstraint(imageViewHeightConstraint!)
         }
         if imageViewWidthConstraint == nil {
-            imageViewWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 30.0)
+            imageViewWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: ZZTabBarItemImageWidth)
             imageView.addConstraint(imageViewWidthConstraint!)
         }
         if imageViewCenterYConstraint != nil {
@@ -197,6 +221,5 @@ class ZZTabBarItem: UIControl {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.commonInit()
     }
 }

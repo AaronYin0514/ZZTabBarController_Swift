@@ -22,7 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let homeViewController: HomeViewController = HomeViewController()
         homeViewController.zz_tabBarItem.title = "Home"
         homeViewController.zz_tabBarItem.image = UIImage(named: "home")
-        homeViewController.zz_tabBarItem.selectedImage = UIImage(named: "home_selected");
+        homeViewController.zz_tabBarItem.selectedImage = UIImage(named: "home_selected")
+        homeViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor.greenColor()]
         viewControllers.append(homeViewController)
         
         // MARK: - Map
@@ -30,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         mapViewController.zz_tabBarItem.title = "Map"
         mapViewController.zz_tabBarItem.image = UIImage(named: "maps")
         mapViewController.zz_tabBarItem.selectedImage = UIImage(named: "maps_selected")
+        mapViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor.greenColor()]
         viewControllers.append(mapViewController)
         
         // MARK: - Plan
@@ -37,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         planViewController.zz_tabBarItem.title = "Plan"
         planViewController.zz_tabBarItem.image = UIImage(named: "myplan")
         planViewController.zz_tabBarItem.selectedImage = UIImage(named: "myplan_selected")
+        planViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor.greenColor()]
         planViewController.zz_tabBarItem.badgeValue = "10"
         viewControllers.append(planViewController)
         
@@ -45,6 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         settingViewController.zz_tabBarItem.title = "Setting"
         settingViewController.zz_tabBarItem.image = UIImage(named: "settings")
         settingViewController.zz_tabBarItem.selectedImage = UIImage(named: "settings_selected")
+        settingViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor.greenColor()]
         viewControllers.append(settingViewController)
         
         // MARK: - TabBarController
