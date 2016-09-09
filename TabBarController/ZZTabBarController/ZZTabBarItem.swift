@@ -32,7 +32,7 @@ class ZZTabBarItem: UIControl {
     var titlePositionAdjustment:UIOffset = UIOffsetZero
     
     /// The title attributes dictionary used for tab bar item's unselected state.
-    private var p_unselectedTitleAttributes : [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(10.0), NSForegroundColorAttributeName : UIColor.lightGrayColor()]
+    private var p_unselectedTitleAttributes : [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(11.0), NSForegroundColorAttributeName : UIColor.lightGrayColor()]
     var unselectedTitleAttributes: [String : AnyObject] {
         set(value) {
             if value[NSFontAttributeName] != nil {
@@ -47,7 +47,7 @@ class ZZTabBarItem: UIControl {
     }
     
     /// The title attributes dictionary used for tab bar item's selected state.
-    private var p_selectedTitleAttributes: [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(10.0), NSForegroundColorAttributeName : UIColor.blackColor()]
+    private var p_selectedTitleAttributes: [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(11.0), NSForegroundColorAttributeName : UIColor.blackColor()]
     var selectedTitleAttributes: [String : AnyObject] {
         set(value) {
             if value[NSFontAttributeName] != nil {
