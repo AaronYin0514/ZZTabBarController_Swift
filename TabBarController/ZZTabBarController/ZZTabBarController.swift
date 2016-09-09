@@ -59,7 +59,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
      */
     var selectedIndex: Int {
         set (index) {
-            if index > viewControllers?.count {
+            if index > viewControllers?.count || index < 0 {
                 return
             }
             if selectedViewController != nil {
@@ -71,8 +71,8 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             
             let viewController = viewControllers![index]
             self.addChildViewController(viewController)
-            viewController.view.frame = contentView!.bounds
-            contentView!.addSubview(viewController.view)
+            viewController.view.frame = self.view.frame
+            self.view.insertSubview(viewController.view, atIndex: 0)
             viewController.didMoveToParentViewController(self)
             
             selectedViewController = viewController
@@ -119,7 +119,6 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             }
             
             weakSelf!.tabBar.frame = CGRectMake(0, tabBarStartingY, viewSize.width, tabBarHeight)
-            weakSelf!.contentView!.frame = CGRectMake(0, 0, viewSize.width, contentViewHeight)
         }
         
         let completion = { (completion: Bool) -> Void in
@@ -136,15 +135,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         }
     }
     
-    private var contentView: UIView? = UIView()
-    
-    func setupConentView() -> Void {
-        contentView?.backgroundColor = UIColor.whiteColor()
-        contentView?.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-    }
-    
-    func setupTabBar() {
-        tabBar.backgroundColor = UIColor.whiteColor()
+    private func setupTabBar() {
         tabBar.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin, .FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
         tabBar.delegate = self
     }
@@ -152,9 +143,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     // MARK: - Life Cercle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupConentView()
         self.setupTabBar()
-        self.view.addSubview(contentView!)
         self.view.addSubview(tabBar)
     }
     

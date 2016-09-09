@@ -77,7 +77,30 @@ class ZZTabBar: UIView {
      * backgroundView stays behind tabBar's items. If you want to add additional views,
      * add them as subviews of backgroundView.
      */
-    private var backgroundView: UIView?
+    private var p_backgroundView: UIView?
+    var backgroundView: UIView {
+        set(value) {
+            p_backgroundView!.removeFromSuperview()
+            p_backgroundView = nil
+            p_backgroundView = value
+            self.insertSubview(p_backgroundView!, atIndex: 0)
+            self.setNeedsDisplay()
+        }
+        get {
+            if p_backgroundView == nil {
+                switch UIDevice.currentDevice().systemVersion.compare("8.0.0", options: NSStringCompareOptions.NumericSearch) {
+                    case .OrderedSame, .OrderedDescending:
+                        //"iOS >= 8.0"
+                        p_backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
+                    case .OrderedAscending:
+                        //"iOS < 8.0"
+                        p_backgroundView = UIView()
+                        p_backgroundView!.backgroundColor = UIColor.whiteColor()
+                }
+            }
+            return p_backgroundView!
+        }
+    }
     /*
      * contentEdgeInsets can be used to center the items in the middle of the tabBar.
      */
@@ -124,20 +147,18 @@ class ZZTabBar: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.commonInit()
     }
     
     func commonInit() -> Void {
-        backgroundView = UIView()
-        self.addSubview(backgroundView!)
+        self.addSubview(backgroundView)
     }
     
     // MARK: - UI
     override func layoutSubviews() {
         super.layoutSubviews()
-        let frameSize = frame.size
+        let frameSize = self.frame.size
         let minimumContentHeight = self.minimumContentHeight()
-        backgroundView?.frame = CGRectMake(0, frameSize.height - minimumContentHeight, frameSize.width, frameSize.height)
+        backgroundView.frame = CGRectMake(0, frameSize.height - minimumContentHeight, frameSize.width, frameSize.height)
     }
     
     // MARK: - Configuration

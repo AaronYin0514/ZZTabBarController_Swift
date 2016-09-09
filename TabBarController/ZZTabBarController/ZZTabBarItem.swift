@@ -133,7 +133,6 @@ class ZZTabBarItem: UIControl {
     /// Font used for badge's text.
     var badgeTextFont:UIFont = UIFont.systemFontOfSize(12.0)
     
-    
     // MARK: - Method
     override init(frame: CGRect) {
         super.init(frame: frame)

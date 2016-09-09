@@ -54,7 +54,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MARK: - TabBarController
         let tabBarViewController: ZZTabBarController = ZZTabBarController()
         tabBarViewController.viewControllers = viewControllers
-        
+//        let bgView = UIView()
+//        bgView.backgroundColor = UIColor.lightGrayColor()
+//        tabBarViewController.tabBar.backgroundView = bgView
         // MARK: - Window
         window?.rootViewController = tabBarViewController
         window?.makeKeyAndVisible()
