@@ -34,6 +34,7 @@ class ZZTabBar: UIView {
             self.setupLayoutItem()
         }
     }
+    var normalItems: [ZZTabBarItem]?
     
     private func setupLayoutItem() {
         self.removeConstraints(self.constraints);
@@ -169,15 +170,22 @@ class ZZTabBar: UIView {
     
     //MARK: - Item selection
     func tabBarItemWasSelected(sender : ZZTabBarItem) -> Void {
-        if delegate != nil && delegate!.respondsToSelector(#selector(ZZTabBarDelegate.tabBar(_:shouldSelectItemAtIndex:))) {
-            let idx: Int = items!.indexOf(sender)!
-            if delegate!.tabBar!(self, shouldSelectItemAtIndex: idx) == false {
-                return
+        if sender.itemType == .Normal {
+            if delegate != nil && delegate!.respondsToSelector(#selector(ZZTabBarDelegate.tabBar(_:shouldSelectItemAtIndex:))) {
+                let idx: Int = normalItems!.indexOf(sender)!
+                if delegate!.tabBar!(sender, shouldSelectItemAtIndex: idx) == false {
+                    return
+                }
             }
-        }
-        if delegate != nil && delegate!.respondsToSelector(#selector(ZZTabBarDelegate.tabBar(_:didSelectItemAtIndex:))) {
-            let idx: Int = items!.indexOf(sender)!
-            delegate!.tabBar!(self, didSelectItemAtIndex: idx)
+            if delegate != nil && delegate!.respondsToSelector(#selector(ZZTabBarDelegate.tabBar(_:didSelectItemAtIndex:))) {
+                let idx: Int = normalItems!.indexOf(sender)!
+                delegate!.tabBar!(sender, didSelectItemAtIndex: idx)
+            }
+        } else {
+            if delegate != nil && delegate!.respondsToSelector(#selector(ZZTabBarDelegate.tabBar(_:didSelectCustomItemAtIndex:))) {
+                let idx: Int = items!.indexOf(sender)!
+                delegate!.tabBar!(sender, didSelectCustomItemAtIndex: idx)
+            }
         }
     }
 }
@@ -186,9 +194,11 @@ class ZZTabBar: UIView {
     /**
      * Asks the delegate if the specified tab bar item should be selected.
      */
-    optional func tabBar(tabBar: ZZTabBar, shouldSelectItemAtIndex index:Int) -> Bool
+    optional func tabBar(tabBarItem: ZZTabBarItem, shouldSelectItemAtIndex index:Int) -> Bool
     /**
      * Tells the delegate that the specified tab bar item is now selected.
      */
-    optional func tabBar(tabBar: ZZTabBar, didSelectItemAtIndex index:Int) -> Void
+    optional func tabBar(tabBarItem: ZZTabBarItem, didSelectItemAtIndex index:Int) -> Void
+    
+    optional func tabBar(tabBarItem: ZZTabBarItem, didSelectCustomItemAtIndex index: Int) -> Void
 }

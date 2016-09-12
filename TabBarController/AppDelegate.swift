@@ -9,7 +9,7 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegate {
 
     var window: UIWindow?
 
@@ -51,9 +51,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         settingViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
         viewControllers.append(settingViewController)
         
+        
+        // MARK: - Custom Item
+        let customItem: ZZTabBarItem = ZZTabBarItem()
+        customItem.itemType = .Action
+        customItem.image = UIImage(named: "home_circle")
+        
         // MARK: - TabBarController
         let tabBarViewController: ZZTabBarController = ZZTabBarController()
-        tabBarViewController.viewControllers = viewControllers
+        tabBarViewController.delegate = self
+        
+//        tabBarViewController.viewControllers = viewControllers
+        
+        tabBarViewController.setupViewControllers(viewControllers, customItem: (customItem, 2))
+        
 //        let bgView = UIView()
 //        bgView.backgroundColor = UIColor.lightGrayColor()
 //        tabBarViewController.tabBar.backgroundView = bgView
@@ -64,6 +75,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-
+    // MARK: - ZZTabBarControllerDelegate
+    func tabBarController(tabBarController: ZZTabBarController, didSelectCustomItemIndex index: Int) -> Void {
+        print("Custom Item At Index \(index) Click")
+    }
 }
 

@@ -41,6 +41,36 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             }
         }
     }
+    
+    func setupViewControllers(viewControllers: [UIViewController], customItem: (item: ZZTabBarItem, index: Int)) -> Void {
+        var myCustomItem = customItem
+        if myCustomItem.index < 0 {
+            myCustomItem.index = 0
+        }
+        if myCustomItem.index > viewControllers.count {
+            myCustomItem.index = viewControllers.count
+        }
+        if private_viewControllers != nil && private_viewControllers?.count > 0 {
+            for viewController in private_viewControllers! {
+                viewController.willMoveToParentViewController(nil)
+                viewController.view.removeFromSuperview()
+                viewController.removeFromParentViewController()
+            }
+        }
+        if viewControllers.count > 0 {
+            private_viewControllers = viewControllers
+            var tempTabBarItems:[ZZTabBarItem] = []
+            for viewController in private_viewControllers! {
+                viewController.zz_private_tabBarController = self
+                tempTabBarItems.append(viewController.zz_tabBarItem)
+            }
+            tabBar.normalItems = tempTabBarItems
+            tempTabBarItems.insert(myCustomItem.item, atIndex: myCustomItem.index)
+            tabBar.items = tempTabBarItems
+            selectedIndex = 0
+        }
+    }
+    
     /**
      * The tab bar view associated with this controller. (read-only)
      */
@@ -67,7 +97,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
                 selectedViewController?.view.removeFromSuperview()
                 selectedViewController?.removeFromParentViewController()
             }
-            tabBar.selectedItem = tabBar.items![index]
+            tabBar.selectedItem = tabBar.normalItems![index]
             
             let viewController = viewControllers![index]
             self.addChildViewController(viewController)
@@ -165,28 +195,6 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         return selectedViewController!.preferredStatusBarUpdateAnimation()
     }
     
-//    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-//        var orientationMask:UIInterfaceOrientationMask = .All
-//        for viewController in viewControllers! {
-//            if viewController.respondsToSelector(#selector(UIViewController.supportedInterfaceOrientations)) == false {
-//                return .Portrait
-//            }
-//            let supportedOrientations:UIInterfaceOrientationMask = viewController.supportedInterfaceOrientations()
-//            if orientationMask.rawValue > supportedOrientations.rawValue {
-//                orientationMask = supportedOrientations
-//            }
-//        }
-//        return orientationMask
-//    }
-    
-//    override func shouldAutorotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation) -> Bool {
-//        for viewController in viewControllers! {
-//            if viewController.respondsToSelector(Selector("shouldAutorotateToInterfaceOrientation:") {
-//            
-//            }
-//        }
-//    }
-    
     // MARK: - Methods
     func setupViewControllers(controllers: [UIViewController]) -> Void {
         if viewControllers != nil && viewControllers?.count > 0 {
@@ -221,7 +229,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     }
     
     // MARK: - ZZTabBarDelegate
-    func tabBar(tabBar: ZZTabBar, shouldSelectItemAtIndex index: Int) -> Bool {
+    func tabBar(tabBarItem: ZZTabBarItem, shouldSelectItemAtIndex index: Int) -> Bool {
         if delegate != nil && delegate!.respondsToSelector(#selector(ZZTabBarControllerDelegate.tabBarController(_:shouldSelectViewController:))) {
             if delegate!.tabBarController!(self, shouldSelectViewController: viewControllers![index]) == false {
                 return false
@@ -233,13 +241,19 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         return true
     }
     
-    func tabBar(tabBar: ZZTabBar, didSelectItemAtIndex index: Int) {
+    func tabBar(tabBarItem: ZZTabBarItem, didSelectItemAtIndex index: Int) {
         if index < 0 || index > viewControllers?.count {
             return;
         }
         selectedIndex = index
         if delegate != nil && delegate!.respondsToSelector(#selector(ZZTabBarControllerDelegate.tabBarController(_:didSelectViewController:))) {
             delegate!.tabBarController!(self, didSelectViewController: viewControllers![index])
+        }
+    }
+    
+    func tabBar(tabBarItem: ZZTabBarItem, didSelectCustomItemAtIndex index: Int) -> Void {
+        if delegate != nil && delegate!.respondsToSelector(#selector(ZZTabBarControllerDelegate.tabBarController(_:didSelectCustomItemIndex:))) {
+            delegate!.tabBarController!(self, didSelectCustomItemIndex: index)
         }
     }
 }
@@ -299,4 +313,6 @@ extension UIViewController {
      * Tells the delegate that the user selected an item in the tab bar.
      */
     optional func tabBarController(tabBarController: ZZTabBarController, didSelectViewController viewController:UIViewController) -> Void
+    
+    optional func tabBarController(tabBarController: ZZTabBarController, didSelectCustomItemIndex index: Int) -> Void
 }

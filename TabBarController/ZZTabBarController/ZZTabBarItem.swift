@@ -8,11 +8,23 @@
 
 import UIKit
 
+enum ZZTabBarItemType {
+    case Normal
+    case Action
+}
+
 private let ZZTabBarItemImageWidth: CGFloat = 25.0
 
 class ZZTabBarItem: UIControl {
+    
+    var itemType: ZZTabBarItemType = .Normal {
+        didSet {
+            self.customLayoutSubviews()
+        }
+    }
+    
     /// itemHeight is an optional property. When set it is used instead of tabBar's height.
-    var itemHeight:CGFloat = 49.0
+    let itemHeight:CGFloat = 49.0
     
     // MARK: - Title configuration
     
@@ -158,13 +170,27 @@ class ZZTabBarItem: UIControl {
     private var imageViewCenterXConstraint:NSLayoutConstraint?
     
     private func layoutImageView() -> Void {
+        var height: CGFloat = ZZTabBarItemImageWidth
+        var width: CGFloat = ZZTabBarItemImageWidth
+        if self.itemType == .Action {
+            if image != nil {
+                height = image!.size.height
+                height = height > self.itemHeight ? self.itemHeight : height
+                width = image!.size.width / image!.size.height * height
+            }
+        }
+        
         if imageViewHeightConstraint == nil {
-            imageViewHeightConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: ZZTabBarItemImageWidth);
+            imageViewHeightConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: height);
             imageView.addConstraint(imageViewHeightConstraint!)
+        } else {
+            imageViewHeightConstraint?.constant = height
         }
         if imageViewWidthConstraint == nil {
-            imageViewWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: ZZTabBarItemImageWidth)
+            imageViewWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: width)
             imageView.addConstraint(imageViewWidthConstraint!)
+        } else {
+            imageViewWidthConstraint?.constant = width
         }
         if imageViewCenterYConstraint != nil {
             imageViewCenterYConstraint?.constant = (title == nil) ? imagePositionAdjustment.vertical : -(imagePositionAdjustment.vertical + 14.0 / 2)
