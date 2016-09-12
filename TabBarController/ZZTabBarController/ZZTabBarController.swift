@@ -34,8 +34,17 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
                 var tempTabBarItems:[ZZTabBarItem] = []
                 for viewController in private_viewControllers! {
                     viewController.zz_private_tabBarController = self
-                    tempTabBarItems.append(viewController.zz_tabBarItem)
+                    var tabBarItem: ZZTabBarItem? = nil
+                    if viewController.isKindOfClass(UINavigationController) {
+                        tabBarItem = (viewController as! UINavigationController).viewControllers.first?.zz_tabBarItem
+                    } else {
+                        tabBarItem = viewController.zz_tabBarItem
+                    }
+                    if tabBarItem != nil {
+                        tempTabBarItems.append(tabBarItem!)
+                    }
                 }
+                tabBar.normalItems = tempTabBarItems
                 tabBar.items = tempTabBarItems
                 selectedIndex = 0
             }
@@ -62,7 +71,15 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             var tempTabBarItems:[ZZTabBarItem] = []
             for viewController in private_viewControllers! {
                 viewController.zz_private_tabBarController = self
-                tempTabBarItems.append(viewController.zz_tabBarItem)
+                var tabBarItem: ZZTabBarItem? = nil
+                if viewController.isKindOfClass(UINavigationController) {
+                    tabBarItem = (viewController as! UINavigationController).viewControllers.first?.zz_tabBarItem
+                } else {
+                    tabBarItem = viewController.zz_tabBarItem
+                }
+                if tabBarItem != nil {
+                    tempTabBarItems.append(tabBarItem!)
+                }
             }
             tabBar.normalItems = tempTabBarItems
             tempTabBarItems.insert(myCustomItem.item, atIndex: myCustomItem.index)
