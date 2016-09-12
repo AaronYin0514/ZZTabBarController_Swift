@@ -23,12 +23,12 @@ class ZZTabBarItem: UIControl {
         }
     }
     
-    /// itemHeight is an optional property. When set it is used instead of tabBar's height.
+    // itemHeight is an optional property. When set it is used instead of tabBar's height.
     let itemHeight:CGFloat = 49.0
     
     // MARK: - Title configuration
     
-    /// The title displayed by the tab bar item.
+    // The title displayed by the tab bar item.
     var title:String? {
         didSet {
             if title != nil {
@@ -40,10 +40,10 @@ class ZZTabBarItem: UIControl {
     
     private var titleLabel:UILabel = UILabel()
     
-    /// The offset for the rectangle around the tab bar item's title.
+    // The offset for the rectangle around the tab bar item's title.
     var titlePositionAdjustment:UIOffset = UIOffsetZero
     
-    /// The title attributes dictionary used for tab bar item's unselected state.
+    // The title attributes dictionary used for tab bar item's unselected state.
     private var p_unselectedTitleAttributes : [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(11.0), NSForegroundColorAttributeName : UIColor.lightGrayColor()]
     var unselectedTitleAttributes: [String : AnyObject] {
         set(value) {
@@ -58,7 +58,7 @@ class ZZTabBarItem: UIControl {
         }
     }
     
-    /// The title attributes dictionary used for tab bar item's selected state.
+    // The title attributes dictionary used for tab bar item's selected state.
     private var p_selectedTitleAttributes: [String : AnyObject] = [NSFontAttributeName : UIFont.systemFontOfSize(11.0), NSForegroundColorAttributeName : UIColor.blackColor()]
     var selectedTitleAttributes: [String : AnyObject] {
         set(value) {
@@ -75,10 +75,10 @@ class ZZTabBarItem: UIControl {
     
     // MARK: - Image configuration
     
-    /// The offset for the rectangle around the tab bar item's image.
+    // The offset for the rectangle around the tab bar item's image.
     var imagePositionAdjustment:UIOffset = UIOffsetZero;
     
-    /// The image used for tab bar item's selected state.
+    // The image used for tab bar item's selected state.
     var selectedImage:UIImage? {
         didSet {
             if selectedImage != nil && self.image == nil {
@@ -87,7 +87,7 @@ class ZZTabBarItem: UIControl {
         }
     }
     
-    /// The image used for tab bar item's unselected state.
+    // The image used for tab bar item's unselected state.
     var image: UIImage? {
         didSet {
             if image != nil && self.selectedImage == nil {
@@ -115,34 +115,31 @@ class ZZTabBarItem: UIControl {
     
     // MARK: - Background configuration
     
-    /// The background image used for tab bar item's selected state.
+    // The background image used for tab bar item's selected state.
     var selectedBackgroundImage: UIImage?
     
-    /// The background image used for tab bar item's unselected state.
+    // The background image used for tab bar item's unselected state.
     var unselectedBackgroundImage: UIImage?
     
     // MARK: - Badge configuration
     
-    /// Text that is displayed in the upper-right corner of the item with a surrounding background.
+    // Text that is displayed in the upper-right corner of the item with a surrounding background.
     var badgeValue:String? = "" {
         didSet {
             self.setNeedsDisplay()
         }
     }
     
-    /// Image used for background of badge.
-    var badgeBackgroundImage:UIImage?
-    
-    /// Color used for badge's background.
+    // Color used for badge's background.
     var badgeBackgroundColor:UIColor = UIColor.redColor()
     
-    /// Color used for badge's text.
+    // Color used for badge's text.
     var badgeTextColor:UIColor = UIColor.whiteColor();
     
-    /// The offset for the rectangle around the tab bar item's badge.
+    // The offset for the rectangle around the tab bar item's badge.
     var badgePositionAdjustment:UIOffset = UIOffsetZero
     
-    /// Font used for badge's text.
+    // Font used for badge's text.
     var badgeTextFont:UIFont = UIFont.systemFontOfSize(12.0)
     
     // MARK: - Method
