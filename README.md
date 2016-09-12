@@ -32,11 +32,7 @@ settingViewController.zz_tabBarItem.image = UIImage(named: "tabbarUnselectedIcon
 settingViewController.zz_tabBarItem.selectedImage = UIImage(named: "tabbarSelectedIcon4")
 settingViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
 let settingNavigation: UINavigationController = UINavigationController(rootViewController: settingViewController)
-viewControllers.append(settingNavigation)    
-// MARK: - Custom Item
-let customItem: ZZTabBarItem = ZZTabBarItem()
-customItem.itemType = .Action
-customItem.image = UIImage(named: "home_circle")   
+viewControllers.append(settingNavigation)  
 // MARK: - TabBarController
 let tabBarViewController: ZZTabBarController = ZZTabBarController()
 tabBarViewController.delegate = self    
