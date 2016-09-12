@@ -1,6 +1,7 @@
-# ZZTabBarController_Swift
+# ZZTabBarController
 
-仿系统UITabBarController
+## 使用
+仿系统UITabBarController，使用与系统方法一样
 
 ```obj-c
 var viewControllers: [UIViewController] = []
@@ -38,4 +39,12 @@ let tabBarViewController: ZZTabBarController = ZZTabBarController()
 tabBarViewController.delegate = self    
 tabBarViewController.viewControllers = viewControllers
 ```
+## 案例
+** 1. 仿系统UITabBarController **
+
+![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/TabBar1.png)
+
+** 2. 自定义按钮 **
+
+![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/TabBar2.png)
 
