@@ -124,6 +124,10 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         tabBarHidden = hidden
         weak var weakSelf : ZZTabBarController? = self
         
+        if hidden == false {
+            weakSelf!.tabBar.hidden = false
+        }
+        
         let block: () -> Void = {
             let viewSize: CGSize = weakSelf!.view.bounds.size
             var tabBarStartingY: CGFloat = viewSize.height
@@ -152,7 +156,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         }
         
         let completion = { (completion: Bool) -> Void in
-            if weakSelf!.tabBarHidden == true {
+            if hidden == true {
                 weakSelf!.tabBar.hidden = true
             }
         }
@@ -184,7 +188,6 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.setTabBarHidden(tabBarHidden, animated: false)
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {

@@ -8,28 +8,59 @@
 
 import UIKit
 
-class MapViewController: UIViewController {
-
+class MapViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+    
+    private var lastPostionY: CGFloat = 0.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.view.backgroundColor = UIColor.redColor()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        let tableView = UITableView(frame: self.view.bounds)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.registerClass(NSClassFromString("UITableViewCell"), forCellReuseIdentifier: "Id")
+        self.view.addSubview(tableView)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: - UITableViewDataSource
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 35
     }
-    */
-
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Id")
+        cell?.textLabel?.text = "第\(indexPath.row)行"
+        return cell!
+    }
+    // MARK: - UITableViewDelegate
+    
+    // MARK: - UIScrollViewDelegate
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        lastPostionY = scrollView.contentOffset.y
+    }
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if lastPostionY > scrollView.contentOffset.y {
+            // up
+            self.up()
+        } else {
+            // down
+            self.down()
+        }
+    }
+    
+    func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
+//        print("scrollViewWillBeginDecelerating")
+//        print("scrollView contentOffset y : \(scrollView.contentOffset.y)")
+    }
+    // MARK: - Action
+    func up() -> Void {
+        if self.zz_tabBarController?.tabBarHidden == true {
+            self.zz_tabBarController?.setTabBarHidden(false, animated: true)
+        }
+    }
+    
+    func down() -> Void {
+        if self.zz_tabBarController?.tabBarHidden == false {
+            self.zz_tabBarController?.setTabBarHidden(true, animated: true)
+        }
+    }
+    
 }
