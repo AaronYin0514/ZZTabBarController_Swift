@@ -14,6 +14,7 @@ enum ZZTabBarItemType {
 }
 
 private let ZZTabBarItemImageWidth: CGFloat = 25.0
+private let ZZTabBarItemBadgeWidth: CGFloat = 18.0
 
 class ZZTabBarItem: UIControl {
     
@@ -124,9 +125,9 @@ class ZZTabBarItem: UIControl {
     // MARK: - Badge configuration
     
     // Text that is displayed in the upper-right corner of the item with a surrounding background.
-    var badgeValue:String? = "" {
+    var badgeValue:String = "" {
         didSet {
-            self.setNeedsDisplay()
+            self.customLayoutSubviews()
         }
     }
     
@@ -134,13 +135,15 @@ class ZZTabBarItem: UIControl {
     var badgeBackgroundColor:UIColor = UIColor.redColor()
     
     // Color used for badge's text.
-    var badgeTextColor:UIColor = UIColor.whiteColor();
+    var badgeTextColor:UIColor = UIColor.whiteColor()
     
     // The offset for the rectangle around the tab bar item's badge.
     var badgePositionAdjustment:UIOffset = UIOffsetZero
     
     // Font used for badge's text.
     var badgeTextFont:UIFont = UIFont.systemFontOfSize(12.0)
+    
+    private var badgeLabel: UILabel = UILabel()
     
     // MARK: - Method
     override init(frame: CGRect) {
@@ -159,6 +162,15 @@ class ZZTabBarItem: UIControl {
         titleLabel.textAlignment = .Center
         self.addSubview(titleLabel)
         self.layoutTitleLabel()
+        badgeLabel.translatesAutoresizingMaskIntoConstraints = false
+        badgeLabel.text = badgeValue
+        badgeLabel.backgroundColor = badgeBackgroundColor
+        badgeLabel.textColor = badgeTextColor
+        badgeLabel.font = badgeTextFont
+        badgeLabel.textAlignment = .Center
+        badgeLabel.layer.cornerRadius = ZZTabBarItemBadgeWidth / 2
+        badgeLabel.layer.masksToBounds = true
+        self.addSubview(badgeLabel)
     }
     
     private var imageViewHeightConstraint:NSLayoutConstraint?
@@ -235,9 +247,52 @@ class ZZTabBarItem: UIControl {
         }
     }
     
+    private var badgeLabelHeightConstraint:NSLayoutConstraint?
+    private var badgeLabelWidthConstraint:NSLayoutConstraint?
+    private var badgeLabelCenterYConstraint:NSLayoutConstraint?
+    private var badgeLabelCenterXConstraint:NSLayoutConstraint?
+    
+    private func layoutbadgeLabel() -> Void {
+        if itemType == .Action {
+            badgeLabel.hidden = true
+            return
+        }
+        
+        let num = Int(badgeValue)
+        if num == nil || num <= 0 {
+            badgeLabel.hidden = true
+            return
+        }
+        
+        if num > 99 {
+            badgeLabel.text = "99"
+        }
+        
+        badgeLabel.text = badgeValue
+        badgeLabel.hidden = false
+        
+        if badgeLabelHeightConstraint == nil {
+            badgeLabelHeightConstraint = NSLayoutConstraint(item: badgeLabel, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: ZZTabBarItemBadgeWidth);
+            badgeLabel.addConstraint(badgeLabelHeightConstraint!)
+        }
+        if badgeLabelWidthConstraint == nil {
+            badgeLabelWidthConstraint = NSLayoutConstraint(item: badgeLabel, attribute: .Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: ZZTabBarItemBadgeWidth)
+            badgeLabel.addConstraint(badgeLabelWidthConstraint!)
+        }
+        if badgeLabelCenterXConstraint == nil {
+            badgeLabelCenterXConstraint = NSLayoutConstraint(item: badgeLabel, attribute: .CenterX, relatedBy: .Equal, toItem: imageView, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+            self .addConstraint(badgeLabelCenterXConstraint!)
+        }
+        if badgeLabelCenterYConstraint == nil {
+            badgeLabelCenterYConstraint = NSLayoutConstraint(item: badgeLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 10.0)
+            self .addConstraint(badgeLabelCenterYConstraint!)
+        }
+    }
+    
     private func customLayoutSubviews() -> Void {
         self.layoutImageView()
         self.layoutTitleLabel()
+        self.layoutbadgeLabel()
         self.setNeedsLayout()
     }
     
