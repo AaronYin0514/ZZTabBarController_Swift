@@ -20,35 +20,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // MARK: - Home
         let homeViewController: HomeViewController = HomeViewController()
-        homeViewController.zz_tabBarItem.title = "Home"
-        homeViewController.zz_tabBarItem.image = UIImage(named: "home")
-        homeViewController.zz_tabBarItem.selectedImage = UIImage(named: "home_selected")
-        homeViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor.greenColor()]
+//        homeViewController.zz_tabBarItem.title = "Home"
+        homeViewController.zz_tabBarItem.image = UIImage(named: "tabbarUnselectedIcon1")
+        homeViewController.zz_tabBarItem.selectedImage = UIImage(named: "tabbarSelectedIcon1")
+        homeViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
         viewControllers.append(homeViewController)
         
         // MARK: - Map
         let mapViewController: MapViewController = MapViewController()
         mapViewController.zz_tabBarItem.title = "Map"
-        mapViewController.zz_tabBarItem.image = UIImage(named: "maps")
-        mapViewController.zz_tabBarItem.selectedImage = UIImage(named: "maps_selected")
-        mapViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor.greenColor()]
+        mapViewController.zz_tabBarItem.image = UIImage(named: "tabbarUnselectedIcon2")
+        mapViewController.zz_tabBarItem.selectedImage = UIImage(named: "tabbarSelectedIcon2")
+        mapViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
         viewControllers.append(mapViewController)
         
         // MARK: - Plan
         let planViewController: PlanViewController = PlanViewController()
         planViewController.zz_tabBarItem.title = "Plan"
-        planViewController.zz_tabBarItem.image = UIImage(named: "myplan")
-        planViewController.zz_tabBarItem.selectedImage = UIImage(named: "myplan_selected")
-        planViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor.greenColor()]
+        planViewController.zz_tabBarItem.image = UIImage(named: "tabbarUnselectedIcon3")
+        planViewController.zz_tabBarItem.selectedImage = UIImage(named: "tabbarSelectedIcon3")
+        planViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
         planViewController.zz_tabBarItem.badgeValue = "10"
         viewControllers.append(planViewController)
         
         // MARK: - Setting
         let settingViewController: SettingViewController = SettingViewController()
         settingViewController.zz_tabBarItem.title = "Setting"
-        settingViewController.zz_tabBarItem.image = UIImage(named: "settings")
-        settingViewController.zz_tabBarItem.selectedImage = UIImage(named: "settings_selected")
-        settingViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor.greenColor()]
+        settingViewController.zz_tabBarItem.image = UIImage(named: "tabbarUnselectedIcon4")
+        settingViewController.zz_tabBarItem.selectedImage = UIImage(named: "tabbarSelectedIcon4")
+        settingViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
         viewControllers.append(settingViewController)
         
         // MARK: - TabBarController

@@ -159,7 +159,7 @@ class ZZTabBarItem: UIControl {
     
     private func layoutImageView() -> Void {
         if imageViewHeightConstraint == nil {
-            imageViewHeightConstraint = NSLayoutConstraint.init(item: imageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: ZZTabBarItemImageWidth);
+            imageViewHeightConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: ZZTabBarItemImageWidth);
             imageView.addConstraint(imageViewHeightConstraint!)
         }
         if imageViewWidthConstraint == nil {

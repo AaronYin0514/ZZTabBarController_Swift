@@ -17,12 +17,15 @@ class ZZTabBar: UIView {
      * The items displayed on the tab bar.
      */
     var items:[ZZTabBarItem]? {
-        didSet {
+        willSet {
             if items != nil && items?.count > 0 {
                 for item in items! {
                     item.removeFromSuperview()
                 }
+                items?.removeAll()
             }
+        }
+        didSet {
             for item in items! {
                 item.translatesAutoresizingMaskIntoConstraints = false
                 item.addTarget(self, action: #selector(ZZTabBar.tabBarItemWasSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
