@@ -145,6 +145,27 @@ class ZZTabBarItem: UIControl {
     
     private var badgeLabel: UILabel = UILabel()
     
+    func setBadgeValue(value: String, animated: Bool) -> Void {
+        badgeValue = value
+        self.zoomIn(badgeLabel)
+    }
+    
+    private func zoomIn(view: UIView) -> Void {
+        let animation: CAKeyframeAnimation = CAKeyframeAnimation(keyPath: "transform")
+        animation.duration = 0.5
+        animation.removedOnCompletion = false
+        animation.fillMode = kCAFillModeForwards
+        var values: [NSValue] = []
+        values.append(NSValue(CATransform3D: CATransform3DMakeScale(0.1, 0.1, 1.0)))
+        values.append(NSValue(CATransform3D: CATransform3DMakeScale(1.2, 1.2, 1.0)))
+        values.append(NSValue(CATransform3D: CATransform3DMakeScale(0.7, 0.7, 1.0)))
+        values.append(NSValue(CATransform3D: CATransform3DMakeScale(1.0, 1.0, 1.0)))
+        animation.values = values
+        animation.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
+        view.layer.addAnimation(animation, forKey: nil)
+    }
+    
+    
     // MARK: - Method
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -30,7 +30,8 @@ class PlanViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     // MARK: - UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.zz_tabBarItem.badgeValue = String(indexPath.row)
+        self.zz_tabBarItem.setBadgeValue(String(indexPath.row), animated: true)
+//        self.zz_tabBarItem.badgeValue = String(indexPath.row)
     }
 
 }
