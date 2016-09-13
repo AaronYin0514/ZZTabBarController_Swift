@@ -127,6 +127,7 @@ class ZZTabBarItem: UIControl {
     // Text that is displayed in the upper-right corner of the item with a surrounding background.
     var badgeValue:String = "" {
         didSet {
+            badgeLabel.setBadgeValue(badgeValue, animated: false)
             self.customLayoutSubviews()
         }
     }
@@ -143,28 +144,11 @@ class ZZTabBarItem: UIControl {
     // Font used for badge's text.
     var badgeTextFont:UIFont = UIFont.systemFontOfSize(12.0)
     
-    private var badgeLabel: UILabel = UILabel()
+    private var badgeLabel: ZZBadgeLabel = ZZBadgeLabel(frame: CGRectZero)
     
     func setBadgeValue(value: String, animated: Bool) -> Void {
-        badgeValue = value
-        self.zoomIn(badgeLabel)
+        badgeLabel.setBadgeValue(value, animated: animated)
     }
-    
-    private func zoomIn(view: UIView) -> Void {
-        let animation: CAKeyframeAnimation = CAKeyframeAnimation(keyPath: "transform")
-        animation.duration = 0.5
-        animation.removedOnCompletion = false
-        animation.fillMode = kCAFillModeForwards
-        var values: [NSValue] = []
-        values.append(NSValue(CATransform3D: CATransform3DMakeScale(0.1, 0.1, 1.0)))
-        values.append(NSValue(CATransform3D: CATransform3DMakeScale(1.2, 1.2, 1.0)))
-        values.append(NSValue(CATransform3D: CATransform3DMakeScale(0.7, 0.7, 1.0)))
-        values.append(NSValue(CATransform3D: CATransform3DMakeScale(1.0, 1.0, 1.0)))
-        animation.values = values
-        animation.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
-        view.layer.addAnimation(animation, forKey: nil)
-    }
-    
     
     // MARK: - Method
     override init(frame: CGRect) {
@@ -278,20 +262,7 @@ class ZZTabBarItem: UIControl {
             badgeLabel.hidden = true
             return
         }
-        
-        let num = Int(badgeValue)
-        if num == nil || num <= 0 {
-            badgeLabel.hidden = true
-            return
-        }
-        
-        if num > 99 {
-            badgeLabel.text = "99"
-        }
-        
-        badgeLabel.text = badgeValue
-        badgeLabel.hidden = false
-        
+        badgeLabel.setBadgeValue(badgeValue, animated: false)
         if badgeLabelHeightConstraint == nil {
             badgeLabelHeightConstraint = NSLayoutConstraint(item: badgeLabel, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1.0, constant: ZZTabBarItemBadgeWidth);
             badgeLabel.addConstraint(badgeLabelHeightConstraint!)
