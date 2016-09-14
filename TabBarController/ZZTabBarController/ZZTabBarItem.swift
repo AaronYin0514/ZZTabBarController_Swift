@@ -172,9 +172,6 @@ class ZZTabBarItem: UIControl {
         badgeLabel.backgroundColor = badgeBackgroundColor
         badgeLabel.textColor = badgeTextColor
         badgeLabel.font = badgeTextFont
-        badgeLabel.textAlignment = .Center
-        badgeLabel.layer.cornerRadius = ZZTabBarItemBadgeWidth / 2
-        badgeLabel.layer.masksToBounds = true
         self.addSubview(badgeLabel)
     }
     
