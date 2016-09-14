@@ -11,16 +11,11 @@
 		937BF0E81D6999EF00F0BBB1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937BF0E41D6999EF00F0BBB1 /* MapViewController.swift */; };
 		937BF0E91D6999EF00F0BBB1 /* PlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937BF0E51D6999EF00F0BBB1 /* PlanViewController.swift */; };
 		937BF0EA1D6999EF00F0BBB1 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937BF0E61D6999EF00F0BBB1 /* SettingViewController.swift */; };
-		9392B5E51D8821C4001A168C /* bomb0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392B5E01D8821C4001A168C /* bomb0@2x.png */; };
-		9392B5E61D8821C4001A168C /* bomb1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392B5E11D8821C4001A168C /* bomb1@2x.png */; };
-		9392B5E71D8821C4001A168C /* bomb2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392B5E21D8821C4001A168C /* bomb2@2x.png */; };
-		9392B5E81D8821C4001A168C /* bomb3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392B5E31D8821C4001A168C /* bomb3@2x.png */; };
-		9392B5E91D8821C4001A168C /* bomb4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9392B5E41D8821C4001A168C /* bomb4@2x.png */; };
+		937C0BE91D89747B00E1AE64 /* ZZTabBarBomb.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 937C0BE81D89747B00E1AE64 /* ZZTabBarBomb.bundle */; };
 		93B5C7D11D6867BB0097CDE7 /* ZZTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B5C7D01D6867BB0097CDE7 /* ZZTabBarController.swift */; };
 		93D6C32D1D68066900E4C45E /* ZZMathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D6C32C1D68066900E4C45E /* ZZMathUtils.swift */; };
 		93D6C32F1D6821BE00E4C45E /* ZZTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D6C32E1D6821BE00E4C45E /* ZZTabBar.swift */; };
 		93E410491D8790E5009A2122 /* ZZBadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E410481D8790E5009A2122 /* ZZBadgeLabel.swift */; };
-		93E4104B1D87CDBD009A2122 /* ZZBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E4104A1D87CDBD009A2122 /* ZZBadgeView.swift */; };
 		93E814581D66F4D600E232F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E814571D66F4D600E232F7 /* AppDelegate.swift */; };
 		93E8145F1D66F4D600E232F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93E8145E1D66F4D600E232F7 /* Assets.xcassets */; };
 		93E814621D66F4D600E232F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93E814601D66F4D600E232F7 /* LaunchScreen.storyboard */; };
@@ -51,16 +46,11 @@
 		937BF0E41D6999EF00F0BBB1 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		937BF0E51D6999EF00F0BBB1 /* PlanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanViewController.swift; sourceTree = "<group>"; };
 		937BF0E61D6999EF00F0BBB1 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		9392B5E01D8821C4001A168C /* bomb0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bomb0@2x.png"; sourceTree = "<group>"; };
-		9392B5E11D8821C4001A168C /* bomb1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bomb1@2x.png"; sourceTree = "<group>"; };
-		9392B5E21D8821C4001A168C /* bomb2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bomb2@2x.png"; sourceTree = "<group>"; };
-		9392B5E31D8821C4001A168C /* bomb3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bomb3@2x.png"; sourceTree = "<group>"; };
-		9392B5E41D8821C4001A168C /* bomb4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bomb4@2x.png"; sourceTree = "<group>"; };
+		937C0BE81D89747B00E1AE64 /* ZZTabBarBomb.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ZZTabBarBomb.bundle; sourceTree = "<group>"; };
 		93B5C7D01D6867BB0097CDE7 /* ZZTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZZTabBarController.swift; sourceTree = "<group>"; };
 		93D6C32C1D68066900E4C45E /* ZZMathUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZZMathUtils.swift; sourceTree = "<group>"; };
 		93D6C32E1D6821BE00E4C45E /* ZZTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZZTabBar.swift; sourceTree = "<group>"; };
 		93E410481D8790E5009A2122 /* ZZBadgeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZZBadgeLabel.swift; sourceTree = "<group>"; };
-		93E4104A1D87CDBD009A2122 /* ZZBadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZZBadgeView.swift; sourceTree = "<group>"; };
 		93E814541D66F4D600E232F7 /* TabBarController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TabBarController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93E814571D66F4D600E232F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		93E8145E1D66F4D600E232F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -103,11 +93,7 @@
 		9392B5DF1D8821C4001A168C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9392B5E01D8821C4001A168C /* bomb0@2x.png */,
-				9392B5E11D8821C4001A168C /* bomb1@2x.png */,
-				9392B5E21D8821C4001A168C /* bomb2@2x.png */,
-				9392B5E31D8821C4001A168C /* bomb3@2x.png */,
-				9392B5E41D8821C4001A168C /* bomb4@2x.png */,
+				937C0BE81D89747B00E1AE64 /* ZZTabBarBomb.bundle */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -173,7 +159,6 @@
 				93E814C01D66F73A00E232F7 /* ZZTabBarItem.swift */,
 				93D6C32E1D6821BE00E4C45E /* ZZTabBar.swift */,
 				93B5C7D01D6867BB0097CDE7 /* ZZTabBarController.swift */,
-				93E4104A1D87CDBD009A2122 /* ZZBadgeView.swift */,
 				93E410481D8790E5009A2122 /* ZZBadgeLabel.swift */,
 				93D6C32C1D68066900E4C45E /* ZZMathUtils.swift */,
 			);
@@ -285,12 +270,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				93E814621D66F4D600E232F7 /* LaunchScreen.storyboard in Resources */,
-				9392B5E71D8821C4001A168C /* bomb2@2x.png in Resources */,
 				93E8145F1D66F4D600E232F7 /* Assets.xcassets in Resources */,
-				9392B5E61D8821C4001A168C /* bomb1@2x.png in Resources */,
-				9392B5E81D8821C4001A168C /* bomb3@2x.png in Resources */,
-				9392B5E91D8821C4001A168C /* bomb4@2x.png in Resources */,
-				9392B5E51D8821C4001A168C /* bomb0@2x.png in Resources */,
+				937C0BE91D89747B00E1AE64 /* ZZTabBarBomb.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,7 +297,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				93E410491D8790E5009A2122 /* ZZBadgeLabel.swift in Sources */,
-				93E4104B1D87CDBD009A2122 /* ZZBadgeView.swift in Sources */,
 				93E814C11D66F73A00E232F7 /* ZZTabBarItem.swift in Sources */,
 				93E814581D66F4D600E232F7 /* AppDelegate.swift in Sources */,
 				93B5C7D11D6867BB0097CDE7 /* ZZTabBarController.swift in Sources */,

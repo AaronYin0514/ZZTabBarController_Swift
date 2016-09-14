@@ -15,7 +15,7 @@ class ZZBadgeLabel: UILabel {
     private var frontLabel: UILabel?
     private var behindView: UIView?
     
-    var springRange: CGFloat = 5.0 // 弹簧效果幅度，值越大，幅度越大，默认为5.0
+    private var springRange: CGFloat = 5.0 // 弹簧效果幅度，值越大，幅度越大，默认为5.0
     private var ratio: CGFloat = 0.15 // 默认拉伸长度比率
     
     private var shapeLayer: CAShapeLayer = CAShapeLayer()
@@ -37,8 +37,6 @@ class ZZBadgeLabel: UILabel {
     private var sin: CGFloat = 0.0
     private var cos: CGFloat = 0.0
     
-    
-    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,6 +56,7 @@ class ZZBadgeLabel: UILabel {
     func setBadgeValue(value: String, animated: Bool) -> Void {
         let num = Int(value)
         if num == nil || num <= 0 {
+            self.text = nil
             self.hidden = true
             return
         }
@@ -100,7 +99,7 @@ class ZZBadgeLabel: UILabel {
         self.hidden = true
         
         windowView = UIView(frame: UIScreen.mainScreen().bounds)
-        windowView!.backgroundColor = UIColor.greenColor()
+        windowView!.backgroundColor = UIColor.clearColor()
         windowView!.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         
         let windowTouchPoint = self.superview!.convertPoint(point, toView: windowView!)
@@ -176,7 +175,7 @@ class ZZBadgeLabel: UILabel {
     
     private func dragFinishWithTouchPoint(point: CGPoint) -> Void {
         if windowView != nil {
-            if r1 > miniRad {
+            if r1 >= miniRad {
                 self.displaySpringAnimation()
             }
             if r1 < miniRad {
@@ -231,8 +230,11 @@ class ZZBadgeLabel: UILabel {
         animation.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
         view.layer.addAnimation(animation, forKey: nil)
     }
-    // 弹簧动画
+    // MARK: 弹簧动画
     private func displaySpringAnimation() {
+        weak var weakSelf = self
+        shapeLayer.removeFromSuperlayer()
+        behindView?.hidden = true
         let springAnimation = CASpringAnimation(keyPath: "position")
         springAnimation.stiffness = 1000
         springAnimation.damping = 5
@@ -241,16 +243,20 @@ class ZZBadgeLabel: UILabel {
         springAnimation.fromValue = NSValue(CGPoint: pointG)
         springAnimation.toValue = NSValue(CGPoint: orgialPoint)
         springAnimation.repeatCount = 1
+        springAnimation.fillMode = kCAFillModeForwards
+        springAnimation.delegate = weakSelf
         frontLabel?.layer.addAnimation(springAnimation, forKey: nil)
     }
-    // 爆炸动画
+    // MARK: 爆炸动画
     private func displayBomAnimationWithPoint(point: CGPoint) {
+        shapeLayer.removeFromSuperlayer()
+        behindView?.hidden = true
         let bomView = UIImageView(frame: CGRectMake(0.0, 0.0, 34.0, 34.0))
         bomView.center = point
         windowView!.addSubview(bomView)
         var bomArry: [UIImage] = []
         for i in 0..<5 {
-            let imageName = String(format: "bomb%ld", i)
+            let imageName = String(format: "ZZTabBarBomb.bundle/bomb%ld", i)
             let image = UIImage(named: imageName)
             if image != nil {
                 bomArry.append(image!)
@@ -260,5 +266,16 @@ class ZZBadgeLabel: UILabel {
         bomView.animationDuration = 0.5
         bomView.animationRepeatCount = 1
         bomView.startAnimating()
+        weak var weakSelf = self
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(USEC_PER_SEC * 500))
+        dispatch_after(time, dispatch_get_main_queue()) {
+            weakSelf?.removeWindowView()
+        }
+    }
+    
+    // Animation Delegate
+    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+        self.hidden = false
+        self.removeWindowView()
     }
 }
