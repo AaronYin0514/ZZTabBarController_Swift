@@ -8,6 +8,8 @@
 
 import UIKit
 
+let separationLineColor: UIColor = UIColor.lightGrayColor()
+
 class ZZTabBar: UIView {
     /**
      * The tab bar’s delegate object.
@@ -36,31 +38,38 @@ class ZZTabBar: UIView {
     }
     var normalItems: [ZZTabBarItem]?
     
+    private var p_separationLine: UIView = UIView()
+    var separationLine: UIView {
+        get {
+            return p_separationLine
+        }
+    }
+    
     private func setupLayoutItem() {
         self.removeConstraints(self.constraints);
         for (idx, item) in (items!).enumerate() {
-            let topConstraint = NSLayoutConstraint.init(item: item, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: self.contentEdgeInsets.top);
+            let topConstraint = NSLayoutConstraint(item: item, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: self.contentEdgeInsets.top);
             self.addConstraint(topConstraint)
             
-            let bottomConstraint = NSLayoutConstraint.init(item: item, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -self.contentEdgeInsets.bottom);
+            let bottomConstraint = NSLayoutConstraint(item: item, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -self.contentEdgeInsets.bottom);
             self.addConstraint(bottomConstraint)
             
             var lastItem: ZZTabBarItem? = nil;
             
             if idx == 0 {
-                let leftConstraint = NSLayoutConstraint.init(item: item, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: self.contentEdgeInsets.left);
+                let leftConstraint = NSLayoutConstraint(item: item, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: self.contentEdgeInsets.left);
                 self.addConstraint(leftConstraint)
             } else {
                 lastItem = items![idx - 1]
-                let leadingConstraint = NSLayoutConstraint.init(item: item, attribute: .Leading, relatedBy: .Equal, toItem: lastItem, attribute: .Trailing, multiplier: 1.0, constant: self.contentEdgeInsets.left + self.contentEdgeInsets.right);
+                let leadingConstraint = NSLayoutConstraint(item: item, attribute: .Leading, relatedBy: .Equal, toItem: lastItem, attribute: .Trailing, multiplier: 1.0, constant: self.contentEdgeInsets.left + self.contentEdgeInsets.right);
                 self.addConstraint(leadingConstraint)
                 
                 if idx == items!.count - 1 {
-                    let rightConstraint = NSLayoutConstraint.init(item: item, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -self.contentEdgeInsets.right);
+                    let rightConstraint = NSLayoutConstraint(item: item, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: -self.contentEdgeInsets.right);
                     self.addConstraint(rightConstraint)
                 }
                 
-                let widthConstraint = NSLayoutConstraint.init(item: item, attribute: .Width, relatedBy: .Equal, toItem: lastItem, attribute: .Width, multiplier: 1.0, constant: 0.0);
+                let widthConstraint = NSLayoutConstraint(item: item, attribute: .Width, relatedBy: .Equal, toItem: lastItem, attribute: .Width, multiplier: 1.0, constant: 0.0);
                 self.addConstraint(widthConstraint)
             }
         }
@@ -155,6 +164,10 @@ class ZZTabBar: UIView {
     
     func commonInit() -> Void {
         self.addSubview(backgroundView)
+        separationLine.backgroundColor = separationLineColor
+        separationLine.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(separationLine)
+//        self.setupSeparationLine()
     }
     
     // MARK: - UI
@@ -163,6 +176,25 @@ class ZZTabBar: UIView {
         let frameSize = self.frame.size
         let minimumContentHeight = self.minimumContentHeight()
         backgroundView.frame = CGRectMake(0, frameSize.height - minimumContentHeight, frameSize.width, frameSize.height)
+        print("self : \(self)")
+        separationLine.frame = CGRectMake(0, 0, frameSize.width, 1)
+        self.bringSubviewToFront(separationLine)
+    }
+    
+    private func setupSeparationLine() {
+        let separationLineLeadingConstraint = NSLayoutConstraint(item: separationLine, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        self.addConstraint(separationLineLeadingConstraint)
+        
+        let separationLineTrailingConstraint = NSLayoutConstraint(item: separationLine, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        self.addConstraint(separationLineTrailingConstraint)
+        
+        let separationLineTopConstraint = NSLayoutConstraint(item: separationLine, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0)
+        self.addConstraint(separationLineTopConstraint)
+        
+        let separationLineHeightConstraint = NSLayoutConstraint(item: separationLine, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 10.0)
+        separationLine.addConstraint(separationLineHeightConstraint)
+        
+//        self.setNeedsDisplay()
     }
     
     // MARK: - Configuration

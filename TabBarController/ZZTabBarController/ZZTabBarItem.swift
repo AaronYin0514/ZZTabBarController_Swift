@@ -146,7 +146,7 @@ class ZZTabBarItem: UIControl {
     // Font used for badge's text.
     var badgeTextFont:UIFont = UIFont.systemFontOfSize(12.0)
     
-    private var badgeLabel: ZZBadgeLabel = ZZBadgeLabel(frame: CGRectZero)
+    var badgeLabel: ZZBadgeLabel = ZZBadgeLabel(frame: CGRectZero)
     
     func setBadgeValue(value: String, animated: Bool) -> Void {
         badgeLabel.setBadgeValue(value, animated: animated)

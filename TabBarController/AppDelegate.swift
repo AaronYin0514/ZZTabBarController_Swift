@@ -60,9 +60,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
         // MARK: - TabBarController
         let tabBarViewController: ZZTabBarController = ZZTabBarController()
         tabBarViewController.delegate = self
-        
+        tabBarViewController.badgeAnimation = true
 //        tabBarViewController.viewControllers = viewControllers
-        
         tabBarViewController.setupViewControllers(viewControllers, customItem: (customItem, 2))
         
 //        let bgView = UIView()

@@ -10,6 +10,9 @@ import UIKit
 
 class ZZBadgeLabel: UILabel {
     
+    // MARK: - Property
+    var animation: Bool = false
+    
     // MARK: - Private Property
     private var windowView: UIView?
     private var frontLabel: UILabel?
@@ -74,6 +77,9 @@ class ZZBadgeLabel: UILabel {
     // MARK: - Action
     // MARK: 拖动手势
     func panGestureAction(sender: UIGestureRecognizer) -> Void {
+        if animation == false {
+            return
+        }
         let touchPoint = sender.locationInView(self)
         var windowTouchPoint = CGPointZero
         if windowView != nil {

@@ -13,6 +13,16 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
      * The tab bar controller’s delegate object.
      */
     weak var delegate:ZZTabBarControllerDelegate?
+    
+    var badgeAnimation: Bool = false {
+        didSet {
+            if tabBar.normalItems != nil {
+                for item in tabBar.normalItems! {
+                    item.badgeLabel.animation = badgeAnimation
+                }
+            }
+        }
+    }
     /**
      * An array of the root view controllers displayed by the tab bar interface.
      */
@@ -49,6 +59,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
                 tabBar.items = tempTabBarItems
                 selectedIndex = 0
             }
+            badgeAnimation = badgeAnimation ? true : false
         }
     }
     
@@ -88,6 +99,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             tabBar.items = tempTabBarItems
             selectedIndex = 0
         }
+        badgeAnimation = badgeAnimation ? true : false
     }
     
     /**
@@ -352,7 +364,7 @@ extension UIViewController {
     /**
      * Tells the delegate that the user selected an item in the tab bar.
      */
-    optional func tabBarController(tabBarController: ZZTabBarController, didSelectViewController viewController:UIViewController) -> Void
+    optional func tabBarController(tabBarController: ZZTabBarController, didSelectViewController viewController:UIViewController)
     
     optional func tabBarController(tabBarController: ZZTabBarController, didSelectCustomItemIndex index: Int)
     
