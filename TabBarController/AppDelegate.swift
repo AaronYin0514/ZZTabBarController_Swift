@@ -79,5 +79,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
     func tabBarController(tabBarController: ZZTabBarController, didSelectCustomItemIndex index: Int) -> Void {
         print("Custom Item At Index \(index) Click")
     }
+    
+    func tabBarController(tabBarController: ZZTabBarController, badgeClearAtIndex index: Int) {
+        print("清空badge : \(index)")
+    }
 }
 

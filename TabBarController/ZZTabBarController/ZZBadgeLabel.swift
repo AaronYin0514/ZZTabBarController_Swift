@@ -270,10 +270,14 @@ class ZZBadgeLabel: UILabel {
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(USEC_PER_SEC * 500))
         dispatch_after(time, dispatch_get_main_queue()) {
             weakSelf?.removeWindowView()
+            weak var tabBarItem: ZZTabBarItem? = self.superview as? ZZTabBarItem
+            if tabBarItem != nil && tabBarItem!.index != nil {
+                NSNotificationCenter.defaultCenter().postNotificationName("com.zz.tabBarController.badgeClear", object: NSNumber(integer: tabBarItem!.index!))
+            }
         }
     }
     
-    // Animation Delegate
+    // MARK: Animation Delegate
     override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
         self.hidden = false
         self.removeWindowView()

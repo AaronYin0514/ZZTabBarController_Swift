@@ -32,7 +32,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             if newValue?.count > 0 {
                 private_viewControllers = newValue
                 var tempTabBarItems:[ZZTabBarItem] = []
-                for viewController in private_viewControllers! {
+                for (idx, viewController) in private_viewControllers!.enumerate() {
                     viewController.zz_private_tabBarController = self
                     var tabBarItem: ZZTabBarItem? = nil
                     if viewController.isKindOfClass(UINavigationController) {
@@ -42,6 +42,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
                     }
                     if tabBarItem != nil {
                         tempTabBarItems.append(tabBarItem!)
+                        tabBarItem?.index = idx
                     }
                 }
                 tabBar.normalItems = tempTabBarItems
@@ -69,7 +70,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         if viewControllers.count > 0 {
             private_viewControllers = viewControllers
             var tempTabBarItems:[ZZTabBarItem] = []
-            for viewController in private_viewControllers! {
+            for (idx, viewController) in private_viewControllers!.enumerate() {
                 viewController.zz_private_tabBarController = self
                 var tabBarItem: ZZTabBarItem? = nil
                 if viewController.isKindOfClass(UINavigationController) {
@@ -79,6 +80,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
                 }
                 if tabBarItem != nil {
                     tempTabBarItems.append(tabBarItem!)
+                    tabBarItem?.index = idx
                 }
             }
             tabBar.normalItems = tempTabBarItems
@@ -200,11 +202,8 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.setupNotification()
         self.setTabBarHidden(tabBarHidden, animated: false)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -213,6 +212,11 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     
     override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
         return selectedViewController!.preferredStatusBarUpdateAnimation()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.removeNotification()
     }
     
     // MARK: - Methods
@@ -246,6 +250,22 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             searchViewController = viewController.navigationController!
         }
         return viewControllers!.indexOf(searchViewController)!
+    }
+    
+    // MARK: - Private Method
+    private func setupNotification() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ZZTabBarController.badgeClear(_:)), name: "com.zz.tabBarController.badgeClear", object: nil)
+    }
+    
+    private func removeNotification() {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "com.zz.tabBarController.badgeClear", object: nil)
+    }
+    
+    func badgeClear(notification: NSNotification) {
+        if delegate != nil && delegate!.respondsToSelector(#selector(ZZTabBarControllerDelegate.tabBarController(_:badgeClearAtIndex:))) {
+            let object = notification.object as! NSNumber
+            delegate!.tabBarController!(self, badgeClearAtIndex: object.integerValue)
+        }
     }
     
     // MARK: - ZZTabBarDelegate
@@ -334,5 +354,7 @@ extension UIViewController {
      */
     optional func tabBarController(tabBarController: ZZTabBarController, didSelectViewController viewController:UIViewController) -> Void
     
-    optional func tabBarController(tabBarController: ZZTabBarController, didSelectCustomItemIndex index: Int) -> Void
+    optional func tabBarController(tabBarController: ZZTabBarController, didSelectCustomItemIndex index: Int)
+    
+    optional func tabBarController(tabBarController: ZZTabBarController, badgeClearAtIndex index: Int)
 }

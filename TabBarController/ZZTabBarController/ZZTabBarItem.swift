@@ -27,6 +27,8 @@ class ZZTabBarItem: UIControl {
     // itemHeight is an optional property. When set it is used instead of tabBar's height.
     let itemHeight:CGFloat = 49.0
     
+    var index: Int?
+    
     // MARK: - Title configuration
     
     // The title displayed by the tab bar item.
