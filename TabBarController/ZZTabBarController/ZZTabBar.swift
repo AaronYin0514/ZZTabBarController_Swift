@@ -203,8 +203,6 @@ class ZZTabBar: UIView {
         
         let separationLineHeightConstraint = NSLayoutConstraint(item: separationLine, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 1.0)
         separationLine.addConstraint(separationLineHeightConstraint)
-        
-//        self.setNeedsDisplay()
     }
     
     // MARK: - Configuration
