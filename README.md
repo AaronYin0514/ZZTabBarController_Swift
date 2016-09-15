@@ -48,3 +48,6 @@ tabBarViewController.viewControllers = viewControllers
 
 ![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/TabBar2.png)
 
+** 3. 黑色主题风格 **
+
+![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/heise.png)
