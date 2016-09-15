@@ -51,3 +51,7 @@ tabBarViewController.viewControllers = viewControllers
 ** 3. 黑色主题风格 **
 
 ![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/heise.png)
+
+** 4. 仿QQ气泡效果 **
+
+![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/badge.gif)
