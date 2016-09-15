@@ -11,6 +11,13 @@ import UIKit
 let separationLineColor: UIColor = UIColor.lightGrayColor()
 
 class ZZTabBar: UIView {
+    
+    var showSeparationLine: Bool = true {
+        didSet {
+            separationLine.hidden = showSeparationLine
+        }
+    }
+    
     /**
      * The tab bar’s delegate object.
      */
@@ -46,7 +53,11 @@ class ZZTabBar: UIView {
     }
     
     private func setupLayoutItem() {
-        self.removeConstraints(self.constraints);
+        for constraint in self.constraints {
+            if constraint.firstItem.isKindOfClass(ZZTabBarItem) {
+                self.removeConstraint(constraint)
+            }
+        }
         for (idx, item) in (items!).enumerate() {
             let topConstraint = NSLayoutConstraint(item: item, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: self.contentEdgeInsets.top);
             self.addConstraint(topConstraint)
@@ -167,7 +178,8 @@ class ZZTabBar: UIView {
         separationLine.backgroundColor = separationLineColor
         separationLine.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(separationLine)
-//        self.setupSeparationLine()
+        self.setupSeparationLine()
+        separationLine.hidden = showSeparationLine
     }
     
     // MARK: - UI
@@ -176,8 +188,6 @@ class ZZTabBar: UIView {
         let frameSize = self.frame.size
         let minimumContentHeight = self.minimumContentHeight()
         backgroundView.frame = CGRectMake(0, frameSize.height - minimumContentHeight, frameSize.width, frameSize.height)
-        print("self : \(self)")
-        separationLine.frame = CGRectMake(0, 0, frameSize.width, 1)
         self.bringSubviewToFront(separationLine)
     }
     
@@ -191,7 +201,7 @@ class ZZTabBar: UIView {
         let separationLineTopConstraint = NSLayoutConstraint(item: separationLine, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0)
         self.addConstraint(separationLineTopConstraint)
         
-        let separationLineHeightConstraint = NSLayoutConstraint(item: separationLine, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 10.0)
+        let separationLineHeightConstraint = NSLayoutConstraint(item: separationLine, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 1.0)
         separationLine.addConstraint(separationLineHeightConstraint)
         
 //        self.setNeedsDisplay()

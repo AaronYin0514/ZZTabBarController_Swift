@@ -23,6 +23,13 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             }
         }
     }
+    
+    var showSeparationLine: Bool = true {
+        didSet {
+            tabBar.showSeparationLine = showSeparationLine
+        }
+    }
+    
     /**
      * An array of the root view controllers displayed by the tab bar interface.
      */

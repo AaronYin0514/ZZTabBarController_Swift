@@ -61,6 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
         let tabBarViewController: ZZTabBarController = ZZTabBarController()
         tabBarViewController.delegate = self
         tabBarViewController.badgeAnimation = true
+//        tabBarViewController.showSeparationLine = false
 //        tabBarViewController.viewControllers = viewControllers
         tabBarViewController.setupViewControllers(viewControllers, customItem: (customItem, 2))
         
