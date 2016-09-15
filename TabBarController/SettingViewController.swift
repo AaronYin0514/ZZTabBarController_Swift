@@ -13,7 +13,7 @@ class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "设置"
-        self.view.backgroundColor = UIColor.cyanColor()
+        self.view.backgroundColor = UIColor.cyan
     }
 
     override func didReceiveMemoryWarning() {

@@ -9,7 +9,7 @@
 import UIKit
 
 class ZZMathUtils: NSObject {
-    class func CGRoundf(value: CGFloat) -> CGFloat {
+    class func CGRoundf(_ value: CGFloat) -> CGFloat {
         return CGFloat(roundf(Float(value)))
     }
 }

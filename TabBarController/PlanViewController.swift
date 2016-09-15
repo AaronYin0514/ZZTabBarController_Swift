@@ -15,22 +15,22 @@ class PlanViewController: UIViewController, UITableViewDelegate, UITableViewData
         let tableView = UITableView(frame: self.view.bounds)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.registerClass(NSClassFromString("UITableViewCell"), forCellReuseIdentifier: "Id")
+        tableView.register(NSClassFromString("UITableViewCell"), forCellReuseIdentifier: "Id")
         self.view.addSubview(tableView)
     }
 
     // MARK: - UITableViewDataSource
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 35
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Id")
-        cell?.textLabel?.text = "第\(indexPath.row)行"
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Id")
+        cell?.textLabel?.text = "第\((indexPath as NSIndexPath).row)行"
         return cell!
     }
     // MARK: - UITableViewDelegate
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.zz_tabBarItem.setBadgeValue(String(indexPath.row), animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.zz_tabBarItem.setBadgeValue(String((indexPath as NSIndexPath).row), animated: true)
 //        self.zz_tabBarItem.badgeValue = String(indexPath.row)
     }
 

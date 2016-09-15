@@ -8,45 +8,45 @@
 
 import UIKit
 
-class ZZBadgeLabel: UILabel {
+class ZZBadgeLabel: UILabel, CAAnimationDelegate {
     
     // MARK: - Property
     var animation: Bool = false
     
     // MARK: - Private Property
-    private var windowView: UIView?
-    private var frontLabel: UILabel?
-    private var behindView: UIView?
+    fileprivate var windowView: UIView?
+    fileprivate var frontLabel: UILabel?
+    fileprivate var behindView: UIView?
     
-    private var springRange: CGFloat = 5.0 // 弹簧效果幅度，值越大，幅度越大，默认为5.0
-    private var ratio: CGFloat = 0.15 // 默认拉伸长度比率
+    fileprivate var springRange: CGFloat = 5.0 // 弹簧效果幅度，值越大，幅度越大，默认为5.0
+    fileprivate var ratio: CGFloat = 0.15 // 默认拉伸长度比率
     
-    private var shapeLayer: CAShapeLayer = CAShapeLayer()
-    private var miniRad: CGFloat = 4.0
-    private var r1: CGFloat = 0.0
-    private var r2: CGFloat = 0.0
-    private var orgialPoint: CGPoint = CGPointZero
-    private var pointA: CGPoint = CGPointZero
-    private var pointB: CGPoint = CGPointZero
-    private var pointC: CGPoint = CGPointZero
-    private var pointD: CGPoint = CGPointZero
-    private var pointO: CGPoint = CGPointZero
-    private var pointP: CGPoint = CGPointZero
-    private var pointG: CGPoint = CGPointZero
-    private var x1: CGFloat = 0.0
-    private var x2: CGFloat = 0.0
-    private var y1: CGFloat = 0.0
-    private var y2: CGFloat = 0.0
-    private var sin: CGFloat = 0.0
-    private var cos: CGFloat = 0.0
+    fileprivate var shapeLayer: CAShapeLayer = CAShapeLayer()
+    fileprivate var miniRad: CGFloat = 4.0
+    fileprivate var r1: CGFloat = 0.0
+    fileprivate var r2: CGFloat = 0.0
+    fileprivate var orgialPoint: CGPoint = CGPoint.zero
+    fileprivate var pointA: CGPoint = CGPoint.zero
+    fileprivate var pointB: CGPoint = CGPoint.zero
+    fileprivate var pointC: CGPoint = CGPoint.zero
+    fileprivate var pointD: CGPoint = CGPoint.zero
+    fileprivate var pointO: CGPoint = CGPoint.zero
+    fileprivate var pointP: CGPoint = CGPoint.zero
+    fileprivate var pointG: CGPoint = CGPoint.zero
+    fileprivate var x1: CGFloat = 0.0
+    fileprivate var x2: CGFloat = 0.0
+    fileprivate var y1: CGFloat = 0.0
+    fileprivate var y2: CGFloat = 0.0
+    fileprivate var sin: CGFloat = 0.0
+    fileprivate var cos: CGFloat = 0.0
     
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.textAlignment = .Center
+        self.textAlignment = .center
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 18.0 / 2
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
         let pan = UIPanGestureRecognizer(target: self, action: #selector(ZZBadgeLabel.panGestureAction(_:)))
         self.addGestureRecognizer(pan)
     }
@@ -56,19 +56,19 @@ class ZZBadgeLabel: UILabel {
     }
     
     // MARK: - Method
-    func setBadgeValue(value: String, animated: Bool) -> Void {
+    func setBadgeValue(_ value: String, animated: Bool) -> Void {
         let num = Int(value)
-        if num == nil || num <= 0 {
+        if num == nil || num! <= 0 {
             self.text = nil
-            self.hidden = true
+            self.isHidden = true
             return
         }
-        if num > 99 {
+        if num! > 99 {
             self.text = "99"
         } else {
             self.text = value
         }
-        self.hidden = false
+        self.isHidden = false
         if animated {
             self.zoomIn(self)
         }
@@ -76,48 +76,48 @@ class ZZBadgeLabel: UILabel {
     
     // MARK: - Action
     // MARK: 拖动手势
-    func panGestureAction(sender: UIGestureRecognizer) -> Void {
+    func panGestureAction(_ sender: UIGestureRecognizer) -> Void {
         if animation == false {
             return
         }
-        let touchPoint = sender.locationInView(self)
-        var windowTouchPoint = CGPointZero
+        let touchPoint = sender.location(in: self)
+        var windowTouchPoint = CGPoint.zero
         if windowView != nil {
-            windowTouchPoint = self.convertPoint(touchPoint, toView: windowView!)
+            windowTouchPoint = self.convert(touchPoint, to: windowView!)
         }
         switch sender.state {
-        case .Began:
+        case .began:
             self.beginDrag(self.center)
-        case .Changed:
+        case .changed:
             self.dragMovingWitTouchPoint(windowTouchPoint)
-        case .Ended:
+        case .ended:
             self.dragFinishWithTouchPoint(windowTouchPoint)
-        case .Failed:
+        case .failed:
             self.dragFinishWithTouchPoint(windowTouchPoint)
-        case .Cancelled:
+        case .cancelled:
             self.dragFinishWithTouchPoint(windowTouchPoint)
         default:
             break
         }
     }
     
-    private func beginDrag(point: CGPoint) -> Void {
-        self.hidden = true
+    fileprivate func beginDrag(_ point: CGPoint) -> Void {
+        self.isHidden = true
         
-        windowView = UIView(frame: UIScreen.mainScreen().bounds)
-        windowView!.backgroundColor = UIColor.clearColor()
-        windowView!.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        windowView = UIView(frame: UIScreen.main.bounds)
+        windowView!.backgroundColor = UIColor.clear
+        windowView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        let windowTouchPoint = self.superview!.convertPoint(point, toView: windowView!)
+        let windowTouchPoint = self.superview!.convert(point, to: windowView!)
         orgialPoint = windowTouchPoint
         
         frontLabel = UILabel(frame: self.bounds)
-        frontLabel?.textAlignment = .Center
+        frontLabel?.textAlignment = .center
         frontLabel?.backgroundColor = self.backgroundColor
         frontLabel?.text = self.text
         frontLabel?.textColor = self.textColor
         frontLabel?.font = self.font
-        frontLabel?.userInteractionEnabled = true
+        frontLabel?.isUserInteractionEnabled = true
         frontLabel?.layer.masksToBounds = true
         frontLabel?.layer.cornerRadius = 18.0 / 2
         frontLabel?.center = windowTouchPoint
@@ -130,9 +130,9 @@ class ZZBadgeLabel: UILabel {
         windowView!.addSubview(behindView!)
         windowView!.addSubview(frontLabel!)
         
-        for window in UIApplication.sharedApplication().windows {
-            let windowOnMainScreen = (window.screen == UIScreen.mainScreen())
-            let windowIsVisible = ((window.hidden == false) && (window.alpha > 0))
+        for window in UIApplication.shared.windows {
+            let windowOnMainScreen = (window.screen == UIScreen.main)
+            let windowIsVisible = ((window.isHidden == false) && (window.alpha > 0))
             let windowLevelNormal = (window.windowLevel == UIWindowLevelNormal)
             if (windowOnMainScreen && windowIsVisible && windowLevelNormal) {
                 window.addSubview(windowView!)
@@ -141,14 +141,14 @@ class ZZBadgeLabel: UILabel {
         }
     }
     
-    private func dragMovingWitTouchPoint(point: CGPoint) -> Void {
+    fileprivate func dragMovingWitTouchPoint(_ point: CGPoint) -> Void {
         frontLabel?.center = point
         
         if r1 < miniRad {
-            behindView?.hidden = true
+            behindView?.isHidden = true
             shapeLayer.removeFromSuperlayer()
         } else {
-            behindView?.hidden = false
+            behindView?.isHidden = false
         }
         
         x1 = orgialPoint.x
@@ -165,27 +165,27 @@ class ZZBadgeLabel: UILabel {
         }
         r2 = frontLabel!.frame.size.height * 0.5
         r1 = r2 - distance * ratio
-        pointA = CGPointMake(x1 - r1 * cos, y1 + r1 * sin)
-        pointB = CGPointMake(x1 + r1 * cos , y1 - r1 * sin)
-        pointC = CGPointMake(x2 + r2 * cos, y2 - r2 * sin)
-        pointD = CGPointMake(x2 - r2 * cos, y2 + r2 * sin)
-        pointP = CGPointMake(pointB.x + distance * 0.5 * sin, pointB.y + distance * 0.5 * cos)
-        pointO = CGPointMake(pointA.x + distance * 0.5 * sin, pointA.y + distance * 0.5 * cos)
-        pointG = CGPointMake(x1 + springRange * sin, y1 + springRange * cos)
+        pointA = CGPoint(x: x1 - r1 * cos, y: y1 + r1 * sin)
+        pointB = CGPoint(x: x1 + r1 * cos , y: y1 - r1 * sin)
+        pointC = CGPoint(x: x2 + r2 * cos, y: y2 - r2 * sin)
+        pointD = CGPoint(x: x2 - r2 * cos, y: y2 + r2 * sin)
+        pointP = CGPoint(x: pointB.x + distance * 0.5 * sin, y: pointB.y + distance * 0.5 * cos)
+        pointO = CGPoint(x: pointA.x + distance * 0.5 * sin, y: pointA.y + distance * 0.5 * cos)
+        pointG = CGPoint(x: x1 + springRange * sin, y: y1 + springRange * cos)
         
-        behindView?.bounds = CGRectMake(0, 0, r1 * 2, r1 * 2)
+        behindView?.bounds = CGRect(x: 0, y: 0, width: r1 * 2, height: r1 * 2)
         behindView?.layer.cornerRadius = r1
         
         self.draw()
     }
     
-    private func dragFinishWithTouchPoint(point: CGPoint) -> Void {
+    fileprivate func dragFinishWithTouchPoint(_ point: CGPoint) -> Void {
         if windowView != nil {
             if r1 >= miniRad {
                 self.displaySpringAnimation()
             }
             if r1 < miniRad {
-                frontLabel?.hidden = true
+                frontLabel?.isHidden = true
                 self.setBadgeValue("", animated: false)
                 self.displayBomAnimationWithPoint(point)
             }
@@ -193,21 +193,21 @@ class ZZBadgeLabel: UILabel {
     }
     
     // MARK: - Utils
-    private func draw() {
+    fileprivate func draw() {
         let path = UIBezierPath()
-        path.moveToPoint(pointA)
-        path.addQuadCurveToPoint(pointD, controlPoint: pointO)
-        path.addLineToPoint(pointC)
-        path.addQuadCurveToPoint(pointB, controlPoint: pointP)
-        path.moveToPoint(pointA)
-        if behindView?.hidden == false {
-            shapeLayer.path = path.CGPath
-            shapeLayer.fillColor = self.backgroundColor?.CGColor
+        path.move(to: pointA)
+        path.addQuadCurve(to: pointD, controlPoint: pointO)
+        path.addLine(to: pointC)
+        path.addQuadCurve(to: pointB, controlPoint: pointP)
+        path.move(to: pointA)
+        if behindView?.isHidden == false {
+            shapeLayer.path = path.cgPath
+            shapeLayer.fillColor = self.backgroundColor?.cgColor
             windowView!.layer.insertSublayer(shapeLayer, below: frontLabel?.layer)
         }
     }
     
-    private func removeWindowView() {
+    fileprivate func removeWindowView() {
         if frontLabel != nil {
             frontLabel?.removeFromSuperview()
             frontLabel = nil
@@ -222,42 +222,41 @@ class ZZBadgeLabel: UILabel {
     
     // MARK: - Animation
     // MARK: 缩放动画
-    private func zoomIn(view: UIView) -> Void {
+    fileprivate func zoomIn(_ view: UIView) -> Void {
         let animation: CAKeyframeAnimation = CAKeyframeAnimation(keyPath: "transform")
         animation.duration = 0.5
-        animation.removedOnCompletion = false
+        animation.isRemovedOnCompletion = false
         animation.fillMode = kCAFillModeForwards
         var values: [NSValue] = []
-        values.append(NSValue(CATransform3D: CATransform3DMakeScale(0.1, 0.1, 1.0)))
-        values.append(NSValue(CATransform3D: CATransform3DMakeScale(1.2, 1.2, 1.0)))
-        values.append(NSValue(CATransform3D: CATransform3DMakeScale(0.7, 0.7, 1.0)))
-        values.append(NSValue(CATransform3D: CATransform3DMakeScale(1.0, 1.0, 1.0)))
+        values.append(NSValue(caTransform3D: CATransform3DMakeScale(0.1, 0.1, 1.0)))
+        values.append(NSValue(caTransform3D: CATransform3DMakeScale(1.2, 1.2, 1.0)))
+        values.append(NSValue(caTransform3D: CATransform3DMakeScale(0.7, 0.7, 1.0)))
+        values.append(NSValue(caTransform3D: CATransform3DMakeScale(1.0, 1.0, 1.0)))
         animation.values = values
         animation.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
-        view.layer.addAnimation(animation, forKey: nil)
+        view.layer.add(animation, forKey: nil)
     }
     // MARK: 弹簧动画
-    private func displaySpringAnimation() {
-        weak var weakSelf = self
+    fileprivate func displaySpringAnimation() {
         shapeLayer.removeFromSuperlayer()
-        behindView?.hidden = true
+        behindView?.isHidden = true
         let springAnimation = CASpringAnimation(keyPath: "position")
         springAnimation.stiffness = 1000
         springAnimation.damping = 5
         springAnimation.mass = 0.5
         springAnimation.initialVelocity = 70
-        springAnimation.fromValue = NSValue(CGPoint: pointG)
-        springAnimation.toValue = NSValue(CGPoint: orgialPoint)
+        springAnimation.fromValue = NSValue(cgPoint: pointG)
+        springAnimation.toValue = NSValue(cgPoint: orgialPoint)
         springAnimation.repeatCount = 1
         springAnimation.fillMode = kCAFillModeForwards
-        springAnimation.delegate = weakSelf
-        frontLabel?.layer.addAnimation(springAnimation, forKey: nil)
+        springAnimation.delegate = self
+        frontLabel?.layer.add(springAnimation, forKey: nil)
     }
     // MARK: 爆炸动画
-    private func displayBomAnimationWithPoint(point: CGPoint) {
+    fileprivate func displayBomAnimationWithPoint(_ point: CGPoint) {
         shapeLayer.removeFromSuperlayer()
-        behindView?.hidden = true
-        let bomView = UIImageView(frame: CGRectMake(0.0, 0.0, 34.0, 34.0))
+        behindView?.isHidden = true
+        let bomView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: 34.0, height: 34.0))
         bomView.center = point
         windowView!.addSubview(bomView)
         var bomArry: [UIImage] = []
@@ -273,19 +272,19 @@ class ZZBadgeLabel: UILabel {
         bomView.animationRepeatCount = 1
         bomView.startAnimating()
         weak var weakSelf = self
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(USEC_PER_SEC * 500))
-        dispatch_after(time, dispatch_get_main_queue()) {
+        let time = DispatchTime.now() + Double(Int64(USEC_PER_SEC * 500)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
             weakSelf?.removeWindowView()
             weak var tabBarItem: ZZTabBarItem? = self.superview as? ZZTabBarItem
             if tabBarItem != nil && tabBarItem!.index != nil {
-                NSNotificationCenter.defaultCenter().postNotificationName("com.zz.tabBarController.badgeClear", object: NSNumber(integer: tabBarItem!.index!))
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "com.zz.tabBarController.badgeClear"), object: NSNumber(value: tabBarItem!.index! as Int))
             }
         }
     }
     
     // MARK: Animation Delegate
-    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
-        self.hidden = false
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        self.isHidden = false
         self.removeWindowView()
     }
 }

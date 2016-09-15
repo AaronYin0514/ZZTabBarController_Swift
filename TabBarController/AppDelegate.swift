@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
 
     var window: UIWindow?
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         var viewControllers: [UIViewController] = []
@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
         
         // MARK: - Custom Item
         let customItem: ZZTabBarItem = ZZTabBarItem()
-        customItem.itemType = .Action
+        customItem.itemType = .action
         customItem.image = UIImage(named: "home_circle")
         
         // MARK: - TabBarController
@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
 //        tabBarViewController.setupViewControllers(viewControllers, customItem: (customItem, 2))
         
         let bgView = UIView()
-        bgView.backgroundColor = UIColor.darkGrayColor()
+        bgView.backgroundColor = UIColor.darkGray
         tabBarViewController.tabBar.backgroundView = bgView
         // MARK: - Window
         window?.rootViewController = tabBarViewController
@@ -80,11 +80,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
     }
 
     // MARK: - ZZTabBarControllerDelegate
-    func tabBarController(tabBarController: ZZTabBarController, didSelectCustomItemIndex index: Int) -> Void {
+    func tabBarController(_ tabBarController: ZZTabBarController, didSelectCustomItemIndex index: Int) -> Void {
         print("Custom Item At Index \(index) Click")
     }
     
-    func tabBarController(tabBarController: ZZTabBarController, badgeClearAtIndex index: Int) {
+    func tabBarController(_ tabBarController: ZZTabBarController, badgeClearAtIndex index: Int) {
         print("清空badge : \(index)")
     }
 }
