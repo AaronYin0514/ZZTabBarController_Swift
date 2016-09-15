@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
 //        homeViewController.zz_tabBarItem.title = "Home"
         homeViewController.zz_tabBarItem.image = UIImage(named: "tabbarUnselectedIcon1")
         homeViewController.zz_tabBarItem.selectedImage = UIImage(named: "tabbarSelectedIcon1")
+        homeViewController.zz_tabBarItem.selectedBackgroundImage = UIImage(named: "tabbar_selected")
         homeViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
         viewControllers.append(homeViewController)
         
@@ -31,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
         mapViewController.zz_tabBarItem.title = "Map"
         mapViewController.zz_tabBarItem.image = UIImage(named: "tabbarUnselectedIcon2")
         mapViewController.zz_tabBarItem.selectedImage = UIImage(named: "tabbarSelectedIcon2")
+        mapViewController.zz_tabBarItem.selectedBackgroundImage = UIImage(named: "tabbar_selected")
         mapViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
         viewControllers.append(mapViewController)
         
@@ -39,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
         planViewController.zz_tabBarItem.title = "Plan"
         planViewController.zz_tabBarItem.image = UIImage(named: "tabbarUnselectedIcon3")
         planViewController.zz_tabBarItem.selectedImage = UIImage(named: "tabbarSelectedIcon3")
+        planViewController.zz_tabBarItem.selectedBackgroundImage = UIImage(named: "tabbar_selected")
         planViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
         planViewController.zz_tabBarItem.badgeValue = "10"
         viewControllers.append(planViewController)
@@ -48,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
         settingViewController.zz_tabBarItem.title = "Setting"
         settingViewController.zz_tabBarItem.image = UIImage(named: "tabbarUnselectedIcon4")
         settingViewController.zz_tabBarItem.selectedImage = UIImage(named: "tabbarSelectedIcon4")
+        settingViewController.zz_tabBarItem.selectedBackgroundImage = UIImage(named: "tabbar_selected")
         settingViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
         let settingNavigation: UINavigationController = UINavigationController(rootViewController: settingViewController)
         viewControllers.append(settingNavigation)
@@ -62,12 +66,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
         tabBarViewController.delegate = self
         tabBarViewController.badgeAnimation = true
 //        tabBarViewController.showSeparationLine = false
-//        tabBarViewController.viewControllers = viewControllers
-        tabBarViewController.setupViewControllers(viewControllers, customItem: (customItem, 2))
+        tabBarViewController.viewControllers = viewControllers
+//        tabBarViewController.setupViewControllers(viewControllers, customItem: (customItem, 2))
         
-//        let bgView = UIView()
-//        bgView.backgroundColor = UIColor.lightGrayColor()
-//        tabBarViewController.tabBar.backgroundView = bgView
+        let bgView = UIView()
+        bgView.backgroundColor = UIColor.darkGrayColor()
+        tabBarViewController.tabBar.backgroundView = bgView
         // MARK: - Window
         window?.rootViewController = tabBarViewController
         window?.makeKeyAndVisible()

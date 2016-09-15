@@ -105,10 +105,12 @@ class ZZTabBarItem: UIControl {
     override var selected: Bool {
         didSet {
             if selected == true {
+                backgroundImageView.image = selectedBackgroundImage
                 imageView.image = selectedImage
                 titleLabel.textColor = p_selectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
                 titleLabel.font = p_selectedTitleAttributes[NSFontAttributeName] as! UIFont
             } else {
+                backgroundImageView.image = backgroundImage
                 imageView.image = image
                 titleLabel.textColor = p_unselectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
                 titleLabel.font = p_unselectedTitleAttributes[NSFontAttributeName] as! UIFont
@@ -122,7 +124,15 @@ class ZZTabBarItem: UIControl {
     var selectedBackgroundImage: UIImage?
     
     // The background image used for tab bar item's unselected state.
-    var unselectedBackgroundImage: UIImage?
+    var backgroundImage: UIImage? {
+        didSet {
+            if backgroundImage != nil {
+                backgroundImageView.image = backgroundImage
+            }
+        }
+    }
+    
+    private var backgroundImageView: UIImageView = UIImageView()
     
     // MARK: - Badge configuration
     
@@ -160,6 +170,9 @@ class ZZTabBarItem: UIControl {
     
     private func commonInit() -> Void {
         self.backgroundColor = UIColor.clearColor()
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(backgroundImageView)
+        self.layoutBackgroundImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(imageView)
         self.layoutImageView()
@@ -175,6 +188,20 @@ class ZZTabBarItem: UIControl {
         badgeLabel.textColor = badgeTextColor
         badgeLabel.font = badgeTextFont
         self.addSubview(badgeLabel)
+    }
+    
+    private func layoutBackgroundImageView() {
+        let backgroundImageViewLeadingConstraint = NSLayoutConstraint(item: backgroundImageView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0.0)
+        self.addConstraint(backgroundImageViewLeadingConstraint)
+        
+        let backgroundImageViewTrailingConstraint = NSLayoutConstraint(item: backgroundImageView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0.0)
+        self.addConstraint(backgroundImageViewTrailingConstraint)
+        
+        let backgroundImageViewTopConstraint = NSLayoutConstraint(item: backgroundImageView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0)
+        self.addConstraint(backgroundImageViewTopConstraint)
+        
+        let backgroundImageViewBottomConstraint = NSLayoutConstraint(item: backgroundImageView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        self.addConstraint(backgroundImageViewBottomConstraint)
     }
     
     private var imageViewHeightConstraint:NSLayoutConstraint?
