@@ -181,16 +181,11 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             
             if weakSelf!.tabBarHidden == false {
                 tabBarStartingY = viewSize.height - tabBarHeight
-                if weakSelf!.tabBar.translucent == false {
-                    
-                    var temp = weakSelf!.tabBar.minimumContentHeight()
-                    
-                    if temp <= 0.0 {
-                        temp = tabBarHeight
-                    }
-                    
-                    contentViewHeight = contentViewHeight - temp
+                var temp = weakSelf!.tabBar.minimumContentHeight()
+                if temp <= 0.0 {
+                    temp = tabBarHeight
                 }
+                contentViewHeight = contentViewHeight - temp
             }
             
             weakSelf!.tabBar.frame = CGRect(x: 0, y: tabBarStartingY, width: viewSize.width, height: tabBarHeight)

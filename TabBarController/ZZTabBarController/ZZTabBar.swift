@@ -64,8 +64,6 @@ class ZZTabBar: UIView {
             
             let heightConstraint = NSLayoutConstraint(item: item, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: item.itemHeight)
             item.addConstraint(heightConstraint)
-//            let bottomConstraint = NSLayoutConstraint(item: item, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -self.contentEdgeInsets.bottom);
-//            self.addConstraint(bottomConstraint)
             
             var lastItem: ZZTabBarItem? = nil;
             
@@ -159,10 +157,6 @@ class ZZTabBar: UIView {
         }
         return minimumTabBarContentHeight
     }
-    /*
-     * Enable or disable tabBar translucency. Default is fase.
-     */
-    var translucent: Bool = false
     
     // MARK: - Init
     
