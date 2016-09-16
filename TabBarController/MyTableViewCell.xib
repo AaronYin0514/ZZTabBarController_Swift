@@ -28,14 +28,25 @@
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="Eeq-bv-YAA">
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="25" id="99B-fc-anc"/>
-                                                    <constraint firstAttribute="height" constant="25" id="sTj-pD-lYo"/>
+                                                    <constraint firstAttribute="width" constant="15" id="99B-fc-anc"/>
+                                                    <constraint firstAttribute="height" constant="15" id="sTj-pD-lYo"/>
                                                 </constraints>
                                             </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ZZTabBarController" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RBI-oL-l8e">
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="137" id="OsQ-Z6-GJw"/>
+                                                    <constraint firstAttribute="height" constant="21" id="Wtc-5b-1jM"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="Eeq-bv-YAA" firstAttribute="centerY" secondItem="koX-bW-YMl" secondAttribute="centerY" id="Nqy-bd-n1z"/>
+                                            <constraint firstItem="RBI-oL-l8e" firstAttribute="leading" secondItem="Eeq-bv-YAA" secondAttribute="trailing" constant="8" id="Wbh-es-4AP"/>
                                             <constraint firstItem="Eeq-bv-YAA" firstAttribute="leading" secondItem="koX-bW-YMl" secondAttribute="leading" constant="8" id="lcP-Sw-XSW"/>
+                                            <constraint firstItem="RBI-oL-l8e" firstAttribute="centerY" secondItem="koX-bW-YMl" secondAttribute="centerY" id="rKP-rr-D8r"/>
                                         </constraints>
                                     </view>
                                     <constraints>
@@ -43,11 +54,20 @@
                                     </constraints>
                                     <blurEffect style="light"/>
                                 </visualEffectView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f42-Ss-gJR">
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="XFO-jO-igQ" secondAttribute="trailing" id="CD1-qg-sGm"/>
                                 <constraint firstItem="XFO-jO-igQ" firstAttribute="leading" secondItem="Ddu-jg-rWd" secondAttribute="leading" id="EhS-ln-JqA"/>
+                                <constraint firstItem="f42-Ss-gJR" firstAttribute="top" secondItem="XFO-jO-igQ" secondAttribute="bottom" constant="8" id="O9I-bv-Jah"/>
+                                <constraint firstAttribute="bottom" secondItem="f42-Ss-gJR" secondAttribute="bottom" constant="8" id="Oap-E5-sIu"/>
                                 <constraint firstItem="XFO-jO-igQ" firstAttribute="top" secondItem="Ddu-jg-rWd" secondAttribute="top" id="QiR-ub-aaJ"/>
+                                <constraint firstAttribute="trailing" secondItem="f42-Ss-gJR" secondAttribute="trailing" constant="8" id="YCw-6Z-Ogh"/>
+                                <constraint firstItem="f42-Ss-gJR" firstAttribute="leading" secondItem="Ddu-jg-rWd" secondAttribute="leading" constant="8" id="z0N-v8-9zt"/>
                             </constraints>
                         </view>
                         <blurEffect style="extraLight"/>
@@ -62,6 +82,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="contentLabel" destination="f42-Ss-gJR" id="3jr-dI-pXA"/>
                 <outlet property="currentEffectView" destination="gVb-0w-a5D" id="aEO-Xn-5En"/>
             </connections>
             <point key="canvasLocation" x="-217" y="0.0"/>

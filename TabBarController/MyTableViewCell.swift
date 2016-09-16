@@ -12,6 +12,8 @@ class MyTableViewCell: UITableViewCell {
 
     @IBOutlet weak var currentEffectView: UIVisualEffectView!
     
+    @IBOutlet weak var contentLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         currentEffectView.layer.cornerRadius = 8.0
