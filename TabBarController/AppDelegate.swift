@@ -69,12 +69,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
         tabBarViewController.viewControllers = viewControllers
 //        tabBarViewController.setupViewControllers(viewControllers, customItem: (customItem, 2))
         
-        /**
+        
          //设置背景
+        /*
         let bgView = UIView()
         bgView.backgroundColor = UIColor.darkGray
         tabBarViewController.tabBar.backgroundView = bgView
-        */
+         */
         
         // MARK: - Window
         window?.rootViewController = tabBarViewController

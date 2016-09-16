@@ -108,6 +108,7 @@ class ZZTabBar: UIView {
             p_backgroundView = nil
             p_backgroundView = value
             self.insertSubview(p_backgroundView!, at: 0)
+            self.layoutbackgroundView()
             self.setNeedsDisplay()
         }
         get {
