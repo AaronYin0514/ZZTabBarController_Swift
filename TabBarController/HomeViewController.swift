@@ -12,7 +12,9 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.orange
+        let imageView = UIImageView(frame: self.view.frame)
+        imageView.image = UIImage(named: "bg01")
+        self.view.addSubview(imageView)
     }
 
     override func didReceiveMemoryWarning() {

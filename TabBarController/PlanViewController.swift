@@ -12,7 +12,11 @@ class PlanViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let imageView = UIImageView(frame: self.view.frame)
+        imageView.image = UIImage(named: "bg03")
+        self.view.addSubview(imageView)
         let tableView = UITableView(frame: self.view.bounds)
+        tableView.backgroundColor = UIColor.clear
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(NSClassFromString("UITableViewCell"), forCellReuseIdentifier: "Id")

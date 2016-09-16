@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="62" id="KGk-i7-Jjw" customClass="MyTableViewCell" customModule="TabBarController" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="320" height="79"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gVb-0w-a5D">
+                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Ddu-jg-rWd">
+                            <frame key="frameInset"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XFO-jO-igQ">
+                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="koX-bW-YMl">
+                                        <frame key="frameInset"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="Eeq-bv-YAA">
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="25" id="99B-fc-anc"/>
+                                                    <constraint firstAttribute="height" constant="25" id="sTj-pD-lYo"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Eeq-bv-YAA" firstAttribute="centerY" secondItem="koX-bW-YMl" secondAttribute="centerY" id="Nqy-bd-n1z"/>
+                                            <constraint firstItem="Eeq-bv-YAA" firstAttribute="leading" secondItem="koX-bW-YMl" secondAttribute="leading" constant="8" id="lcP-Sw-XSW"/>
+                                        </constraints>
+                                    </view>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="rrV-ec-88f"/>
+                                    </constraints>
+                                    <blurEffect style="light"/>
+                                </visualEffectView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="XFO-jO-igQ" secondAttribute="trailing" id="CD1-qg-sGm"/>
+                                <constraint firstItem="XFO-jO-igQ" firstAttribute="leading" secondItem="Ddu-jg-rWd" secondAttribute="leading" id="EhS-ln-JqA"/>
+                                <constraint firstItem="XFO-jO-igQ" firstAttribute="top" secondItem="Ddu-jg-rWd" secondAttribute="top" id="QiR-ub-aaJ"/>
+                            </constraints>
+                        </view>
+                        <blurEffect style="extraLight"/>
+                    </visualEffectView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="gVb-0w-a5D" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="1dl-Xs-Sjf"/>
+                    <constraint firstItem="gVb-0w-a5D" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="4dB-VM-Hx2"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="gVb-0w-a5D" secondAttribute="trailing" id="Yul-vu-qXv"/>
+                    <constraint firstItem="gVb-0w-a5D" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="y9K-VG-cdw"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="currentEffectView" destination="gVb-0w-a5D" id="aEO-Xn-5En"/>
+            </connections>
+            <point key="canvasLocation" x="-217" y="0.0"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon" width="1019" height="1018"/>
+    </resources>
+</document>

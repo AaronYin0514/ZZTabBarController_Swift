@@ -12,6 +12,9 @@ class SettingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let imageView = UIImageView(frame: self.view.frame)
+        imageView.image = UIImage(named: "bg04")
+        self.view.addSubview(imageView)
         self.title = "设置"
         self.view.backgroundColor = UIColor.cyan
     }
