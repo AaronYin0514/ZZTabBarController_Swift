@@ -13,7 +13,7 @@ class PlanViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         let imageView = UIImageView(frame: self.view.frame)
-        imageView.image = UIImage(named: "bg03")
+        imageView.image = UIImage(named: "bg04")
         self.view.addSubview(imageView)
         let myBackgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
         myBackgroundView.frame = self.view.frame
