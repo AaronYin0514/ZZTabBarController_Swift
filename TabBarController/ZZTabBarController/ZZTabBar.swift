@@ -162,6 +162,7 @@ class ZZTabBar: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = UIColor.green
         self.commonInit()
     }
     
