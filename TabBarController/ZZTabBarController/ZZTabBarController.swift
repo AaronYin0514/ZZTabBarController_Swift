@@ -176,7 +176,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             } else {
                 weakSelf!.tabBarTopConstraint?.constant = 0.0
             }
-            weakSelf!.view.setNeedsDisplay()
+            weakSelf!.view.layoutIfNeeded()
         }
         
         let completion = { (completion: Bool) -> Void in
