@@ -8,8 +8,6 @@
 
 import UIKit
 
-let separationLineColor: UIColor = UIColor.lightGray
-
 class ZZTabBar: UIView {
     
     var showSeparationLine: Bool = false {
@@ -45,10 +43,28 @@ class ZZTabBar: UIView {
     }
     var normalItems: [ZZTabBarItem]?
     
-    fileprivate var p_separationLine: UIView = UIView()
-    var separationLine: UIView {
-        get {
-            return p_separationLine
+    fileprivate var separationLine: UIImageView = UIImageView()
+    var separationLineImage: UIImage? {
+        didSet {
+            if separationLineImage != nil {
+                separationLine.image = separationLineImage
+                if separationLineHeightConstraint != nil {
+                    separationLineHeightConstraint!.constant = separationLineImage!.size.height
+                    self.setNeedsDisplay()
+                }
+            } else {
+                separationLine.image = nil
+                if separationLineHeightConstraint != nil {
+                    separationLineHeightConstraint!.constant = 1.0
+                    self.setNeedsDisplay()
+                }
+            }
+        }
+    }
+    
+    var separationLineBackgroundColor: UIColor = UIColor(red: 210.0 / 255.0, green: 210.0 / 255.0, blue: 210.0 / 255.0, alpha: 1.0) {
+        didSet {
+            separationLine.backgroundColor = separationLineBackgroundColor
         }
     }
     
@@ -187,7 +203,7 @@ class ZZTabBar: UIView {
     func commonInit() -> Void {
         self.addSubview(backgroundView)
         self.layoutbackgroundView()
-        separationLine.backgroundColor = separationLineColor
+        separationLine.backgroundColor = separationLineBackgroundColor
         separationLine.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(separationLine)
         self.setupSeparationLine()
@@ -200,6 +216,7 @@ class ZZTabBar: UIView {
         self.bringSubview(toFront: separationLine)
     }
     
+    fileprivate var separationLineHeightConstraint: NSLayoutConstraint?
     fileprivate func setupSeparationLine() {
         let separationLineLeadingConstraint = NSLayoutConstraint(item: separationLine, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0.0)
         self.addConstraint(separationLineLeadingConstraint)
@@ -210,8 +227,8 @@ class ZZTabBar: UIView {
         let separationLineBottomConstraint = NSLayoutConstraint(item: separationLine, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0)
         self.addConstraint(separationLineBottomConstraint)
         
-        let separationLineHeightConstraint = NSLayoutConstraint(item: separationLine, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1.0)
-        separationLine.addConstraint(separationLineHeightConstraint)
+        separationLineHeightConstraint = NSLayoutConstraint(item: separationLine, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1.0)
+        separationLine.addConstraint(separationLineHeightConstraint!)
     }
     
     // MARK: - Configuration

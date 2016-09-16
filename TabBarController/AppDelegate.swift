@@ -33,8 +33,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
          黑色风格，设置TabBarItem选中和正常背景
          */
 //        let tabBarViewController: ZZTabBarController = self.case3()
-        
-        let tabBarViewController: ZZTabBarController = self.case4()
+        /**
+         案例四
+         分割线
+         */
+//        let tabBarViewController: ZZTabBarController = self.case4()
+        /**
+         案例五
+         自定义分割线图片
+         */
+        let tabBarViewController: ZZTabBarController = self.case5()
         
         // MARK: - Window
         window?.rootViewController = tabBarViewController
@@ -229,6 +237,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
         let tabBarViewController: ZZTabBarController = ZZTabBarController()
         tabBarViewController.badgeAnimation = true
         tabBarViewController.showSeparationLine = true
+        let bgView = UIView()
+        bgView.backgroundColor = UIColor.white
+        tabBarViewController.tabBar.backgroundView = bgView
+        tabBarViewController.viewControllers = viewControllers
+        
+        return tabBarViewController
+    }
+    
+    func case5() -> ZZTabBarController {
+        var viewControllers: [UIViewController] = []
+        // MARK: Home
+        let homeViewController: HomeViewController = HomeViewController()
+        homeViewController.zz_tabBarItem.title = "Home"
+        homeViewController.zz_tabBarItem.image = UIImage(named: "tabbarUnselectedIcon1")
+        homeViewController.zz_tabBarItem.selectedImage = UIImage(named: "tabbarSelectedIcon1")
+        homeViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
+        viewControllers.append(homeViewController)
+        
+        // MARK: Map
+        let mapViewController: MapViewController = MapViewController()
+        mapViewController.zz_tabBarItem.title = "Map"
+        mapViewController.zz_tabBarItem.image = UIImage(named: "tabbarUnselectedIcon2")
+        mapViewController.zz_tabBarItem.selectedImage = UIImage(named: "tabbarSelectedIcon2")
+        mapViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
+        viewControllers.append(mapViewController)
+        
+        // MARK: Plan
+        let planViewController: PlanViewController = PlanViewController()
+        planViewController.zz_tabBarItem.title = "Plan"
+        planViewController.zz_tabBarItem.image = UIImage(named: "tabbarUnselectedIcon3")
+        planViewController.zz_tabBarItem.selectedImage = UIImage(named: "tabbarSelectedIcon3")
+        planViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
+        planViewController.zz_tabBarItem.badgeValue = "10"
+        viewControllers.append(planViewController)
+        
+        // MARK: Setting
+        let settingViewController: SettingViewController = SettingViewController()
+        settingViewController.zz_tabBarItem.title = "Setting"
+        settingViewController.zz_tabBarItem.image = UIImage(named: "tabbarUnselectedIcon4")
+        settingViewController.zz_tabBarItem.selectedImage = UIImage(named: "tabbarSelectedIcon4")
+        settingViewController.zz_tabBarItem.selectedTitleAttributes = [NSForegroundColorAttributeName: UIColor(red: 1.0, green: 121.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)]
+        let settingNavigation: UINavigationController = UINavigationController(rootViewController: settingViewController)
+        viewControllers.append(settingNavigation)
+        
+        // MARK: TabBarController
+        let tabBarViewController: ZZTabBarController = ZZTabBarController()
+        tabBarViewController.badgeAnimation = true
+        tabBarViewController.showSeparationLine = true
+        tabBarViewController.tabBar.separationLineImage = UIImage(named: "unipay_bgarrow")
         let bgView = UIView()
         bgView.backgroundColor = UIColor.white
         tabBarViewController.tabBar.backgroundView = bgView
