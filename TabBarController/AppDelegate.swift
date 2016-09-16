@@ -58,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
         
         // MARK: - Custom Item
         let customItem: ZZTabBarItem = ZZTabBarItem()
+        customItem.itemHeight = 59.0
         customItem.itemType = .action
         customItem.image = UIImage(named: "home_circle")
         
@@ -66,8 +67,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
         tabBarViewController.delegate = self
         tabBarViewController.badgeAnimation = true
 //        tabBarViewController.showSeparationLine = false
-        tabBarViewController.viewControllers = viewControllers
-//        tabBarViewController.setupViewControllers(viewControllers, customItem: (customItem, 2))
+//        tabBarViewController.viewControllers = viewControllers
+        tabBarViewController.setupViewControllers(viewControllers, customItem: (customItem, 2))
         
         
          //设置背景
@@ -76,6 +77,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
         bgView.backgroundColor = UIColor.darkGray
         tabBarViewController.tabBar.backgroundView = bgView
          */
+        
+        let bgView = UIImageView(image: UIImage(named: "bottom_pink"))
+        tabBarViewController.tabBar.backgroundView = bgView
         
         // MARK: - Window
         window?.rootViewController = tabBarViewController

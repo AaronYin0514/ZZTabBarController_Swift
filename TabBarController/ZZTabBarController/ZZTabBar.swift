@@ -59,8 +59,8 @@ class ZZTabBar: UIView {
             }
         }
         for (idx, item) in (items!).enumerated() {
-            let topConstraint = NSLayoutConstraint(item: item, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: self.contentEdgeInsets.top);
-            self.addConstraint(topConstraint)
+            let bottomConstraint = NSLayoutConstraint(item: item, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: self.contentEdgeInsets.bottom);
+            self.addConstraint(bottomConstraint)
             
             let heightConstraint = NSLayoutConstraint(item: item, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: item.itemHeight)
             item.addConstraint(heightConstraint)

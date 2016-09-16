@@ -79,7 +79,11 @@ class ZZTabBarItem: UIControl {
     // MARK: - Image configuration
     
     // The offset for the rectangle around the tab bar item's image.
-    var imagePositionAdjustment:UIOffset = UIOffset.zero;
+    var imagePositionAdjustment:UIOffset = UIOffset.zero {
+        didSet {
+            self.customLayoutSubviews()
+        }
+    }
     
     // The image used for tab bar item's selected state.
     var selectedImage:UIImage? {
@@ -233,7 +237,7 @@ class ZZTabBarItem: UIControl {
             imageViewWidthConstraint?.constant = width
         }
         if imageViewCenterYConstraint != nil {
-            imageViewCenterYConstraint?.constant = (title == nil) ? imagePositionAdjustment.vertical : -(imagePositionAdjustment.vertical + 14.0 / 2)
+            imageViewCenterYConstraint?.constant = (title == nil) ? imagePositionAdjustment.vertical : -(-imagePositionAdjustment.vertical + 14.0 / 2)
         } else {
             imageViewCenterYConstraint = NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: imagePositionAdjustment.vertical)
             self .addConstraint(imageViewCenterYConstraint!)
