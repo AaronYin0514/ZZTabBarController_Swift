@@ -12,9 +12,9 @@ let separationLineColor: UIColor = UIColor.lightGray
 
 class ZZTabBar: UIView {
     
-    var showSeparationLine: Bool = true {
+    var showSeparationLine: Bool = false {
         didSet {
-            separationLine.isHidden = showSeparationLine
+            separationLine.isHidden = !showSeparationLine
         }
     }
     
@@ -191,7 +191,7 @@ class ZZTabBar: UIView {
         separationLine.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(separationLine)
         self.setupSeparationLine()
-        separationLine.isHidden = showSeparationLine
+        separationLine.isHidden = !showSeparationLine
     }
     
     // MARK: - UI
@@ -207,8 +207,8 @@ class ZZTabBar: UIView {
         let separationLineTrailingConstraint = NSLayoutConstraint(item: separationLine, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0.0)
         self.addConstraint(separationLineTrailingConstraint)
         
-        let separationLineTopConstraint = NSLayoutConstraint(item: separationLine, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0)
-        self.addConstraint(separationLineTopConstraint)
+        let separationLineBottomConstraint = NSLayoutConstraint(item: separationLine, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0)
+        self.addConstraint(separationLineBottomConstraint)
         
         let separationLineHeightConstraint = NSLayoutConstraint(item: separationLine, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1.0)
         separationLine.addConstraint(separationLineHeightConstraint)

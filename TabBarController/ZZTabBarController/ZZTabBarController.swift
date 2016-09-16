@@ -24,7 +24,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         }
     }
     
-    var showSeparationLine: Bool = true {
+    var showSeparationLine: Bool = false {
         didSet {
             tabBar.showSeparationLine = showSeparationLine
         }
