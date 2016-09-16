@@ -136,15 +136,6 @@ class ZZTabBar: UIView {
         }
     }
     /**
-     * Sets the height of tab bar.
-     */
-    func setHeight(_ height: CGFloat) -> Void {
-        if height <= 0.0 {
-            return
-        }
-        frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: height)
-    }
-    /**
      * Returns the minimum height of tab bar's items.
      */
     func minimumContentHeight() -> CGFloat {
@@ -158,11 +149,28 @@ class ZZTabBar: UIView {
         return minimumTabBarContentHeight
     }
     
+    fileprivate var p_maxItemContentHeight: CGFloat = 0.0
+    func maxItemContentHeight() -> CGFloat {
+        if p_maxItemContentHeight > 0.0 {
+            return p_maxItemContentHeight
+        }
+        var maxItemContentHeight = frame.height
+        if items != nil {
+            for item in items! {
+                let itemHeight = item.itemHeight
+                if itemHeight > maxItemContentHeight {
+                    maxItemContentHeight = itemHeight
+                }
+            }
+        }
+        p_maxItemContentHeight = maxItemContentHeight
+        return maxItemContentHeight
+    }
+    
     // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.green
         self.commonInit()
     }
     

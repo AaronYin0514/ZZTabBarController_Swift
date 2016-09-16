@@ -170,25 +170,13 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         }
         
         let block: () -> Void = {
-            let viewSize: CGSize = weakSelf!.view.bounds.size
-            var tabBarStartingY: CGFloat = viewSize.height
-            var contentViewHeight: CGFloat = viewSize.height
-            var tabBarHeight: CGFloat = weakSelf!.tabBar.frame.height
-            
-            if tabBarHeight <= 0.0 {
-                tabBarHeight = 49.0
-            }
-            
+            weakSelf!.tabBarHeightConstraint?.constant = weakSelf!.tabBar.maxItemContentHeight()
             if weakSelf!.tabBarHidden == false {
-                tabBarStartingY = viewSize.height - tabBarHeight
-                var temp = weakSelf!.tabBar.minimumContentHeight()
-                if temp <= 0.0 {
-                    temp = tabBarHeight
-                }
-                contentViewHeight = contentViewHeight - temp
+                weakSelf!.tabBarTopConstraint?.constant = -weakSelf!.tabBar.maxItemContentHeight()
+            } else {
+                weakSelf!.tabBarTopConstraint?.constant = 0.0
             }
-            
-            weakSelf!.tabBar.frame = CGRect(x: 0, y: tabBarStartingY, width: viewSize.width, height: tabBarHeight)
+            weakSelf!.view.setNeedsDisplay()
         }
         
         let completion = { (completion: Bool) -> Void in
@@ -205,16 +193,30 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         }
     }
     
+    fileprivate var tabBarTopConstraint: NSLayoutConstraint?
+    fileprivate var tabBarHeightConstraint: NSLayoutConstraint?
+    
     fileprivate func setupTabBar() {
-        tabBar.autoresizingMask = [.flexibleWidth, .flexibleTopMargin, .flexibleLeftMargin, .flexibleRightMargin, .flexibleBottomMargin]
+        tabBar.translatesAutoresizingMaskIntoConstraints = false
+        tabBarTopConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0)
+        self.view.addConstraint(tabBarTopConstraint!)
+        
+        let tabBarLeadingConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0)
+        self.view.addConstraint(tabBarLeadingConstraint)
+        
+        let tabBarTrailingConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0)
+        self.view.addConstraint(tabBarTrailingConstraint)
+        
+        tabBarHeightConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: -49.0)
+        self.tabBar.addConstraint(tabBarHeightConstraint!)
         tabBar.delegate = self
     }
     
     // MARK: - Life Cercle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupTabBar()
         self.view.addSubview(tabBar)
+        self.setupTabBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
