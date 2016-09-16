@@ -125,6 +125,22 @@ class ZZTabBar: UIView {
             return p_backgroundView!
         }
     }
+    
+    fileprivate func layoutbackgroundView() {
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        let backgroundViewTopConstraint = NSLayoutConstraint(item: backgroundView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0)
+        self.addConstraint(backgroundViewTopConstraint)
+        
+        let backgroundViewLeadingConstraint = NSLayoutConstraint(item: backgroundView, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0)
+        self.addConstraint(backgroundViewLeadingConstraint)
+        
+        let backgroundViewTrailingConstraint = NSLayoutConstraint(item: backgroundView, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0)
+        self.addConstraint(backgroundViewTrailingConstraint)
+        
+        let backgroundViewBottomConstraint = NSLayoutConstraint(item: backgroundView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0)
+        self.addConstraint(backgroundViewBottomConstraint)
+    }
+    
     /*
      * contentEdgeInsets can be used to center the items in the middle of the tabBar.
      */
@@ -136,19 +152,8 @@ class ZZTabBar: UIView {
         }
     }
     /**
-     * Returns the minimum height of tab bar's items.
+     * Returns the maxmum height of tab bar's items.
      */
-    func minimumContentHeight() -> CGFloat {
-        var minimumTabBarContentHeight = frame.height
-        for item: ZZTabBarItem in items! {
-            let itemHeight = item.itemHeight
-            if itemHeight > 0.0 && itemHeight < minimumTabBarContentHeight {
-                minimumTabBarContentHeight = itemHeight
-            }
-        }
-        return minimumTabBarContentHeight
-    }
-    
     fileprivate var p_maxItemContentHeight: CGFloat = 0.0
     func maxItemContentHeight() -> CGFloat {
         if p_maxItemContentHeight > 0.0 {
@@ -180,6 +185,7 @@ class ZZTabBar: UIView {
     
     func commonInit() -> Void {
         self.addSubview(backgroundView)
+        self.layoutbackgroundView()
         separationLine.backgroundColor = separationLineColor
         separationLine.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(separationLine)
@@ -190,9 +196,6 @@ class ZZTabBar: UIView {
     // MARK: - UI
     override func layoutSubviews() {
         super.layoutSubviews()
-        let frameSize = self.frame.size
-        let minimumContentHeight = self.minimumContentHeight()
-        backgroundView.frame = CGRect(x: 0, y: frameSize.height - minimumContentHeight, width: frameSize.width, height: frameSize.height)
         self.bringSubview(toFront: separationLine)
     }
     
