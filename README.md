@@ -1,5 +1,15 @@
 # ZZTabBarController
 ![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/ZZTabBarController.png)
+功能强大的TabBarController，能够满足绝大多数对TabBarController的设计需求，功能特色
+
+* 扩展了Badge功能，设置Badge值动画
+* 仿QQ Badge效果，可拖动消除
+* 设置自定义按钮，代理中实现点击方法
+* 设置TabBarItem背景
+* 自定义分割线
+
+
+
 ## 使用
 仿系统UITabBarController，使用与系统方法一样
 
@@ -40,18 +50,57 @@ tabBarViewController.delegate = self
 tabBarViewController.viewControllers = viewControllers
 ```
 ## 案例
-** 1. 仿系统UITabBarController **
+** 1. 动画 **
 
-![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/TabBar1.png)
+```obj-c
+// MARK: 设置badge值动画
+self.zz_tabBarItem.setBadgeValue(String((indexPath as NSIndexPath).row), animated: true)
+// MARK: TabBar隐藏动画
+self.zz_tabBarController?.setTabBarHidden(true, animated: true)
+// MARK: 开启badge拖动动画
+tabBarViewController.badgeAnimation = true
+// MARK: badge拖动消除代理
+func tabBarController(_ tabBarController: ZZTabBarController, badgeClearAtIndex index: Int) {
+        print("清空badge : \(index)")
+}
+```
+
+![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/badge1.gif)
 
 ** 2. 自定义按钮 **
 
-![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/TabBar2.png)
+```obj-c
+// MARK: Custom Item
+let customItem: ZZTabBarItem = ZZTabBarItem()
+customItem.itemHeight = 59.0
+customItem.itemType = .action
+customItem.image = UIImage(named: "home_circle")
+// MARK: 设置自定义按钮
+tabBarViewController.setupViewControllers(viewControllers, customItem: (customItem, 2))
+```
+
+![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/badge2.gif)
 
 ** 3. 黑色主题风格 **
 
-![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/heise.png)
+```obj-c
+// MARK: 设置item背景
+homeViewController.zz_tabBarItem.selectedBackgroundImage = UIImage(named: "tabbar_selected")
+// MARK: 设置TabBar背景
+let bgView = UIView()
+bgView.backgroundColor = UIColor.darkGray
+tabBarViewController.tabBar.backgroundView = bgView
+```
 
-** 4. 仿QQ气泡效果 **
+![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/badge3.png)
 
-![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/badge.gif)
+** 4. 自定义分割线 **
+
+```obj-c
+// MARK: 显示分割线
+tabBarViewController.showSeparationLine = true
+// MARK: 设置分割线图片
+tabBarViewController.tabBar.separationLineImage = UIImage(named: "unipay_bgarrow")
+```
+
+![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/badge4.png)
