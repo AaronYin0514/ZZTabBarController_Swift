@@ -104,3 +104,5 @@ tabBarViewController.tabBar.separationLineImage = UIImage(named: "unipay_bgarrow
 
 ![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/badge4.png =375x
 )
+
+<img src="https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/badge4.png" width = "375" height = "667"/>
