@@ -1,5 +1,6 @@
 # ZZTabBarController
 ![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/ZZTabBarController.png)
+
 功能强大的TabBarController，能够满足绝大多数对TabBarController的设计需求，功能特色
 
 * 扩展了Badge功能，设置Badge值动画
@@ -7,8 +8,6 @@
 * 设置自定义按钮，代理中实现点击方法
 * 设置TabBarItem背景
 * 自定义分割线
-
-
 
 ## 使用
 仿系统UITabBarController，使用与系统方法一样
@@ -92,7 +91,7 @@ bgView.backgroundColor = UIColor.darkGray
 tabBarViewController.tabBar.backgroundView = bgView
 ```
 
-![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/badge3.png)
+![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/badge3.png =375x)
 
 ** 4. 自定义分割线 **
 
@@ -103,4 +102,5 @@ tabBarViewController.showSeparationLine = true
 tabBarViewController.tabBar.separationLineImage = UIImage(named: "unipay_bgarrow")
 ```
 
-![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/badge4.png)
+![image](https://raw.githubusercontent.com/AaronYin0514/ZZTabBarController_Swift/master/TabBarController/Product/badge4.png =375x
+)
