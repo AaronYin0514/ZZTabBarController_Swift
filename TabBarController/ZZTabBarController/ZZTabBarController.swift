@@ -344,7 +344,7 @@ extension UIViewController {
         }
     }
     
-    var zz_private_tabBarController: ZZTabBarController? {
+    fileprivate var zz_private_tabBarController: ZZTabBarController? {
         get {
             var tabBarViewController = objc_getAssociatedObject(self, &static_tabBarController) as? ZZTabBarController
             if tabBarViewController == nil && self.parent != nil {

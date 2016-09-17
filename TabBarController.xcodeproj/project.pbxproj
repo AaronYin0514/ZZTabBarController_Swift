@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9374CE121D8C465E0014F43B /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9374CE101D8C465E0014F43B /* MyTableViewCell.swift */; };
 		9374CE131D8C465E0014F43B /* MyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9374CE111D8C465E0014F43B /* MyTableViewCell.xib */; };
+		937713701D8CEE41002D5461 /* NextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9377136F1D8CEE41002D5461 /* NextViewController.swift */; };
 		937BF0E71D6999EF00F0BBB1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937BF0E31D6999EF00F0BBB1 /* HomeViewController.swift */; };
 		937BF0E81D6999EF00F0BBB1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937BF0E41D6999EF00F0BBB1 /* MapViewController.swift */; };
 		937BF0E91D6999EF00F0BBB1 /* PlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937BF0E51D6999EF00F0BBB1 /* PlanViewController.swift */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		9374CE101D8C465E0014F43B /* MyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTableViewCell.swift; sourceTree = "<group>"; };
 		9374CE111D8C465E0014F43B /* MyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyTableViewCell.xib; sourceTree = "<group>"; };
+		9377136F1D8CEE41002D5461 /* NextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NextViewController.swift; sourceTree = "<group>"; };
 		937BF0E31D6999EF00F0BBB1 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		937BF0E41D6999EF00F0BBB1 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		937BF0E51D6999EF00F0BBB1 /* PlanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanViewController.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				937BF0E41D6999EF00F0BBB1 /* MapViewController.swift */,
 				937BF0E51D6999EF00F0BBB1 /* PlanViewController.swift */,
 				937BF0E61D6999EF00F0BBB1 /* SettingViewController.swift */,
+				9377136F1D8CEE41002D5461 /* NextViewController.swift */,
 				9374CE101D8C465E0014F43B /* MyTableViewCell.swift */,
 				9374CE111D8C465E0014F43B /* MyTableViewCell.xib */,
 				93E814631D66F4D700E232F7 /* Info.plist */,
@@ -308,6 +311,7 @@
 				93E814581D66F4D600E232F7 /* AppDelegate.swift in Sources */,
 				9374CE121D8C465E0014F43B /* MyTableViewCell.swift in Sources */,
 				93B5C7D11D6867BB0097CDE7 /* ZZTabBarController.swift in Sources */,
+				937713701D8CEE41002D5461 /* NextViewController.swift in Sources */,
 				93D6C32F1D6821BE00E4C45E /* ZZTabBar.swift in Sources */,
 				937BF0EA1D6999EF00F0BBB1 /* SettingViewController.swift in Sources */,
 				937BF0E91D6999EF00F0BBB1 /* PlanViewController.swift in Sources */,

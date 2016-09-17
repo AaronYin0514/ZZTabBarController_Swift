@@ -17,22 +17,25 @@ class SettingViewController: UIViewController {
         self.view.addSubview(imageView)
         self.title = "设置"
         self.view.backgroundColor = UIColor.cyan
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        let btn = UIButton(type: .custom)
+        btn.frame = CGRect(x: 170, y: 300, width: 50, height: 50)
+        btn.backgroundColor = UIColor.orange
+        btn.setTitle("Next", for: .normal)
+        btn.setTitleColor(UIColor.white, for: .normal)
+        btn.layer.cornerRadius = 25.0
+        btn.addTarget(self, action: #selector(SettingViewController.action), for: .touchUpInside)
+        self.view.addSubview(btn)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.zz_tabBarController?.setTabBarHidden(false, animated: true)
     }
-    */
+
+    func action() -> Void {
+        let nextController = NextViewController()
+        self.navigationController?.pushViewController(nextController, animated: true)
+    }
 
 }
