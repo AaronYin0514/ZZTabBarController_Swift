@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
          扩展了Badge功能，设置Badge值动画
          仿QQ Badge效果，可拖动消除
          */
-//        let tabBarViewController: ZZTabBarController = self.case1()
+        let tabBarViewController: ZZTabBarController = self.case1()
         /**
          案例二
          设置自定义按钮，代理中实现点击方法
@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
          案例五
          自定义分割线图片
          */
-        let tabBarViewController: ZZTabBarController = self.case5()
+//        let tabBarViewController: ZZTabBarController = self.case5()
         
         // MARK: - Window
         window?.rootViewController = tabBarViewController

@@ -207,7 +207,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         let tabBarTrailingConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0)
         self.view.addConstraint(tabBarTrailingConstraint)
         
-        tabBarHeightConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: -49.0)
+        tabBarHeightConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 49.0)
         self.tabBar.addConstraint(tabBarHeightConstraint!)
         tabBar.delegate = self
     }
