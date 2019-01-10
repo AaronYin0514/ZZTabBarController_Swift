@@ -33,7 +33,7 @@ class SettingViewController: UIViewController {
         self.zz_tabBarController?.setTabBarHidden(false, animated: true)
     }
 
-    func action() -> Void {
+    @objc func action() -> Void {
         let nextController = NextViewController()
         self.navigationController?.pushViewController(nextController, animated: true)
     }

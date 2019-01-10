@@ -8,6 +8,25 @@
 
 import UIKit
 
+/// Common Size
+let ZZ_SCREEN_WIDTH = UIScreen.main.bounds.size.width
+let ZZ_SCREEN_HEIGHT = UIScreen.main.bounds.size.height
+
+// iPhoneX iPhoneXs
+let isZZIPhoneX = ZZ_SCREEN_HEIGHT == 812.0
+// iPhoneXMax iPhoneXR
+let isZZIPhoneXsMax = ZZ_SCREEN_HEIGHT == 896.0
+let isZZIPhoneSE = ZZ_SCREEN_HEIGHT == 568.00
+
+// 全面屏
+let isZZFullScreen = isZZIPhoneX || isZZIPhoneXsMax
+
+// TabBar高度
+let ZZ_TAB_BAR_CONTROLLER_HEIGHT: CGFloat = isZZFullScreen ? 83.0 : 49.0
+
+// TabBar安全区域高度
+let ZZ_TAB_BAR_SAFE_AREA_HEIGHT: CGFloat = isZZFullScreen ? 34.0 : 0.0
+
 class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     /**
      * The tab bar controller’s delegate object.
@@ -41,9 +60,9 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         set(newValue) {
             if private_viewControllers != nil && private_viewControllers!.count > 0 {
                 for viewController in private_viewControllers! {
-                    viewController.willMove(toParentViewController: nil)
+                    viewController.willMove(toParent: nil)
                     viewController.view.removeFromSuperview()
-                    viewController.removeFromParentViewController()
+                    viewController.removeFromParent()
                 }
             }
             if newValue != nil && newValue!.count > 0 {
@@ -80,9 +99,9 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         }
         if private_viewControllers != nil && private_viewControllers!.count > 0 {
             for viewController in private_viewControllers! {
-                viewController.willMove(toParentViewController: nil)
+                viewController.willMove(toParent: nil)
                 viewController.view.removeFromSuperview()
-                viewController.removeFromParentViewController()
+                viewController.removeFromParent()
             }
         }
         if viewControllers.count > 0 {
@@ -134,17 +153,17 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
                 return
             }
             if selectedViewController != nil {
-                selectedViewController?.willMove(toParentViewController: nil)
+                selectedViewController?.willMove(toParent: nil)
                 selectedViewController?.view.removeFromSuperview()
-                selectedViewController?.removeFromParentViewController()
+                selectedViewController?.removeFromParent()
             }
             tabBar.selectedItem = tabBar.normalItems![index]
             
             let viewController = viewControllers![index]
-            self.addChildViewController(viewController)
+            self.addChild(viewController)
             viewController.view.frame = self.view.frame
             self.view.insertSubview(viewController.view, at: 0)
-            viewController.didMove(toParentViewController: self)
+            viewController.didMove(toParent: self)
             
             selectedViewController = viewController
             
@@ -198,16 +217,16 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     
     fileprivate func setupTabBar() {
         tabBar.translatesAutoresizingMaskIntoConstraints = false
-        tabBarTopConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0)
+        tabBarTopConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.bottom, multiplier: 1.0, constant: 0)
         self.view.addConstraint(tabBarTopConstraint!)
         
-        let tabBarLeadingConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0)
+        let tabBarLeadingConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutConstraint.Attribute.leading, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.leading, multiplier: 1.0, constant: 0)
         self.view.addConstraint(tabBarLeadingConstraint)
         
-        let tabBarTrailingConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0)
+        let tabBarTrailingConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1.0, constant: 0)
         self.view.addConstraint(tabBarTrailingConstraint)
         
-        tabBarHeightConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: 49.0)
+        tabBarHeightConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1.0, constant: ZZ_TAB_BAR_CONTROLLER_HEIGHT)
         self.tabBar.addConstraint(tabBarHeightConstraint!)
         tabBar.delegate = self
     }
@@ -242,9 +261,9 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     func setupViewControllers(_ controllers: [UIViewController]) -> Void {
         if viewControllers != nil && viewControllers!.count > 0 {
             for viewController in viewControllers! {
-                viewController.willMove(toParentViewController: nil)
+                viewController.willMove(toParent: nil)
                 viewController.view.removeFromSuperview()
-                viewController.removeFromParentViewController()
+                viewController.removeFromParent()
             }
         }
         if controllers.count > 0 {
@@ -280,7 +299,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "com.zz.tabBarController.badgeClear"), object: nil)
     }
     
-    func badgeClear(_ notification: Notification) {
+    @objc func badgeClear(_ notification: Notification) {
         if delegate != nil && delegate!.responds(to: #selector(ZZTabBarControllerDelegate.tabBarController(_:badgeClearAtIndex:))) {
             let object = notification.object as! NSNumber
             delegate!.tabBarController!(self, badgeClearAtIndex: object.intValue)

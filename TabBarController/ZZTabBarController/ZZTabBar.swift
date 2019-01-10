@@ -35,7 +35,7 @@ class ZZTabBar: UIView {
         didSet {
             for item in items! {
                 item.translatesAutoresizingMaskIntoConstraints = false
-                item.addTarget(self, action: #selector(ZZTabBar.tabBarItemWasSelected(_:)), for: UIControlEvents.touchUpInside)
+                item.addTarget(self, action: #selector(ZZTabBar.tabBarItemWasSelected(_:)), for: UIControl.Event.touchUpInside)
                 self.addSubview(item)
             }
             self.setupLayoutItem()
@@ -70,13 +70,13 @@ class ZZTabBar: UIView {
     
     fileprivate func setupLayoutItem() {
         for constraint in self.constraints {
-            if constraint.firstItem.isKind(of: ZZTabBarItem.self) {
+            if constraint.firstItem is ZZTabBarItem {
                 self.removeConstraint(constraint)
             }
         }
         for (idx, item) in (items!).enumerated() {
-            let bottomConstraint = NSLayoutConstraint(item: item, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: self.contentEdgeInsets.bottom);
-            self.addConstraint(bottomConstraint)
+            let topConstraint = NSLayoutConstraint(item: item, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: self.contentEdgeInsets.top);
+            self.addConstraint(topConstraint)
             
             let heightConstraint = NSLayoutConstraint(item: item, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: item.itemHeight)
             item.addConstraint(heightConstraint)
@@ -145,16 +145,16 @@ class ZZTabBar: UIView {
     
     fileprivate func layoutbackgroundView() {
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        let backgroundViewTopConstraint = NSLayoutConstraint(item: backgroundView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0)
+        let backgroundViewTopConstraint = NSLayoutConstraint(item: backgroundView, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1.0, constant: 0)
         self.addConstraint(backgroundViewTopConstraint)
         
-        let backgroundViewLeadingConstraint = NSLayoutConstraint(item: backgroundView, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0)
+        let backgroundViewLeadingConstraint = NSLayoutConstraint(item: backgroundView, attribute: NSLayoutConstraint.Attribute.leading, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self, attribute: NSLayoutConstraint.Attribute.leading, multiplier: 1.0, constant: 0)
         self.addConstraint(backgroundViewLeadingConstraint)
         
-        let backgroundViewTrailingConstraint = NSLayoutConstraint(item: backgroundView, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0)
+        let backgroundViewTrailingConstraint = NSLayoutConstraint(item: backgroundView, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1.0, constant: 0)
         self.addConstraint(backgroundViewTrailingConstraint)
         
-        let backgroundViewBottomConstraint = NSLayoutConstraint(item: backgroundView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0)
+        let backgroundViewBottomConstraint = NSLayoutConstraint(item: backgroundView, attribute: NSLayoutConstraint.Attribute.bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self, attribute: NSLayoutConstraint.Attribute.bottom, multiplier: 1.0, constant: 0)
         self.addConstraint(backgroundViewBottomConstraint)
     }
     
@@ -163,7 +163,7 @@ class ZZTabBar: UIView {
      */
     var contentEdgeInsets: UIEdgeInsets = UIEdgeInsets.zero {
         didSet {
-            if UIEdgeInsetsEqualToEdgeInsets(contentEdgeInsets, UIEdgeInsets.zero) == false {
+            if contentEdgeInsets != UIEdgeInsets.zero {
                 self.setupLayoutItem()
             }
         }
@@ -185,8 +185,8 @@ class ZZTabBar: UIView {
                 }
             }
         }
-        p_maxItemContentHeight = maxItemContentHeight
-        return maxItemContentHeight
+        p_maxItemContentHeight = maxItemContentHeight + ZZ_TAB_BAR_SAFE_AREA_HEIGHT
+        return p_maxItemContentHeight
     }
     
     // MARK: - Init
@@ -213,7 +213,7 @@ class ZZTabBar: UIView {
     // MARK: - UI
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.bringSubview(toFront: separationLine)
+        self.bringSubviewToFront(separationLine)
     }
     
     fileprivate var separationLineHeightConstraint: NSLayoutConstraint?
@@ -235,7 +235,7 @@ class ZZTabBar: UIView {
     fileprivate var itemWidth:CGFloat = 0.0
     
     //MARK: - Item selection
-    func tabBarItemWasSelected(_ sender : ZZTabBarItem) -> Void {
+    @objc func tabBarItemWasSelected(_ sender : ZZTabBarItem) -> Void {
         if sender.itemType == .normal {
             if delegate != nil && delegate!.responds(to: #selector(ZZTabBarDelegate.tabBar(_:shouldSelectItemAtIndex:))) {
                 let idx: Int = normalItems!.index(of: sender)!

@@ -47,13 +47,13 @@ class ZZTabBarItem: UIControl {
     var titlePositionAdjustment:UIOffset = UIOffset.zero
     
     // The title attributes dictionary used for tab bar item's unselected state.
-    fileprivate var p_unselectedTitleAttributes : [String : AnyObject] = [NSFontAttributeName : UIFont.systemFont(ofSize: 11.0), NSForegroundColorAttributeName : UIColor.lightGray]
+    fileprivate var p_unselectedTitleAttributes : [String : AnyObject] = [convertFromNSAttributedStringKey(NSAttributedString.Key.font) : UIFont.systemFont(ofSize: 11.0), convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor) : UIColor.lightGray]
     var unselectedTitleAttributes: [String : AnyObject] {
         set(value) {
-            if value[NSFontAttributeName] != nil {
-                p_unselectedTitleAttributes[NSFontAttributeName] = value[NSFontAttributeName]
-            } else if value[NSForegroundColorAttributeName] != nil {
-                p_unselectedTitleAttributes[NSForegroundColorAttributeName] = value[NSForegroundColorAttributeName]
+            if value[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] != nil {
+                p_unselectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] = value[convertFromNSAttributedStringKey(NSAttributedString.Key.font)]
+            } else if value[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] != nil {
+                p_unselectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] = value[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)]
             }
         }
         get {
@@ -62,13 +62,13 @@ class ZZTabBarItem: UIControl {
     }
     
     // The title attributes dictionary used for tab bar item's selected state.
-    fileprivate var p_selectedTitleAttributes: [String : AnyObject] = [NSFontAttributeName : UIFont.systemFont(ofSize: 11.0), NSForegroundColorAttributeName : UIColor.black]
+    fileprivate var p_selectedTitleAttributes: [String : AnyObject] = [convertFromNSAttributedStringKey(NSAttributedString.Key.font) : UIFont.systemFont(ofSize: 11.0), convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor) : UIColor.black]
     var selectedTitleAttributes: [String : AnyObject] {
         set(value) {
-            if value[NSFontAttributeName] != nil {
-                p_selectedTitleAttributes[NSFontAttributeName] = value[NSFontAttributeName]
-            } else if value[NSForegroundColorAttributeName] != nil {
-                p_selectedTitleAttributes[NSForegroundColorAttributeName] = value[NSForegroundColorAttributeName]
+            if value[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] != nil {
+                p_selectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] = value[convertFromNSAttributedStringKey(NSAttributedString.Key.font)]
+            } else if value[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] != nil {
+                p_selectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] = value[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)]
             }
         }
         get {
@@ -111,13 +111,13 @@ class ZZTabBarItem: UIControl {
             if isSelected == true {
                 backgroundImageView.image = selectedBackgroundImage
                 imageView.image = selectedImage
-                titleLabel.textColor = p_selectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
-                titleLabel.font = p_selectedTitleAttributes[NSFontAttributeName] as! UIFont
+                titleLabel.textColor = p_selectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] as? UIColor
+                titleLabel.font = p_selectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] as? UIFont
             } else {
                 backgroundImageView.image = backgroundImage
                 imageView.image = image
-                titleLabel.textColor = p_unselectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
-                titleLabel.font = p_unselectedTitleAttributes[NSFontAttributeName] as! UIFont
+                titleLabel.textColor = p_unselectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] as? UIColor
+                titleLabel.font = p_unselectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] as? UIFont
             }
         }
     }
@@ -181,8 +181,8 @@ class ZZTabBarItem: UIControl {
         self.addSubview(imageView)
         self.layoutImageView()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = p_unselectedTitleAttributes[NSForegroundColorAttributeName] as! UIColor
-        titleLabel.font = p_unselectedTitleAttributes[NSFontAttributeName] as! UIFont
+        titleLabel.textColor = p_unselectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] as? UIColor
+        titleLabel.font = p_unselectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] as? UIFont
         titleLabel.textAlignment = .center
         self.addSubview(titleLabel)
         self.layoutTitleLabel()
@@ -225,13 +225,13 @@ class ZZTabBarItem: UIControl {
         }
         
         if imageViewHeightConstraint == nil {
-            imageViewHeightConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: height);
+            imageViewHeightConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1.0, constant: height);
             imageView.addConstraint(imageViewHeightConstraint!)
         } else {
             imageViewHeightConstraint?.constant = height
         }
         if imageViewWidthConstraint == nil {
-            imageViewWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: width)
+            imageViewWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: width)
             imageView.addConstraint(imageViewWidthConstraint!)
         } else {
             imageViewWidthConstraint?.constant = width
@@ -294,11 +294,11 @@ class ZZTabBarItem: UIControl {
         }
         badgeLabel.setBadgeValue(badgeValue, animated: false)
         if badgeLabelHeightConstraint == nil {
-            badgeLabelHeightConstraint = NSLayoutConstraint(item: badgeLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1.0, constant: ZZTabBarItemBadgeWidth);
+            badgeLabelHeightConstraint = NSLayoutConstraint(item: badgeLabel, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1.0, constant: ZZTabBarItemBadgeWidth);
             badgeLabel.addConstraint(badgeLabelHeightConstraint!)
         }
         if badgeLabelWidthConstraint == nil {
-            badgeLabelWidthConstraint = NSLayoutConstraint(item: badgeLabel, attribute: .width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ZZTabBarItemBadgeWidth)
+            badgeLabelWidthConstraint = NSLayoutConstraint(item: badgeLabel, attribute: .width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ZZTabBarItemBadgeWidth)
             badgeLabel.addConstraint(badgeLabelWidthConstraint!)
         }
         if badgeLabelCenterXConstraint == nil {
@@ -321,4 +321,9 @@ class ZZTabBarItem: UIControl {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
 }
