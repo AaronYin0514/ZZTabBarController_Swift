@@ -47,13 +47,13 @@ class ZZTabBarItem: UIControl {
     var titlePositionAdjustment:UIOffset = UIOffset.zero
     
     // The title attributes dictionary used for tab bar item's unselected state.
-    fileprivate var p_unselectedTitleAttributes : [String : AnyObject] = [convertFromNSAttributedStringKey(NSAttributedString.Key.font) : UIFont.systemFont(ofSize: 11.0), convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor) : UIColor.lightGray]
-    var unselectedTitleAttributes: [String : AnyObject] {
+    fileprivate var p_unselectedTitleAttributes : [NSAttributedString.Key : AnyObject] = [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 11.0), NSAttributedString.Key.foregroundColor : UIColor.lightGray]
+    var unselectedTitleAttributes: [NSAttributedString.Key : AnyObject] {
         set(value) {
-            if value[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] != nil {
-                p_unselectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] = value[convertFromNSAttributedStringKey(NSAttributedString.Key.font)]
-            } else if value[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] != nil {
-                p_unselectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] = value[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)]
+            if value[NSAttributedString.Key.font] != nil {
+                p_unselectedTitleAttributes[NSAttributedString.Key.font] = value[NSAttributedString.Key.font]
+            } else if value[NSAttributedString.Key.foregroundColor] != nil {
+                p_unselectedTitleAttributes[NSAttributedString.Key.foregroundColor] = value[NSAttributedString.Key.foregroundColor]
             }
         }
         get {
@@ -62,13 +62,13 @@ class ZZTabBarItem: UIControl {
     }
     
     // The title attributes dictionary used for tab bar item's selected state.
-    fileprivate var p_selectedTitleAttributes: [String : AnyObject] = [convertFromNSAttributedStringKey(NSAttributedString.Key.font) : UIFont.systemFont(ofSize: 11.0), convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor) : UIColor.black]
-    var selectedTitleAttributes: [String : AnyObject] {
+    fileprivate var p_selectedTitleAttributes: [NSAttributedString.Key : AnyObject] = [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 11.0), NSAttributedString.Key.foregroundColor : UIColor.black]
+    var selectedTitleAttributes: [NSAttributedString.Key : AnyObject] {
         set(value) {
-            if value[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] != nil {
-                p_selectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] = value[convertFromNSAttributedStringKey(NSAttributedString.Key.font)]
-            } else if value[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] != nil {
-                p_selectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] = value[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)]
+            if value[NSAttributedString.Key.font] != nil {
+                p_selectedTitleAttributes[NSAttributedString.Key.font] = value[NSAttributedString.Key.font]
+            } else if value[NSAttributedString.Key.foregroundColor] != nil {
+                p_selectedTitleAttributes[NSAttributedString.Key.foregroundColor] = value[NSAttributedString.Key.foregroundColor]
             }
         }
         get {
@@ -111,13 +111,13 @@ class ZZTabBarItem: UIControl {
             if isSelected == true {
                 backgroundImageView.image = selectedBackgroundImage
                 imageView.image = selectedImage
-                titleLabel.textColor = p_selectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] as? UIColor
-                titleLabel.font = p_selectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] as? UIFont
+                titleLabel.textColor = p_selectedTitleAttributes[NSAttributedString.Key.foregroundColor] as? UIColor
+                titleLabel.font = p_selectedTitleAttributes[NSAttributedString.Key.font] as? UIFont
             } else {
                 backgroundImageView.image = backgroundImage
                 imageView.image = image
-                titleLabel.textColor = p_unselectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] as? UIColor
-                titleLabel.font = p_unselectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] as? UIFont
+                titleLabel.textColor = p_unselectedTitleAttributes[NSAttributedString.Key.foregroundColor] as? UIColor
+                titleLabel.font = p_unselectedTitleAttributes[NSAttributedString.Key.font] as? UIFont
             }
         }
     }
@@ -181,8 +181,8 @@ class ZZTabBarItem: UIControl {
         self.addSubview(imageView)
         self.layoutImageView()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = p_unselectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] as? UIColor
-        titleLabel.font = p_unselectedTitleAttributes[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] as? UIFont
+        titleLabel.textColor = p_unselectedTitleAttributes[NSAttributedString.Key.foregroundColor] as? UIColor
+        titleLabel.font = p_unselectedTitleAttributes[NSAttributedString.Key.font] as? UIFont
         titleLabel.textAlignment = .center
         self.addSubview(titleLabel)
         self.layoutTitleLabel()
@@ -321,9 +321,4 @@ class ZZTabBarItem: UIControl {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
-	return input.rawValue
 }

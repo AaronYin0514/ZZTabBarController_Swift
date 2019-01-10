@@ -233,7 +233,7 @@ class ZZBadgeLabel: UILabel, CAAnimationDelegate {
         values.append(NSValue(caTransform3D: CATransform3DMakeScale(0.7, 0.7, 1.0)))
         values.append(NSValue(caTransform3D: CATransform3DMakeScale(1.0, 1.0, 1.0)))
         animation.values = values
-        animation.timingFunction = CAMediaTimingFunction(name: convertToCAMediaTimingFunctionName("easeInEaseOut"))
+        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         view.layer.add(animation, forKey: nil)
     }
     // MARK: 弹簧动画
@@ -287,9 +287,4 @@ class ZZBadgeLabel: UILabel, CAAnimationDelegate {
         self.isHidden = false
         self.removeWindowView()
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToCAMediaTimingFunctionName(_ input: String) -> CAMediaTimingFunctionName {
-	return CAMediaTimingFunctionName(rawValue: input)
 }
