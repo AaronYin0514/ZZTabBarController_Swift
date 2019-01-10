@@ -245,11 +245,11 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
-        return selectedViewController!.preferredStatusBarStyle
+        return selectedViewController?.preferredStatusBarStyle ?? .lightContent
     }
     
     override var preferredStatusBarUpdateAnimation : UIStatusBarAnimation {
-        return selectedViewController!.preferredStatusBarUpdateAnimation
+        return selectedViewController?.preferredStatusBarUpdateAnimation ?? .none
     }
     
     override func viewWillDisappear(_ animated: Bool) {
