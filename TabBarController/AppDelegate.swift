@@ -307,9 +307,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
     }
     
 }
-
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
-	return input.rawValue
-}
