@@ -208,84 +208,83 @@ class ZZTabBarItem: UIControl {
         self.addConstraint(backgroundImageViewBottomConstraint)
     }
     
-    fileprivate var imageViewHeightConstraint:NSLayoutConstraint?
-    fileprivate var imageViewWidthConstraint:NSLayoutConstraint?
-    fileprivate var imageViewCenterYConstraint:NSLayoutConstraint?
-    fileprivate var imageViewCenterXConstraint:NSLayoutConstraint?
+    fileprivate lazy var imageViewHeightConstraint:NSLayoutConstraint = {
+        var height: CGFloat = ZZTabBarItemImageWidth
+        if let image = image {
+            height = image.size.height
+            height = height > self.itemHeight ? self.itemHeight : height
+        }
+        let imageViewHeightConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1.0, constant: height);
+        return imageViewHeightConstraint
+    }()
+    fileprivate lazy var imageViewWidthConstraint:NSLayoutConstraint = {
+        var width: CGFloat = ZZTabBarItemImageWidth
+        var height: CGFloat = ZZTabBarItemImageWidth
+        if let image = image {
+            height = image.size.height
+            height = height > self.itemHeight ? self.itemHeight : height
+            width = image.size.width / image.size.height * height
+        }
+        let imageViewWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: width)
+        return imageViewWidthConstraint
+    }()
+    fileprivate lazy var imageViewCenterYConstraint:NSLayoutConstraint = {
+        let vertical: CGFloat = (title == nil) ? imagePositionAdjustment.vertical : -(-imagePositionAdjustment.vertical + 14.0 / 2)
+        let imageViewCenterYConstraint = NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: vertical)
+        return imageViewCenterYConstraint
+    }()
+    fileprivate lazy var imageViewCenterXConstraint:NSLayoutConstraint = {
+        let imageViewCenterXConstraint = NSLayoutConstraint(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: imagePositionAdjustment.horizontal)
+        return imageViewCenterXConstraint
+    }()
     
     fileprivate func layoutImageView() -> Void {
-        var height: CGFloat = ZZTabBarItemImageWidth
-        var width: CGFloat = ZZTabBarItemImageWidth
-        if self.itemType == .action {
-            if image != nil {
-                height = image!.size.height
-                height = height > self.itemHeight ? self.itemHeight : height
-                width = image!.size.width / image!.size.height * height
-            }
-        }
-        
-        if imageViewHeightConstraint == nil {
-            imageViewHeightConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1.0, constant: height);
-            imageView.addConstraint(imageViewHeightConstraint!)
-        } else {
-            imageViewHeightConstraint?.constant = height
-        }
-        if imageViewWidthConstraint == nil {
-            imageViewWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: width)
-            imageView.addConstraint(imageViewWidthConstraint!)
-        } else {
-            imageViewWidthConstraint?.constant = width
-        }
-        if imageViewCenterYConstraint != nil {
-            imageViewCenterYConstraint?.constant = (title == nil) ? imagePositionAdjustment.vertical : -(-imagePositionAdjustment.vertical + 14.0 / 2)
-        } else {
-            imageViewCenterYConstraint = NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: imagePositionAdjustment.vertical)
-            self .addConstraint(imageViewCenterYConstraint!)
-        }
-        if imageViewCenterXConstraint != nil {
-            imageViewCenterXConstraint?.constant = imagePositionAdjustment.horizontal
-        } else {
-            imageViewCenterXConstraint = NSLayoutConstraint(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: imagePositionAdjustment.horizontal)
-            self .addConstraint(imageViewCenterXConstraint!)
-        }
+        imageView.addConstraint(imageViewHeightConstraint)
+        imageView.addConstraint(imageViewWidthConstraint)
+        addConstraint(imageViewCenterYConstraint)
+        addConstraint(imageViewCenterXConstraint)
     }
     
-    fileprivate var titleLabelLeadingConstraint:NSLayoutConstraint?
-    fileprivate var titleLabelTrailingConstraint:NSLayoutConstraint?
-    fileprivate var titleLabelHeightConstraint:NSLayoutConstraint?
-    fileprivate var titleLabelBottomConstraint:NSLayoutConstraint?
+    fileprivate lazy var titleLabelLeadingConstraint:NSLayoutConstraint = {
+        let titleLabelLeadingConstraint = NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0.0)
+        return titleLabelLeadingConstraint
+    }()
+    fileprivate lazy var titleLabelTrailingConstraint:NSLayoutConstraint = {
+        let titleLabelTrailingConstraint = NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0.0)
+        return titleLabelTrailingConstraint
+    }()
+    fileprivate lazy var titleLabelHeightConstraint:NSLayoutConstraint = {
+        let titleLabelHeightConstraint = NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 14.0)
+        return titleLabelHeightConstraint
+    }()
+    fileprivate lazy var titleLabelBottomConstraint:NSLayoutConstraint = {
+        let titleLabelBottomConstraint = NSLayoutConstraint(item: titleLabel, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -(titlePositionAdjustment.vertical + 3.0))
+        return titleLabelBottomConstraint
+    }()
     
     fileprivate func layoutTitleLabel() -> Void {
-        if titleLabelLeadingConstraint != nil {
-            titleLabelLeadingConstraint?.constant = 0.0
-        } else {
-            titleLabelLeadingConstraint = NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0.0)
-            self.addConstraint(titleLabelLeadingConstraint!)
-        }
-        if titleLabelTrailingConstraint != nil {
-            titleLabelTrailingConstraint?.constant = 0.0
-        } else {
-            titleLabelTrailingConstraint = NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0.0)
-            self.addConstraint(titleLabelTrailingConstraint!)
-        }
-        if titleLabelHeightConstraint != nil {
-            titleLabelHeightConstraint?.constant = 14.0
-        } else {
-            titleLabelHeightConstraint = NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 14.0);
-            titleLabel.addConstraint(titleLabelHeightConstraint!)
-        }
-        if titleLabelBottomConstraint != nil {
-            titleLabelBottomConstraint?.constant = -(titlePositionAdjustment.vertical + 3.0)
-        } else {
-            titleLabelBottomConstraint = NSLayoutConstraint(item: titleLabel, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -(titlePositionAdjustment.vertical + 3.0))
-            self.addConstraint(titleLabelBottomConstraint!)
-        }
+        addConstraint(titleLabelLeadingConstraint)
+        addConstraint(titleLabelTrailingConstraint)
+        titleLabel.addConstraint(titleLabelHeightConstraint)
+        addConstraint(titleLabelBottomConstraint)
     }
     
-    fileprivate var badgeLabelHeightConstraint:NSLayoutConstraint?
-    fileprivate var badgeLabelWidthConstraint:NSLayoutConstraint?
-    fileprivate var badgeLabelCenterYConstraint:NSLayoutConstraint?
-    fileprivate var badgeLabelCenterXConstraint:NSLayoutConstraint?
+    fileprivate lazy var badgeLabelHeightConstraint:NSLayoutConstraint = {
+        let badgeLabelHeightConstraint = NSLayoutConstraint(item: badgeLabel, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1.0, constant: ZZTabBarItemBadgeWidth)
+        return badgeLabelHeightConstraint
+    }()
+    fileprivate lazy var badgeLabelWidthConstraint:NSLayoutConstraint = {
+        let badgeLabelWidthConstraint = NSLayoutConstraint(item: badgeLabel, attribute: .width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ZZTabBarItemBadgeWidth)
+        return badgeLabelWidthConstraint
+    }()
+    fileprivate lazy var badgeLabelCenterYConstraint:NSLayoutConstraint = {
+        let badgeLabelCenterXConstraint = NSLayoutConstraint(item: badgeLabel, attribute: .centerX, relatedBy: .equal, toItem: imageView, attribute: .trailing, multiplier: 1.0, constant: 0.0)
+        return badgeLabelCenterXConstraint
+    }()
+    fileprivate lazy var badgeLabelCenterXConstraint:NSLayoutConstraint = {
+        let badgeLabelCenterYConstraint = NSLayoutConstraint(item: badgeLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10.0)
+        return badgeLabelCenterYConstraint
+    }()
     
     fileprivate func layoutbadgeLabel() -> Void {
         if itemType == .action {
@@ -293,22 +292,9 @@ class ZZTabBarItem: UIControl {
             return
         }
         badgeLabel.setBadgeValue(badgeValue, animated: false)
-        if badgeLabelHeightConstraint == nil {
-            badgeLabelHeightConstraint = NSLayoutConstraint(item: badgeLabel, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1.0, constant: ZZTabBarItemBadgeWidth);
-            badgeLabel.addConstraint(badgeLabelHeightConstraint!)
-        }
-        if badgeLabelWidthConstraint == nil {
-            badgeLabelWidthConstraint = NSLayoutConstraint(item: badgeLabel, attribute: .width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ZZTabBarItemBadgeWidth)
-            badgeLabel.addConstraint(badgeLabelWidthConstraint!)
-        }
-        if badgeLabelCenterXConstraint == nil {
-            badgeLabelCenterXConstraint = NSLayoutConstraint(item: badgeLabel, attribute: .centerX, relatedBy: .equal, toItem: imageView, attribute: .trailing, multiplier: 1.0, constant: 0.0)
-            self .addConstraint(badgeLabelCenterXConstraint!)
-        }
-        if badgeLabelCenterYConstraint == nil {
-            badgeLabelCenterYConstraint = NSLayoutConstraint(item: badgeLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10.0)
-            self .addConstraint(badgeLabelCenterYConstraint!)
-        }
+        badgeLabel.addConstraint(badgeLabelHeightConstraint)
+        badgeLabel.addConstraint(badgeLabelWidthConstraint)
+        addConstraint(badgeLabelCenterYConstraint)
     }
     
     fileprivate func customLayoutSubviews() -> Void {
