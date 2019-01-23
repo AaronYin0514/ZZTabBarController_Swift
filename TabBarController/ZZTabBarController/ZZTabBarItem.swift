@@ -209,23 +209,11 @@ class ZZTabBarItem: UIControl {
     }
     
     fileprivate lazy var imageViewHeightConstraint:NSLayoutConstraint = {
-        var height: CGFloat = ZZTabBarItemImageWidth
-        if let image = image {
-            height = image.size.height
-            height = height > self.itemHeight ? self.itemHeight : height
-        }
-        let imageViewHeightConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1.0, constant: height);
+        let imageViewHeightConstraint = NSLayoutConstraint(item: imageView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1.0, constant: ZZTabBarItemImageWidth);
         return imageViewHeightConstraint
     }()
     fileprivate lazy var imageViewWidthConstraint:NSLayoutConstraint = {
-        var width: CGFloat = ZZTabBarItemImageWidth
-        var height: CGFloat = ZZTabBarItemImageWidth
-        if let image = image {
-            height = image.size.height
-            height = height > self.itemHeight ? self.itemHeight : height
-            width = image.size.width / image.size.height * height
-        }
-        let imageViewWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: width)
+        let imageViewWidthConstraint = NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ZZTabBarItemImageWidth)
         return imageViewWidthConstraint
     }()
     fileprivate lazy var imageViewCenterYConstraint:NSLayoutConstraint = {
@@ -239,6 +227,15 @@ class ZZTabBarItem: UIControl {
     }()
     
     fileprivate func layoutImageView() -> Void {
+        var width: CGFloat = ZZTabBarItemImageWidth
+        var height: CGFloat = ZZTabBarItemImageWidth
+        if let image = image {
+            height = image.size.height
+            height = height > self.itemHeight ? self.itemHeight : height
+            width = image.size.width / image.size.height * height
+        }
+        imageViewHeightConstraint.constant = height
+        imageViewWidthConstraint.constant = width
         imageView.addConstraint(imageViewHeightConstraint)
         imageView.addConstraint(imageViewWidthConstraint)
         addConstraint(imageViewCenterYConstraint)
@@ -308,3 +305,4 @@ class ZZTabBarItem: UIControl {
         super.init(coder: aDecoder)
     }
 }
+
