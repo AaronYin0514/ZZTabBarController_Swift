@@ -52,39 +52,32 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     /**
      * An array of the root view controllers displayed by the tab bar interface.
      */
-    fileprivate var private_viewControllers: [UIViewController]?
-    var viewControllers:[UIViewController]? {
-        get {
-            return private_viewControllers
+    var viewControllers:[UIViewController] = [] {
+        willSet {
+            for controller in viewControllers {
+                controller.willMove(toParent: nil)
+                controller.view.removeFromSuperview()
+                controller.removeFromParent()
+            }
         }
-        set(newValue) {
-            if private_viewControllers != nil && private_viewControllers!.count > 0 {
-                for viewController in private_viewControllers! {
-                    viewController.willMove(toParent: nil)
-                    viewController.view.removeFromSuperview()
-                    viewController.removeFromParent()
+        didSet {
+            var tempTabBarItems:[ZZTabBarItem] = []
+            for (idx, controller) in viewControllers.enumerated() {
+                controller.zz_private_tabBarController = self
+                var tabBarItem: ZZTabBarItem? = nil
+                if let navi = controller as? UINavigationController {
+                    tabBarItem = navi.viewControllers.first?.zz_tabBarItem
+                } else {
+                    tabBarItem = controller.zz_tabBarItem
+                }
+                if let tabBarItem = tabBarItem {
+                    tempTabBarItems.append(tabBarItem)
+                    tabBarItem.index = idx
                 }
             }
-            if newValue != nil && newValue!.count > 0 {
-                private_viewControllers = newValue
-                var tempTabBarItems:[ZZTabBarItem] = []
-                for (idx, viewController) in private_viewControllers!.enumerated() {
-                    viewController.zz_private_tabBarController = self
-                    var tabBarItem: ZZTabBarItem? = nil
-                    if viewController.isKind(of: UINavigationController.self) {
-                        tabBarItem = (viewController as! UINavigationController).viewControllers.first?.zz_tabBarItem
-                    } else {
-                        tabBarItem = viewController.zz_tabBarItem
-                    }
-                    if tabBarItem != nil {
-                        tempTabBarItems.append(tabBarItem!)
-                        tabBarItem?.index = idx
-                    }
-                }
-                tabBar.normalItems = tempTabBarItems
-                tabBar.items = tempTabBarItems
-                selectedIndex = 0
-            }
+            tabBar.normalItems = tempTabBarItems
+            tabBar.items = tempTabBarItems
+            selectedIndex = 0
             badgeAnimation = badgeAnimation ? true : false
         }
     }
@@ -97,46 +90,41 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         if myCustomItem.index > viewControllers.count {
             myCustomItem.index = viewControllers.count
         }
-        if private_viewControllers != nil && private_viewControllers!.count > 0 {
-            for viewController in private_viewControllers! {
-                viewController.willMove(toParent: nil)
-                viewController.view.removeFromSuperview()
-                viewController.removeFromParent()
+        for viewController in self.viewControllers {
+            viewController.willMove(toParent: nil)
+            viewController.view.removeFromSuperview()
+            viewController.removeFromParent()
+        }
+        if viewControllers.count <= 0 {
+            return
+        }
+        self.viewControllers = viewControllers
+        var tempTabBarItems:[ZZTabBarItem] = []
+        for (idx, viewController) in self.viewControllers.enumerated() {
+            viewController.zz_private_tabBarController = self
+            var tabBarItem: ZZTabBarItem? = nil
+            if let navi = viewController as? UINavigationController {
+                tabBarItem = navi.viewControllers.first?.zz_tabBarItem
+            } else {
+                tabBarItem = viewController.zz_tabBarItem
+            }
+            if let tabBarItem = tabBarItem {
+                tempTabBarItems.append(tabBarItem)
+                tabBarItem.index = idx
             }
         }
-        if viewControllers.count > 0 {
-            private_viewControllers = viewControllers
-            var tempTabBarItems:[ZZTabBarItem] = []
-            for (idx, viewController) in private_viewControllers!.enumerated() {
-                viewController.zz_private_tabBarController = self
-                var tabBarItem: ZZTabBarItem? = nil
-                if viewController.isKind(of: UINavigationController.self) {
-                    tabBarItem = (viewController as! UINavigationController).viewControllers.first?.zz_tabBarItem
-                } else {
-                    tabBarItem = viewController.zz_tabBarItem
-                }
-                if tabBarItem != nil {
-                    tempTabBarItems.append(tabBarItem!)
-                    tabBarItem?.index = idx
-                }
-            }
-            tabBar.normalItems = tempTabBarItems
-            tempTabBarItems.insert(myCustomItem.item, at: myCustomItem.index)
-            tabBar.items = tempTabBarItems
-            selectedIndex = 0
-        }
+        tabBar.normalItems = tempTabBarItems
+        tempTabBarItems.insert(myCustomItem.item, at: myCustomItem.index)
+        tabBar.items = tempTabBarItems
+        selectedIndex = 0
         badgeAnimation = badgeAnimation ? true : false
     }
     
     /**
      * The tab bar view associated with this controller. (read-only)
      */
-    fileprivate var privateTabBar :ZZTabBar = ZZTabBar()
-    var tabBar:ZZTabBar {
-        get {
-            return privateTabBar
-        }
-    }
+    private(set) var tabBar:ZZTabBar = ZZTabBar()
+    
     /**
      * The view controller associated with the currently selected tab item.
      */
@@ -146,10 +134,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
      */
     var selectedIndex: Int {
         set (index) {
-            if viewControllers == nil {
-                return
-            }
-            if index < 0 || index > viewControllers!.count {
+            if index < 0 || index > viewControllers.count {
                 return
             }
             if selectedViewController != nil {
@@ -159,7 +144,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             }
             tabBar.selectedItem = tabBar.normalItems![index]
             
-            let viewController = viewControllers![index]
+            let viewController = viewControllers[index]
             self.addChild(viewController)
             viewController.view.frame = self.view.frame
             self.view.insertSubview(viewController.view, at: 0)
@@ -170,37 +155,36 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             self.setNeedsStatusBarAppearanceUpdate()
         }
         get {
-            return viewControllers!.index(of: selectedViewController!)!
+            return viewControllers.index(of: selectedViewController!)!
         }
     }
     /**
      * A Boolean value that determines whether the tab bar is hidden.
      */
-    var tabBarHidden: Bool = false
+    private(set) var tabBarHidden: Bool = false
     /**
      * Changes the visibility of the tab bar.
      */
     func setTabBarHidden(_ hidden: Bool, animated: Bool) -> Void {
         tabBarHidden = hidden
-        weak var weakSelf : ZZTabBarController? = self
         
         if hidden == false {
-            weakSelf!.tabBar.isHidden = false
+            tabBar.isHidden = false
         }
         
-        let block: () -> Void = {
-            weakSelf!.tabBarHeightConstraint?.constant = weakSelf!.tabBar.maxItemContentHeight()
-            if weakSelf!.tabBarHidden == false {
-                weakSelf!.tabBarTopConstraint?.constant = -weakSelf!.tabBar.maxItemContentHeight()
+        let block: () -> Void = { [weak self] in
+            self?.tabBarHeightConstraint?.constant = self?.tabBar.maxItemContentHeight() ?? ZZ_TAB_BAR_CONTROLLER_HEIGHT
+            if hidden == false {
+                self?.tabBarTopConstraint?.constant = -(self?.tabBar.maxItemContentHeight() ?? ZZ_TAB_BAR_CONTROLLER_HEIGHT)
             } else {
-                weakSelf!.tabBarTopConstraint?.constant = 0.0
+                self?.tabBarTopConstraint?.constant = 0.0
             }
-            weakSelf!.view.layoutIfNeeded()
+            self?.view.layoutIfNeeded()
         }
         
-        let completion = { (completion: Bool) -> Void in
+        let completion = { [weak self] (completion: Bool) -> Void in
             if hidden == true {
-                weakSelf!.tabBar.isHidden = true
+                self?.tabBar.isHidden = true
             }
         }
         
@@ -259,27 +243,24 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     
     // MARK: - Methods
     func setupViewControllers(_ controllers: [UIViewController]) -> Void {
-        if viewControllers != nil && viewControllers!.count > 0 {
-            for viewController in viewControllers! {
-                viewController.willMove(toParent: nil)
-                viewController.view.removeFromSuperview()
-                viewController.removeFromParent()
-            }
+        if viewControllers.count <= 0 {
+            return
         }
-        if controllers.count > 0 {
-            viewControllers = controllers
-            
-            var tempTabBarItems:[ZZTabBarItem] = []
-            
-            for viewController in controllers {
-                let tabBarItem: ZZTabBarItem = ZZTabBarItem()
-                tabBarItem.title = viewController.title
-                tempTabBarItems.append(tabBarItem)
-                viewController.zz_private_tabBarController = self
-            }
-            tabBar.items = tempTabBarItems
-            selectedIndex = 0
+        for viewController in viewControllers {
+            viewController.willMove(toParent: nil)
+            viewController.view.removeFromSuperview()
+            viewController.removeFromParent()
         }
+        viewControllers = controllers
+        var tempTabBarItems:[ZZTabBarItem] = []
+        for viewController in controllers {
+            let tabBarItem: ZZTabBarItem = ZZTabBarItem()
+            tabBarItem.title = viewController.title
+            tempTabBarItems.append(tabBarItem)
+            viewController.zz_private_tabBarController = self
+        }
+        tabBar.items = tempTabBarItems
+        selectedIndex = 0
     }
     
     func indexForViewController(_ viewController : UIViewController) -> Int {
@@ -287,7 +268,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         if viewController.navigationController != nil {
             searchViewController = viewController.navigationController!
         }
-        return viewControllers!.index(of: searchViewController)!
+        return viewControllers.index(of: searchViewController)!
     }
     
     // MARK: - Private Method
@@ -309,10 +290,10 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     // MARK: - ZZTabBarDelegate
     func tabBar(_ tabBarItem: ZZTabBarItem, shouldSelectItemAtIndex index: Int) -> Bool {
         if delegate != nil && delegate!.responds(to: #selector(ZZTabBarControllerDelegate.tabBarController(_:shouldSelectViewController:))) {
-            if delegate!.tabBarController!(self, shouldSelectViewController: viewControllers![index]) == false {
+            if delegate!.tabBarController!(self, shouldSelectViewController: viewControllers[index]) == false {
                 return false
             }
-            if selectedViewController == viewControllers![index] {
+            if selectedViewController == viewControllers[index] {
                 return false
             }
         }
@@ -320,15 +301,12 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     }
     
     func tabBar(_ tabBarItem: ZZTabBarItem, didSelectItemAtIndex index: Int) {
-        if viewControllers == nil {
-            return
-        }
-        if index < 0 || index > viewControllers!.count {
+        if index < 0 || index > viewControllers.count {
             return;
         }
         selectedIndex = index
         if delegate != nil && delegate!.responds(to: #selector(ZZTabBarControllerDelegate.tabBarController(_:didSelectViewController:))) {
-            delegate!.tabBarController!(self, didSelectViewController: viewControllers![index])
+            delegate!.tabBarController!(self, didSelectViewController: viewControllers[index])
         }
     }
     

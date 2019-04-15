@@ -23,17 +23,15 @@ class ZZTabBar: UIView {
     /**
      * The items displayed on the tab bar.
      */
-    var items:[ZZTabBarItem]? {
+    var items:[ZZTabBarItem] = [] {
         willSet {
-            if items != nil && items!.count > 0 {
-                for item in items! {
-                    item.removeFromSuperview()
-                }
-                items?.removeAll()
+            for item in items {
+                item.removeFromSuperview()
             }
+            items.removeAll()
         }
         didSet {
-            for item in items! {
+            for item in items {
                 item.translatesAutoresizingMaskIntoConstraints = false
                 item.addTarget(self, action: #selector(ZZTabBar.tabBarItemWasSelected(_:)), for: UIControl.Event.touchUpInside)
                 self.addSubview(item)
@@ -74,7 +72,7 @@ class ZZTabBar: UIView {
                 self.removeConstraint(constraint)
             }
         }
-        for (idx, item) in (items!).enumerated() {
+        for (idx, item) in items.enumerated() {
             let topConstraint = NSLayoutConstraint(item: item, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: self.contentEdgeInsets.top);
             self.addConstraint(topConstraint)
             
@@ -87,11 +85,11 @@ class ZZTabBar: UIView {
                 let leftConstraint = NSLayoutConstraint(item: item, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: self.contentEdgeInsets.left);
                 self.addConstraint(leftConstraint)
             } else {
-                lastItem = items![idx - 1]
+                lastItem = items[idx - 1]
                 let leadingConstraint = NSLayoutConstraint(item: item, attribute: .leading, relatedBy: .equal, toItem: lastItem, attribute: .trailing, multiplier: 1.0, constant: self.contentEdgeInsets.left + self.contentEdgeInsets.right);
                 self.addConstraint(leadingConstraint)
                 
-                if idx == items!.count - 1 {
+                if idx == items.count - 1 {
                     let rightConstraint = NSLayoutConstraint(item: item, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -self.contentEdgeInsets.right);
                     self.addConstraint(rightConstraint)
                 }
@@ -177,12 +175,10 @@ class ZZTabBar: UIView {
             return p_maxItemContentHeight
         }
         var maxItemContentHeight = frame.height
-        if items != nil {
-            for item in items! {
-                let itemHeight = item.itemHeight
-                if itemHeight > maxItemContentHeight {
-                    maxItemContentHeight = itemHeight
-                }
+        for item in items {
+            let itemHeight = item.itemHeight
+            if itemHeight > maxItemContentHeight {
+                maxItemContentHeight = itemHeight
             }
         }
         p_maxItemContentHeight = maxItemContentHeight + ZZ_TAB_BAR_SAFE_AREA_HEIGHT
@@ -249,7 +245,7 @@ class ZZTabBar: UIView {
             }
         } else {
             if delegate != nil && delegate!.responds(to: #selector(ZZTabBarDelegate.tabBar(_:didSelectCustomItemAtIndex:))) {
-                let idx: Int = items!.index(of: sender)!
+                let idx: Int = items.index(of: sender)!
                 delegate!.tabBar!(sender, didSelectCustomItemAtIndex: idx)
             }
         }
