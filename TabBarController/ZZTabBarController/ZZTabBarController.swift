@@ -155,7 +155,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
             self.setNeedsStatusBarAppearanceUpdate()
         }
         get {
-            return viewControllers.index(of: selectedViewController!)!
+            return viewControllers.firstIndex(of: selectedViewController!)!
         }
     }
     /**
@@ -268,7 +268,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
         if viewController.navigationController != nil {
             searchViewController = viewController.navigationController!
         }
-        return viewControllers.index(of: searchViewController)!
+        return viewControllers.firstIndex(of: searchViewController)!
     }
     
     // MARK: - Private Method

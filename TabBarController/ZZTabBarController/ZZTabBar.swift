@@ -234,18 +234,18 @@ class ZZTabBar: UIView {
     @objc func tabBarItemWasSelected(_ sender : ZZTabBarItem) -> Void {
         if sender.itemType == .normal {
             if delegate != nil && delegate!.responds(to: #selector(ZZTabBarDelegate.tabBar(_:shouldSelectItemAtIndex:))) {
-                let idx: Int = normalItems!.index(of: sender)!
+                let idx: Int = normalItems!.firstIndex(of: sender)!
                 if delegate!.tabBar!(sender, shouldSelectItemAtIndex: idx) == false {
                     return
                 }
             }
             if delegate != nil && delegate!.responds(to: #selector(ZZTabBarDelegate.tabBar(_:didSelectItemAtIndex:))) {
-                let idx: Int = normalItems!.index(of: sender)!
+                let idx: Int = normalItems!.firstIndex(of: sender)!
                 delegate!.tabBar!(sender, didSelectItemAtIndex: idx)
             }
         } else {
             if delegate != nil && delegate!.responds(to: #selector(ZZTabBarDelegate.tabBar(_:didSelectCustomItemAtIndex:))) {
-                let idx: Int = items.index(of: sender)!
+                let idx: Int = items.firstIndex(of: sender)!
                 delegate!.tabBar!(sender, didSelectCustomItemAtIndex: idx)
             }
         }
