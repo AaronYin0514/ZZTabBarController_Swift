@@ -49,6 +49,7 @@ class ZZTabBarItem: UIControl {
     // The title attributes dictionary used for tab bar item's unselected state.
     fileprivate var p_unselectedTitleAttributes : [NSAttributedString.Key : AnyObject] = [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 11.0), NSAttributedString.Key.foregroundColor : UIColor.lightGray]
     var unselectedTitleAttributes: [NSAttributedString.Key : AnyObject] {
+        
         set(value) {
             if value[NSAttributedString.Key.font] != nil {
                 p_unselectedTitleAttributes[NSAttributedString.Key.font] = value[NSAttributedString.Key.font]
