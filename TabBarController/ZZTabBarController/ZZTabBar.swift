@@ -122,29 +122,23 @@ class ZZTabBar: UIView {
      * backgroundView stays behind tabBar's items. If you want to add additional views,
      * add them as subviews of backgroundView.
      */
-    fileprivate var p_backgroundView: UIView?
-    var backgroundView: UIView {
-        set(value) {
-            p_backgroundView!.removeFromSuperview()
-            p_backgroundView = nil
-            p_backgroundView = value
-            self.insertSubview(p_backgroundView!, at: 0)
-            self.layoutbackgroundView()
-            self.setNeedsDisplay()
+    var backgroundView: UIView = {
+        switch UIDevice.current.systemVersion.compare("8.0.0", options: NSString.CompareOptions.numeric) {
+        case .orderedSame, .orderedDescending://"iOS >= 8.0"
+            return UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+        case .orderedAscending://"iOS < 8.0"
+            let view = UIView()
+            view.backgroundColor = UIColor.white
+            return view
         }
-        get {
-            if p_backgroundView == nil {
-                switch UIDevice.current.systemVersion.compare("8.0.0", options: NSString.CompareOptions.numeric) {
-                    case .orderedSame, .orderedDescending:
-                        //"iOS >= 8.0"
-                        p_backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
-                    case .orderedAscending:
-                        //"iOS < 8.0"
-                        p_backgroundView = UIView()
-                        p_backgroundView!.backgroundColor = UIColor.white
-                }
-            }
-            return p_backgroundView!
+    }() {
+        willSet(value) {
+            backgroundView.removeFromSuperview()
+        }
+        didSet {
+            insertSubview(backgroundView, at: 0)
+            layoutbackgroundView()
+            setNeedsDisplay()
         }
     }
     
@@ -261,18 +255,12 @@ class ZZTabBar: UIView {
             return
         }
         if sender.itemType == .normal {
-            if delegate.responds(to: #selector(ZZTabBarDelegate.tabBar(_:shouldSelectItemAtIndex:))) {
-                if delegate.tabBar?(sender, shouldSelectItemAtIndex: idx) == false {
-                    return
-                }
+            if delegate.tabBar?(sender, shouldSelectItemAtIndex: idx) == false {
+                return
             }
-            if delegate.responds(to: #selector(ZZTabBarDelegate.tabBar(_:didSelectItemAtIndex:))) {
-                delegate.tabBar?(sender, didSelectItemAtIndex: idx)
-            }
+            delegate.tabBar?(sender, didSelectItemAtIndex: idx)
         } else {
-            if delegate.responds(to: #selector(ZZTabBarDelegate.tabBar(_:didSelectCustomItemAtIndex:))) {
-                delegate.tabBar?(sender, didSelectCustomItemAtIndex: idx)
-            }
+            delegate.tabBar?(sender, didSelectCustomItemAtIndex: idx)
         }
     }
 }

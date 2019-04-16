@@ -287,15 +287,13 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     
     // MARK: - ZZTabBarDelegate
     func tabBar(_ tabBarItem: ZZTabBarItem, shouldSelectItemAtIndex index: Int) -> Bool {
-        if delegate != nil && delegate!.responds(to: #selector(ZZTabBarControllerDelegate.tabBarController(_:shouldSelectViewController:))) {
-            if delegate!.tabBarController!(self, shouldSelectViewController: viewControllers[index]) == false {
-                return false
-            }
-            if selectedViewController == viewControllers[index] {
-                return false
-            }
+        if selectedViewController == viewControllers[index] {
+            return false
         }
-        return true
+        guard let delegate = delegate else {
+            return true
+        }
+        return delegate.tabBarController?(self, shouldSelectViewController: viewControllers[index]) ?? true
     }
     
     func tabBar(_ tabBarItem: ZZTabBarItem, didSelectItemAtIndex index: Int) {
