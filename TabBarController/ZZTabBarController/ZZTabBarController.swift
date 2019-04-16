@@ -35,10 +35,8 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
     
     var badgeAnimation: Bool = false {
         didSet {
-            if tabBar.normalItems != nil {
-                for item in tabBar.normalItems! {
-                    item.badgeLabel.animation = badgeAnimation
-                }
+            for item in tabBar.normalItems {
+                item.badgeLabel.animation = badgeAnimation
             }
         }
     }
@@ -142,7 +140,7 @@ class ZZTabBarController: UIViewController, ZZTabBarDelegate {
                 selectedViewController?.view.removeFromSuperview()
                 selectedViewController?.removeFromParent()
             }
-            tabBar.selectedItem = tabBar.normalItems![index]
+            tabBar.selectedItem = tabBar.normalItems[index]
             
             let viewController = viewControllers[index]
             self.addChild(viewController)

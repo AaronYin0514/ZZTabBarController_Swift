@@ -34,13 +34,19 @@ class ZZTabBar: UIView {
             for item in items {
                 item.translatesAutoresizingMaskIntoConstraints = false
                 let oneTap = UITapGestureRecognizer(target: self, action: #selector(oneTap(tap:)))
+                let doubleTap = UITapGestureRecognizer(target: target, action: #selector(twoTap(tap:)))
+                doubleTap.numberOfTapsRequired = 2
+                let longPress = UILongPressGestureRecognizer(target: target, action: #selector(longPress(press:)))
                 item.addGestureRecognizer(oneTap)
+                item.addGestureRecognizer(doubleTap)
+                oneTap.require(toFail: doubleTap)
+                item.addGestureRecognizer(longPress)
                 self.addSubview(item)
             }
             self.setupLayoutItem()
         }
     }
-    var normalItems: [ZZTabBarItem]?
+    var normalItems: [ZZTabBarItem] = []
     
     fileprivate var separationLine: UIImageView = UIImageView()
     var separationLineImage: UIImage? {
@@ -239,22 +245,33 @@ class ZZTabBar: UIView {
         }
     }
     
+    @objc func twoTap(tap: UITapGestureRecognizer) {
+        
+    }
+    
+    @objc func longPress(press: UILongPressGestureRecognizer) {
+        
+    }
+    
     @objc func tabBarItemWasSelected(_ sender : ZZTabBarItem) -> Void {
+        guard let delegate = delegate else {
+            return
+        }
+        guard let idx = normalItems.firstIndex(of: sender) else {
+            return
+        }
         if sender.itemType == .normal {
-            if delegate != nil && delegate!.responds(to: #selector(ZZTabBarDelegate.tabBar(_:shouldSelectItemAtIndex:))) {
-                let idx: Int = normalItems!.firstIndex(of: sender)!
-                if delegate!.tabBar!(sender, shouldSelectItemAtIndex: idx) == false {
+            if delegate.responds(to: #selector(ZZTabBarDelegate.tabBar(_:shouldSelectItemAtIndex:))) {
+                if delegate.tabBar?(sender, shouldSelectItemAtIndex: idx) == false {
                     return
                 }
             }
-            if delegate != nil && delegate!.responds(to: #selector(ZZTabBarDelegate.tabBar(_:didSelectItemAtIndex:))) {
-                let idx: Int = normalItems!.firstIndex(of: sender)!
-                delegate!.tabBar!(sender, didSelectItemAtIndex: idx)
+            if delegate.responds(to: #selector(ZZTabBarDelegate.tabBar(_:didSelectItemAtIndex:))) {
+                delegate.tabBar?(sender, didSelectItemAtIndex: idx)
             }
         } else {
-            if delegate != nil && delegate!.responds(to: #selector(ZZTabBarDelegate.tabBar(_:didSelectCustomItemAtIndex:))) {
-                let idx: Int = items.firstIndex(of: sender)!
-                delegate!.tabBar!(sender, didSelectCustomItemAtIndex: idx)
+            if delegate.responds(to: #selector(ZZTabBarDelegate.tabBar(_:didSelectCustomItemAtIndex:))) {
+                delegate.tabBar?(sender, didSelectCustomItemAtIndex: idx)
             }
         }
     }
