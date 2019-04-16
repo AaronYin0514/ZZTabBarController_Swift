@@ -16,7 +16,7 @@ enum ZZTabBarItemType {
 private let ZZTabBarItemImageWidth: CGFloat = 25.0
 private let ZZTabBarItemBadgeWidth: CGFloat = 18.0
 
-class ZZTabBarItem: UIControl {
+class ZZTabBarItem: UIView {
     
     var itemType: ZZTabBarItemType = .normal {
         didSet {
@@ -107,7 +107,7 @@ class ZZTabBarItem: UIControl {
     
     fileprivate var imageView: UIImageView = UIImageView()
     
-    override var isSelected: Bool {
+    var isSelected: Bool = false {
         didSet {
             if isSelected == true {
                 backgroundImageView.image = selectedBackgroundImage

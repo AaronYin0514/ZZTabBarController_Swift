@@ -33,7 +33,8 @@ class ZZTabBar: UIView {
         didSet {
             for item in items {
                 item.translatesAutoresizingMaskIntoConstraints = false
-                item.addTarget(self, action: #selector(ZZTabBar.tabBarItemWasSelected(_:)), for: UIControl.Event.touchUpInside)
+                let oneTap = UITapGestureRecognizer(target: self, action: #selector(oneTap(tap:)))
+                item.addGestureRecognizer(oneTap)
                 self.addSubview(item)
             }
             self.setupLayoutItem()
@@ -231,6 +232,13 @@ class ZZTabBar: UIView {
     fileprivate var itemWidth:CGFloat = 0.0
     
     //MARK: - Item selection
+    
+    @objc func oneTap(tap: UITapGestureRecognizer) {
+        if let sender = tap.view as? ZZTabBarItem {
+            tabBarItemWasSelected(sender)
+        }
+    }
+    
     @objc func tabBarItemWasSelected(_ sender : ZZTabBarItem) -> Void {
         if sender.itemType == .normal {
             if delegate != nil && delegate!.responds(to: #selector(ZZTabBarDelegate.tabBar(_:shouldSelectItemAtIndex:))) {
