@@ -20,12 +20,23 @@ class ZZTabBarItem: UIView {
     
     var itemType: ZZTabBarItemType = .normal {
         didSet {
-            self.customLayoutSubviews()
+            updateAutoLayout()
         }
     }
     
     // itemHeight is an optional property. When set it is used instead of tabBar's height.
-    var itemHeight:CGFloat = 49.0
+    var itemHeight: CGFloat = 49.0
+    
+    var imageWidth: CGFloat = ZZTabBarItemImageWidth {
+        didSet {
+            updateAutoLayout()
+        }
+    }
+    var imageHeight: CGFloat = ZZTabBarItemImageWidth {
+        didSet {
+            updateAutoLayout()
+        }
+    }
     
     var index: Int?
     
@@ -34,10 +45,8 @@ class ZZTabBarItem: UIView {
     // The title displayed by the tab bar item.
     var title:String? {
         didSet {
-            if title != nil {
-                titleLabel.text = title!
-                self.customLayoutSubviews()
-            }
+            titleLabel.text = title
+            updateAutoLayout()
         }
     }
     
@@ -82,7 +91,7 @@ class ZZTabBarItem: UIView {
     // The offset for the rectangle around the tab bar item's image.
     var imagePositionAdjustment:UIOffset = UIOffset.zero {
         didSet {
-            self.customLayoutSubviews()
+            updateAutoLayout()
         }
     }
     
@@ -90,7 +99,7 @@ class ZZTabBarItem: UIView {
     var selectedImage:UIImage? {
         didSet {
             if selectedImage != nil && self.image == nil {
-                self.customLayoutSubviews()
+                updateAutoLayout()
             }
         }
     }
@@ -100,7 +109,7 @@ class ZZTabBarItem: UIView {
         didSet {
             if image != nil && self.selectedImage == nil {
                 imageView.image = image
-                self.customLayoutSubviews()
+                updateAutoLayout()
             }
         }
     }
@@ -145,7 +154,7 @@ class ZZTabBarItem: UIView {
     var badgeValue:String = "" {
         didSet {
             badgeLabel.setBadgeValue(badgeValue, animated: false)
-            self.customLayoutSubviews()
+            updateAutoLayout()
         }
     }
     
@@ -176,23 +185,24 @@ class ZZTabBarItem: UIView {
     fileprivate func commonInit() -> Void {
         self.backgroundColor = UIColor.clear
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(backgroundImageView)
-        self.layoutBackgroundImageView()
+        addSubview(backgroundImageView)
+        
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(imageView)
-        self.layoutImageView()
+        addSubview(imageView)
+        
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textColor = p_unselectedTitleAttributes[NSAttributedString.Key.foregroundColor] as? UIColor
         titleLabel.font = p_unselectedTitleAttributes[NSAttributedString.Key.font] as? UIFont
         titleLabel.textAlignment = .center
-        self.addSubview(titleLabel)
-        self.layoutTitleLabel()
+        addSubview(titleLabel)
+        
         badgeLabel.translatesAutoresizingMaskIntoConstraints = false
         badgeLabel.text = badgeValue
         badgeLabel.backgroundColor = badgeBackgroundColor
         badgeLabel.textColor = badgeTextColor
         badgeLabel.font = badgeTextFont
-        self.addSubview(badgeLabel)
+        addSubview(badgeLabel)
+        addAutoLayoutSubviews()
     }
     
     fileprivate func layoutBackgroundImageView() {
@@ -218,7 +228,7 @@ class ZZTabBarItem: UIView {
         return imageViewWidthConstraint
     }()
     fileprivate lazy var imageViewCenterYConstraint:NSLayoutConstraint = {
-        let vertical: CGFloat = (title == nil) ? imagePositionAdjustment.vertical : -(-imagePositionAdjustment.vertical + 14.0 / 2)
+        let vertical: CGFloat = (title?.isEmpty ?? true) ? imagePositionAdjustment.vertical : -(-imagePositionAdjustment.vertical + 14.0 / 2)
         let imageViewCenterYConstraint = NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: vertical)
         return imageViewCenterYConstraint
     }()
@@ -230,10 +240,13 @@ class ZZTabBarItem: UIView {
     fileprivate func layoutImageView() -> Void {
         var width: CGFloat = ZZTabBarItemImageWidth
         var height: CGFloat = ZZTabBarItemImageWidth
-        if let image = image {
-            height = image.size.height
-            height = height > self.itemHeight ? self.itemHeight : height
-            width = image.size.width / image.size.height * height
+        if itemType == .action {
+            width = imageWidth
+            height = imageHeight
+            if height > itemHeight {
+                width = width / height * itemHeight
+                height = itemHeight
+            }
         }
         imageViewHeightConstraint.constant = height
         imageViewWidthConstraint.constant = width
@@ -255,8 +268,8 @@ class ZZTabBarItem: UIView {
         let titleLabelHeightConstraint = NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 14.0)
         return titleLabelHeightConstraint
     }()
-    fileprivate lazy var titleLabelBottomConstraint:NSLayoutConstraint = {
-        let titleLabelBottomConstraint = NSLayoutConstraint(item: titleLabel, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -(titlePositionAdjustment.vertical + 3.0))
+    fileprivate lazy var titleLabelTopConstraint:NSLayoutConstraint = {
+        let titleLabelBottomConstraint = NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: self.imageView, attribute: .bottom, multiplier: 1.0, constant: (titlePositionAdjustment.vertical + 2.0))
         return titleLabelBottomConstraint
     }()
     
@@ -264,7 +277,7 @@ class ZZTabBarItem: UIView {
         addConstraint(titleLabelLeadingConstraint)
         addConstraint(titleLabelTrailingConstraint)
         titleLabel.addConstraint(titleLabelHeightConstraint)
-        addConstraint(titleLabelBottomConstraint)
+        addConstraint(titleLabelTopConstraint)
     }
     
     fileprivate lazy var badgeLabelHeightConstraint:NSLayoutConstraint = {
@@ -293,13 +306,31 @@ class ZZTabBarItem: UIView {
         badgeLabel.addConstraint(badgeLabelHeightConstraint)
         badgeLabel.addConstraint(badgeLabelWidthConstraint)
         addConstraint(badgeLabelCenterYConstraint)
+        addConstraint(badgeLabelCenterXConstraint)
     }
     
-    fileprivate func customLayoutSubviews() -> Void {
+    fileprivate func addAutoLayoutSubviews() -> Void {
         self.layoutImageView()
         self.layoutTitleLabel()
         self.layoutbadgeLabel()
         self.setNeedsLayout()
+    }
+    
+    fileprivate func updateAutoLayout() {
+        imageViewCenterYConstraint.constant = (title?.isEmpty ?? true) ? imagePositionAdjustment.vertical : -(-imagePositionAdjustment.vertical + 14.0 / 2)
+        var width: CGFloat = ZZTabBarItemImageWidth
+        var height: CGFloat = ZZTabBarItemImageWidth
+        if itemType == .action {
+            width = imageWidth
+            height = imageHeight
+            if height > itemHeight {
+                width = width / height * itemHeight
+                height = itemHeight
+            }
+        }
+        imageViewHeightConstraint.constant = height
+        imageViewWidthConstraint.constant = width
+        setNeedsLayout()
     }
     
     required init?(coder aDecoder: NSCoder) {

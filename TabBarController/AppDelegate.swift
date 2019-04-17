@@ -135,7 +135,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ZZTabBarControllerDelegat
         let customItem: ZZTabBarItem = ZZTabBarItem()
         customItem.itemHeight = 59.0
         customItem.itemType = .action
-        customItem.image = UIImage(named: "home_circle")
+        let image = UIImage(named: "home_circle")!
+        customItem.image = image
+        customItem.imageWidth = image.size.width
+        customItem.imageHeight = image.size.height
         
         // MARK: TabBarController
         let tabBarViewController: ZZTabBarController = ZZTabBarController()
